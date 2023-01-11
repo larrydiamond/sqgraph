@@ -1,0 +1,12 @@
+{
+    "url": "http://127.0.0.1:9000",
+    "keys": [
+        "com.ldiamond:tmdbnewep",
+        "com.ldiamond:transtator"
+    ],
+    "metrics": [
+        "complexity",
+        "ncloc"
+    ],
+    "maxReportHistory" : "366"
+}
