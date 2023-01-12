@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Config {
     String url;
-    String[] keys;
+    Application[] applications;
     SQMetrics[] metrics;
     int maxReportHistory;
 }
@@ -14,5 +14,11 @@ public class Config {
 class SQMetrics {
     String metric;
     String filename;
+    String title;
+}
+
+@Data
+class Application {
+    String key;
     String title;
 }

@@ -1,8 +1,8 @@
 {
     "url": "http://127.0.0.1:9000",
-    "keys": [
-        "com.ldiamond:tmdbnewep",
-        "com.ldiamond:transtator"
+    "applications": [
+        {"title":"Validation Service", "key": "com.ldiamond:tmdbnewep"},
+        {"title":"Enrichment Service", "key": "com.ldiamond:transtator"}
     ],
     "metrics": [
         {"metric":"complexity","filename":"complex","title":"Complexity"},

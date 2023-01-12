@@ -130,10 +130,13 @@ public class SqgraphApplication {
 			return null;
 		}
 
-		HashMap<String, SearchHistory> rawMetrics = new HashMap<>();
-		for (String key : config.getKeys()) {
-			try {
+		HashMap<String, String> titleLookup = new HashMap<>();
 
+		HashMap<String, SearchHistory> rawMetrics = new HashMap<>();
+		for (Application app : config.getApplications()) {
+			String key = app.getKey();
+			titleLookup.put(key, app.getTitle());
+			try {
 				String metrics = "";
 				boolean comma = false;
 				for (SQMetrics sqm : config.getMetrics()) {
@@ -184,7 +187,7 @@ public class SqgraphApplication {
 							}
 						}
 					}
-					chart.addSeries(entry.getKey(), dates, doubles);
+					chart.addSeries(titleLookup.get (entry.getKey()), dates, doubles);
 				}
 				
 
