@@ -8,8 +8,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentSkipListMap;
 
+import org.knowm.xchart.BitmapEncoder;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.BitmapEncoder.BitmapFormat;
+import org.knowm.xchart.style.Styler;
+import org.knowm.xchart.style.Styler.LegendPosition;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -89,7 +104,33 @@ public class SqgraphApplication {
 			return null;
 		}
 
+		try {
+			final String uri = config.getUrl() + "/api/metrics/search";
+			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
+			MetricsResults result = response.getBody();
+			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
+			for (Metric m : result.getMetrics()) {
+				ms.put (m.getKey(), m);
+			}
+			for (Map.Entry<String, Metric> me : ms.entrySet()) {
+				System.out.println (me.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
+		try {
+			final String uri = config.getUrl() + "/api/metrics/types";
+			ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+			String result = response.getBody();
+			System.out.println ("metric types : " + result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		HashMap<String, SearchHistory> rawMetrics = new HashMap<>();
 		for (String key : config.getKeys()) {
 			try {
 
@@ -107,12 +148,61 @@ public class SqgraphApplication {
 				final String uri = config.getUrl() + "/api/measures/search_history?component=" + key + "&metrics=" + metrics;
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
+				rawMetrics.put (key, result);
 				System.out.println (key + " : " + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
 		}
+
+		String whatever = "blah";
+
+		for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
+
+			try {
+				XYChart chart = new XYChartBuilder()
+				.width(800)
+				.height(600)
+				.title(entry.getKey())
+				.xAxisTitle("X")
+				.yAxisTitle("Y")
+				.build();
+	
+				chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
+				chart.getStyler().setAxisTitlesVisible(false);
+				chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
+				chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
+				chart.getStyler().setDatePattern("dd/MMM/yyyy");
+	
+				for (Measure m : entry.getValue().getMeasures()) {
+					List<Date> dates = new ArrayList<>();
+					List<Double> doubles = new ArrayList<>();
+					for (History h : m.getHistory()) {
+						dates.add(h.getDate());
+						doubles.add(h.getValue());
+					}
+					chart.addSeries(m.getMetric(), dates, doubles);
+				}
+
+//				chart.addSeries("Validation", new double[] {0, 3, 5, 7, 9}, new double[] {-3, 5, 9, 6, 5});
+//				chart.addSeries("Enrichment", new double[] {0, 2.7, 4.8, 6, 9}, new double[] {-1, 6, 4, 0, 4});
+//				chart.addSeries("GraphQL", new double[] {0, 1.5, 5, 8, 9}, new double[] {-2, -1, 1, 0, 1});
+	
+				BitmapEncoder.saveBitmap(chart, "./" + whatever, BitmapFormat.PNG);
+
+				whatever = whatever + "blah";
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+	
+	
+
+
+		}
+
 
 		System.out.println ("no failures yet");
 		return null;

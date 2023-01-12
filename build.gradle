@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework:spring-web'
 	implementation group: 'commons-codec', name: 'commons-codec'
 
+	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.3'
 }
 
 tasks.named('test') {

@@ -1,5 +1,7 @@
 package com.ldiamond.sqgraph;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -23,6 +25,6 @@ class Measure {
 
 @Data 
 class History {
-    String date;
+    Date date;
     double value;
 }
