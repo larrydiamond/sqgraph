@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class SearchHistory {
     Paging paging;    
-    Measure [] measures;
+    Measures [] measures;
 }
 
 @Data
@@ -18,7 +18,7 @@ class Paging {
 }
 
 @Data
-class Measure {
+class Measures {
     String metric;
     History [] history;
 }

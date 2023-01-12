@@ -136,13 +136,13 @@ public class SqgraphApplication {
 
 				String metrics = "";
 				boolean comma = false;
-				for (String metric : config.getMetrics()) {
+				for (SQMetrics sqm : config.getMetrics()) {
 					if (!comma) {
 						comma = true;
 					} else {
 						metrics = metrics + ",";
 					}
-					metrics = metrics + metric;
+					metrics = metrics + sqm.getMetric();
 				}
 
 				final String uri = config.getUrl() + "/api/measures/search_history?component=" + key + "&metrics=" + metrics;
@@ -156,15 +156,12 @@ public class SqgraphApplication {
 			}
 		}
 
-		String whatever = "blah";
-
-		for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-
+		for (SQMetrics sqm : config.getMetrics()) {
 			try {
 				XYChart chart = new XYChartBuilder()
 				.width(800)
 				.height(600)
-				.title(entry.getKey())
+				.title(sqm.getTitle())
 				.xAxisTitle("X")
 				.yAxisTitle("Y")
 				.build();
@@ -174,35 +171,29 @@ public class SqgraphApplication {
 				chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
 				chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
 				chart.getStyler().setDatePattern("dd/MMM/yyyy");
-	
-				for (Measure m : entry.getValue().getMeasures()) {
+
+				for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
 					List<Date> dates = new ArrayList<>();
 					List<Double> doubles = new ArrayList<>();
-					for (History h : m.getHistory()) {
-						dates.add(h.getDate());
-						doubles.add(h.getValue());
-					}
-					chart.addSeries(m.getMetric(), dates, doubles);
-				}
-
-//				chart.addSeries("Validation", new double[] {0, 3, 5, 7, 9}, new double[] {-3, 5, 9, 6, 5});
-//				chart.addSeries("Enrichment", new double[] {0, 2.7, 4.8, 6, 9}, new double[] {-1, 6, 4, 0, 4});
-//				chart.addSeries("GraphQL", new double[] {0, 1.5, 5, 8, 9}, new double[] {-2, -1, 1, 0, 1});
 	
-				BitmapEncoder.saveBitmap(chart, "./" + whatever, BitmapFormat.PNG);
+						for (Measures m : entry.getValue().getMeasures()) {
+						if (m.getMetric().endsWith(sqm.getMetric())) {
+							for (History h : m.getHistory()) {
+								dates.add (h.getDate());
+								doubles.add (h.getValue());
+							}
+						}
+					}
+					chart.addSeries(entry.getKey(), dates, doubles);
+				}
+				
 
-				whatever = whatever + "blah";
-
+				BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
-	
-	
-
-
 		}
-
 
 		System.out.println ("no failures yet");
 		return null;

@@ -5,8 +5,8 @@
         "com.ldiamond:transtator"
     ],
     "metrics": [
-        "complexity",
-        "ncloc"
+        {"metric":"complexity","filename":"complex","title":"Complexity"},
+        {"metric":"lines","filename":"numlines","title":"Number of Lines"}
     ],
     "maxReportHistory" : "366"
 }
