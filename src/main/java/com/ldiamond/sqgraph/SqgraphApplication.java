@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -182,7 +184,16 @@ public class SqgraphApplication {
 						for (Measures m : entry.getValue().getMeasures()) {
 						if (m.getMetric().endsWith(sqm.getMetric())) {
 							for (History h : m.getHistory()) {
-								dates.add (h.getDate());
+
+								Date utcDate = new Date (Date.UTC (
+									
+									h.getDate().getYear(),
+									h.getDate().getMonth(),
+									h.getDate().getDate() + 1,
+									0,0,0
+								));
+
+								dates.add (utcDate);
 								doubles.add (h.getValue());
 							}
 						}
