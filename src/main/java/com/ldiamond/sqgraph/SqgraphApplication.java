@@ -175,7 +175,7 @@ public class SqgraphApplication {
 				chart.getStyler().setAxisTitlesVisible(false);
 				chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
 				chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
-				chart.getStyler().setDatePattern("dd/MMM/yyyy");
+				chart.getStyler().setDatePattern("dd MMM yyyy");
 
 				for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
 					List<Date> dates = new ArrayList<>();
