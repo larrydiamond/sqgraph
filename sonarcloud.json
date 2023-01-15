@@ -1,0 +1,15 @@
+{
+    "url": "https://sonarcloud.io",
+    "applications": [
+        {"title":"Apache Calcite", "key": "apache_calcite"},
+        {"title":"Apache Dolphin Scheduler", "key": "apache-dolphinscheduler"},
+        {"title":"Hazelcast", "key": "hazelcast_hazelcast"},
+        {"title":"OWASP Dependency Checker", "key": "org.owasp:dependency-check-parent"}
+    ],
+    "metrics": [
+        {"metric":"complexity","filename":"SonarCloudComplexity","title":"Complexity"},
+        {"metric":"lines","filename":"SonarCloudNumLines","title":"Number of Lines"},
+        {"metric":"coverage","filename":"SonarCloudCoverage","title":"Code Coverage"}
+    ],
+    "maxReportHistory" : "66"
+}

@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -150,7 +151,18 @@ public class SqgraphApplication {
 					metrics = metrics + sqm.getMetric();
 				}
 
-				final String uri = config.getUrl() + "/api/measures/search_history?component=" + key + "&metrics=" + metrics;
+				SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
+				Date startDate = new Date();
+				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
+				Date sqDate = new Date (Date.UTC (
+					startDate.getYear(),
+					startDate.getMonth(),
+					startDate.getDate() + 1,
+					0,0,0
+				));
+				String sdfsqString = sdfsq.format (sqDate);
+
+				final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&component=" + key + "&metrics=" + metrics;
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
 				rawMetrics.put (key, result);
@@ -198,7 +210,9 @@ public class SqgraphApplication {
 							}
 						}
 					}
-					chart.addSeries(titleLookup.get (entry.getKey()), dates, doubles);
+
+					if (!dates.isEmpty() && (!doubles.isEmpty()))
+						chart.addSeries(titleLookup.get (entry.getKey()), dates, doubles);
 				}
 				
 
