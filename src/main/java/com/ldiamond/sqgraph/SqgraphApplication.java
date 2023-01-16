@@ -87,24 +87,7 @@ public class SqgraphApplication {
 			return null;
 		}
 
-		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
-		
-		SyntheticMetric violationsPerKLines = new SyntheticMetric() {
-			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
-			@Override public double calculate(Map<String,Double> metrics) {
-				double lines = 0;
-				Double lineInput = metrics.get("lines");
-				if (lineInput != null) lines = lineInput;
-				double violations = 0;
-				Double violationsInput = metrics.get("violations");
-				if (violationsInput != null) violations = violationsInput;
-				if ((lines == 0) || (violations == 0)) return 0.0;
-				return violations / lines;
-			}
-		};
-
-		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
+		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics();
 
 		System.out.println (config.toString());
 
@@ -159,8 +142,7 @@ public class SqgraphApplication {
 			String key = app.getKey();
 			titleLookup.put(key, app.getTitle());
 			try {
-
-				List<String> metricsToQuery = getMetricsListNeeded(config);
+				List<String> metricsToQuery = getMetricsListNeeded(config,syntheticMetrics);
 				String metrics = getCommaSeparatedListOfMetrics (metricsToQuery);
 				
 				SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
@@ -237,12 +219,18 @@ public class SqgraphApplication {
 		return null;
 	}
 
-	public static List<String> getMetricsListNeeded (final Config config) {
+	public static List<String> getMetricsListNeeded (final Config config, final Map<String,SyntheticMetric> synthetics) {
 		List<String> results = new ArrayList<>();
 		for (SQMetrics sqm : config.getMetrics()) {
 			String metric = sqm.getMetric();
-			if (!results.contains(metric)) 
-			results.add(metric);
+			SyntheticMetric sm = synthetics.get(metric);
+			if (sm == null) {
+				if (!results.contains(metric)) results.add(metric);
+			} else {
+				for (String real : sm.getRealMetrics()) {
+					if (!results.contains(real)) results.add(real);
+				}
+			}
 		}
 		return results;
 	}
@@ -264,5 +252,31 @@ public class SqgraphApplication {
 		}
 		return output;
 	}
+
+	public static Map<String,SyntheticMetric> populateSynthetics () {
+		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
+		
+		SyntheticMetric violationsPerKLines = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
+			@Override public double calculate(Map<String,Double> metrics) {
+				double lines = 0;
+				Double lineInput = metrics.get("lines");
+				if (lineInput != null) lines = lineInput;
+				double violations = 0;
+				Double violationsInput = metrics.get("violations");
+				if (violationsInput != null) violations = violationsInput;
+				if ((lines == 0) || (violations == 0)) return 0.0;
+				return violations / lines;
+			}
+		};
+
+		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
+
+		return syntheticMetrics;
+	
+	}
+
+
 
 }
