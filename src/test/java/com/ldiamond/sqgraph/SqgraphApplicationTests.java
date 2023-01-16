@@ -1,3 +1,4 @@
+// Copyright Larry Diamond 2023 All Rights Reserved
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
