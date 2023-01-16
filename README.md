@@ -26,4 +26,4 @@ java -jar build\libs\sqgraph-0.0.1-SNAPSHOT.jar YourJsonFile.json
 
 
 
-# SonarQube and SonarCloud are owned by SonarSource SA
+SonarQube and SonarCloud are owned by SonarSource SA
