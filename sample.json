@@ -1,12 +1,15 @@
 {
     "url": "http://127.0.0.1:9000",
     "applications": [
+        {"title":"SonarQube Graphing Application", "key": "com.ldiamond:sqgraph"},
         {"title":"Validation Service", "key": "com.ldiamond:tmdbnewep"},
         {"title":"Enrichment Service", "key": "com.ldiamond:transtator"}
     ],
     "metrics": [
-        {"metric":"complexity","filename":"complex","title":"Complexity"},
-        {"metric":"lines","filename":"numlines","title":"Number of Lines"}
+        {"metric":"complexity","filename":"Complexity","title":"Complexity"},
+        {"metric":"coverage","filename":"Coverage","title":"Code Coverage"},
+        {"metric":"ViolationsPerKLines","filename":"ViolationsPerThousandLines","title":"Violations Per Thousand Lines"},
+        {"metric":"lines","filename":"NumLines","title":"Number of Lines"}
     ],
     "maxReportHistory" : "366"
 }
