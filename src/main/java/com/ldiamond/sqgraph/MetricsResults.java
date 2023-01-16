@@ -9,13 +9,11 @@ public class MetricsResults {
 
 @Data
 class Metric {
-//    String id;
     String key;
     String type;
     String name;
     String description;
     String domain;
-//    String direction;
     String qualitative;
     String hidden;
 }

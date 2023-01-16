@@ -9,7 +9,9 @@
     "metrics": [
         {"metric":"complexity","filename":"SonarCloudComplexity","title":"Complexity"},
         {"metric":"lines","filename":"SonarCloudNumLines","title":"Number of Lines"},
-        {"metric":"coverage","filename":"SonarCloudCoverage","title":"Code Coverage"}
+        {"metric":"coverage","filename":"SonarCloudCoverage","title":"Code Coverage"},
+        {"metric":"ViolationsPerKLines","filename":"SonarViolationsPerThousandLines","title":"Violations Per Thousand Lines"}
+        
     ],
     "maxReportHistory" : "66"
 }

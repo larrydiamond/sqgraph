@@ -148,12 +148,7 @@ public class SqgraphApplication {
 				SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
-				Date sqDate = new Date (Date.UTC (
-					startDate.getYear(),
-					startDate.getMonth(),
-					startDate.getDate() + 1,
-					0,0,0
-				));
+				Date sqDate = getUTCDate (startDate);
 				String sdfsqString = sdfsq.format (sqDate);
 
 				final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&component=" + key + "&metrics=" + metrics;
@@ -184,28 +179,7 @@ public class SqgraphApplication {
 				chart.getStyler().setDatePattern("dd MMM yyyy");
 
 				for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-					List<Date> dates = new ArrayList<>();
-					List<Double> doubles = new ArrayList<>();
-	
-						for (Measures m : entry.getValue().getMeasures()) {
-						if (m.getMetric().endsWith(sqm.getMetric())) {
-							for (History h : m.getHistory()) {
-
-								Date utcDate = new Date (Date.UTC (
-									h.getDate().getYear(),
-									h.getDate().getMonth(),
-									h.getDate().getDate() + 1,
-									0,0,0
-								));
-
-								dates.add (utcDate);
-								doubles.add (h.getValue());
-							}
-						}
-					}
-
-					if (!dates.isEmpty() && (!doubles.isEmpty()))
-						chart.addSeries(titleLookup.get (entry.getKey()), dates, doubles);
+					addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, entry.getKey(), syntheticMetrics);
 				}
 				
 				BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
@@ -272,11 +246,70 @@ public class SqgraphApplication {
 		};
 
 		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
-
 		return syntheticMetrics;
-	
 	}
 
+	public static Date getUTCDate (final Date date) {
+		return new Date (Date.UTC (
+			date.getYear(),
+			date.getMonth(),
+			date.getDate() + 1,
+			0,0,0
+		));
+	}
+
+	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, final Map<String,SyntheticMetric> syntheticMetrics) {
+		List<Date> dates = new ArrayList<>();
+		List<Double> doubles = new ArrayList<>();
+
+		SyntheticMetric sm = syntheticMetrics.get(metricName);
+		if (sm == null) {
+			for (Measures m : history.getMeasures()) {
+				if (m.getMetric().equals(metricName)) {
+					for (History h : m.getHistory()) {
+						dates.add (getUTCDate(h.getDate()));
+						doubles.add (h.getValue());
+					}
+				}
+			}
+		} else {
+			// find the first real measure needed by the synthetic metric
+			// for each of the dates in its history, look for the other metrics on the same dates 
+			// populate the String, Double map and invoke the calculate method for each and add that double
+			List<String> realMetrics = sm.getRealMetrics();
+
+			boolean notFound = true;
+			for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
+				Measures m = history.getMeasures() [loop];
+				if (realMetrics.contains(m.getMetric())) {
+					notFound = false;
+					for (History h : m.getHistory()) {
+						Date dataPoint = h.getDate();
+						dates.add (getUTCDate(dataPoint));
+
+						Map<String,Double> values = new HashMap<>();
+						values.put(m.getMetric(), h.getValue());
+						for (Measures measure : history.getMeasures()) {
+							if (realMetrics.contains(measure.getMetric())) {
+								History[] histArray = measure.getHistory();
+								for (History hist : histArray) {
+									if (hist.getDate().equals(dataPoint)) {
+										values.put (measure.getMetric(), hist.getValue());
+									}
+								}
+							}
+						}
+
+						double calculatedValue = sm.calculate(values);
+						doubles.add (calculatedValue);
+					}
+				}
+			}
+		}
+
+		if (!dates.isEmpty() && (!doubles.isEmpty()))
+			chart.addSeries(application, dates, doubles);
+	}
 
 
 }
