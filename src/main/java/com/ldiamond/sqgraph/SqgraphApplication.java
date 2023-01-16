@@ -87,6 +87,25 @@ public class SqgraphApplication {
 			return null;
 		}
 
+		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
+		
+		SyntheticMetric violationsPerKLines = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
+			@Override public double calculate(Map<String,Double> metrics) {
+				double lines = 0;
+				Double lineInput = metrics.get("lines");
+				if (lineInput != null) lines = lineInput;
+				double violations = 0;
+				Double violationsInput = metrics.get("violations");
+				if (violationsInput != null) violations = violationsInput;
+				if ((lines == 0) || (violations == 0)) return 0.0;
+				return violations / lines;
+			}
+		};
+
+		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
+
 		System.out.println (config.toString());
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -198,7 +217,6 @@ public class SqgraphApplication {
 							for (History h : m.getHistory()) {
 
 								Date utcDate = new Date (Date.UTC (
-									
 									h.getDate().getYear(),
 									h.getDate().getMonth(),
 									h.getDate().getDate() + 1,
@@ -215,7 +233,6 @@ public class SqgraphApplication {
 						chart.addSeries(titleLookup.get (entry.getKey()), dates, doubles);
 				}
 				
-
 				BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -226,4 +243,33 @@ public class SqgraphApplication {
 		System.out.println ("no failures yet");
 		return null;
 	}
+
+	public static List<String> getMetricsListNeeded (final Config config) {
+		List<String> results = new ArrayList<>();
+		for (SQMetrics sqm : config.getMetrics()) {
+			String metric = sqm.getMetric();
+			if (!results.contains(metric)) 
+			results.add(metric);
+		}
+		return results;
+	}
+
+	public static String getCommaSeparatedListOfMetrics (final List<String> metrics) {
+		String output = "";
+		boolean comma = false;
+		List<String> alreadyAdded = new ArrayList<>();
+		for (String metric : metrics) {
+			if (!alreadyAdded.contains(metric)) {
+				alreadyAdded.add(metric);
+				if (!comma) {
+					comma = true;
+				} else {
+					output = output + ",";
+				}
+				output = output + metric;
+			}
+		}
+		return output;
+	}
+
 }
