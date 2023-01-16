@@ -180,7 +180,7 @@ public class SqgraphApplication {
 				chart.getStyler().setDatePattern("dd MMM yyyy");
 
 				for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-					addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, entry.getKey(), syntheticMetrics);
+					addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics);
 				}
 				
 				BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
