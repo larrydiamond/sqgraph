@@ -24,6 +24,7 @@ set SONARLOGIN=<your user token>
 java -jar build\libs\sqgraph-0.0.1-SNAPSHOT.jar YourJsonFile.json
 
 
-
+  
+Copyright 2023 Larry Diamond.   All Rights Reserved.
 
 SonarQube and SonarCloud are owned by SonarSource SA
