@@ -159,17 +159,10 @@ public class SqgraphApplication {
 			String key = app.getKey();
 			titleLookup.put(key, app.getTitle());
 			try {
-				String metrics = "";
-				boolean comma = false;
-				for (SQMetrics sqm : config.getMetrics()) {
-					if (!comma) {
-						comma = true;
-					} else {
-						metrics = metrics + ",";
-					}
-					metrics = metrics + sqm.getMetric();
-				}
 
+				List<String> metricsToQuery = getMetricsListNeeded(config);
+				String metrics = getCommaSeparatedListOfMetrics (metricsToQuery);
+				
 				SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
