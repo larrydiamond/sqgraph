@@ -4,21 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Code Quality Graphing Tool</title>
-    <meta name="description" content="Web Site for the Code Quality Graphing Tool"><link rel="preload" href="/css/main.css?=vdev" as="style">
+    <title>My blog - Code Quality Graphing Tool</title>
+    <meta name="description" content="My blog"><link rel="preload" href="/css/main.css?=vdev" as="style">
     <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@https://twitter.com/larrydiamondny/">
-        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="Code Quality Graphing Tool">
-    <meta name="twitter:description" content="Web Site for the Code Quality Graphing Tool">
+        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="My blog - Code Quality Graphing Tool">
+    <meta name="twitter:description" content="My blog">
     <meta name="twitter:image" content="http://localhost:8080/images/preview.png">
-    <meta name="og:title" content="Code Quality Graphing Tool">
-    <meta name="og:description" content="Web Site for the Code Quality Graphing Tool">
+    <meta name="og:title" content="My blog - Code Quality Graphing Tool">
+    <meta name="og:description" content="My blog">
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://localhost:8080/" />
+    <meta property="og:url" content="http://localhost:8080/blog/" />
     <meta property="og:image" content="http://localhost:8080/images/preview.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <link rel="canonical" href="http://localhost:8080/" />
+    <link rel="canonical" href="http://localhost:8080/blog/" />
     <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:8080/feed.xml"/>
     <meta name="generator" content="Eleventy v1.0.2">
 
@@ -33,7 +33,7 @@
 
     
     <link rel="stylesheet" href="/css/main.css?=vdev"><style>
-            #page-hero{--height:320px;padding-block-start:clamp(3rem,6vw,6rem);padding-block-end:clamp(3rem,6vw,6rem);font-size:clamp(1rem, 1.5vw, 1.25rem)}#page-hero .title{--h-font-size:clamp(2.5rem, 5vw, 5rem);--h-font-weight:600}#page-hero .preview{border-radius:2rem;overflow:hidden}
+            #blog-grid{--cols-size:400px}#blog-grid .card-media{background-color:hsl(0 0% 0% / 5%)}
         </style><script src="/js/main.js?=vdev" defer></script></head>
 
     <body class="flex flex-col min-h-screen">
@@ -55,15 +55,15 @@
                     <li>
                         <a
                             href="/"
-                            class="is-active"
-                            aria-current="page"
+                            
+                            
                         >Home</a>
                     </li>
                     <li>
                         <a
                             href="/blog/"
-                            
-                            
+                            class="is-active"
+                            aria-current="page"
                         >Blog</a>
                     </li>
                     <li>
@@ -128,15 +128,15 @@
                 <li>
                     <a
                         href="/"
-                        class="is-active"
-                        aria-current="page"
+                        
+                        
                     >Home</a>
                 </li>
                 <li>
                     <a
                         href="/blog/"
-                        
-                        
+                        class="is-active"
+                        aria-current="page"
                     >Blog</a>
                 </li>
                 <li>
@@ -171,131 +171,32 @@
 
         <main id="page-main" class="page-container flex-grow">
             
-<section id="page-hero" class="mb-12" style="--bg: var(--color-theme-fade)">
-    <div class="container flex flex-col md-flex-row justify-center md-justify-between items-center">
-        <div>
-            <h1 class="title">Code Quality Graphing Tool</h1>
-            <div class="slogan">Web Site for the Code Quality Graphing Tool</div>
-            <div class="theme-switcher">
-    <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
-        <symbol id="color-pallet" viewBox="0 0 24 24" fill="none">
-            <g class="svg-color-pallet">
-                <circle cx="12" cy="12" r="12" fill="hsl(0 0% 80% / 50%)"/>
-                <path fill="var(--svg-color-pallet-bg, #fff)" d="M12 22c-1.3132 0-2.61358-.2587-3.82684-.7612-1.21325-.5026-2.31564-1.2391-3.24423-2.1677-.92858-.9286-1.66518-2.031-2.16773-3.2443C2.25866 14.6136 2 13.3132 2 12c0-1.3132.25866-2.61358.7612-3.82684.50255-1.21325 1.23915-2.31564 2.16773-3.24423.92859-.92858 2.03098-1.66518 3.24424-2.16773C9.38642 2.25866 10.6868 2 12 2v20Z"/>
-                <path fill="var(--svg-color-pallet-fg, #111)" d="M22 12c0 1.3132-.2587 2.6136-.7612 3.8268-.5026 1.2133-1.2391 2.3157-2.1677 3.2443-.9286.9286-2.031 1.6651-3.2443 2.1677C14.6136 21.7413 13.3132 22 12 22V12h10Z"/>
-                <path fill="var(--svg-color-pallet-theme)" d="M12 2c1.3132 0 2.6136.25866 3.8268.7612 1.2133.50255 2.3157 1.23915 3.2443 2.16773.9286.92859 1.6651 2.03098 2.1677 3.24424C21.7413 9.38642 22 10.6868 22 12H12V2Z"/>
-            </g>
-        </symbol>
-    </svg>
-    <div class="flex flex-wrap mt-8">
-        
-            <button
-                class="btn"
-                style="--svg-color-pallet-theme: #1565c1; "
-                onClick="setThemeStyle(false)"
-            >
-                <svg width="24" height="24">
-                    <use href="#color-pallet"></use>
-                </svg>
-                <span class="ms-2 text-small">Default</span>
-            </button>
-        
-            <button
-                class="btn"
-                style="--svg-color-pallet-theme: #1565c1; --svg-color-pallet-bg: #111; --svg-color-pallet-fg: #fff;"
-                onClick="setThemeStyle({&quot;--color-bg&quot;:&quot;#111&quot;,&quot;--color-text&quot;:&quot;#fff&quot;,&quot;--color-text-alt&quot;:&quot;hsl(0 0% 100% / 82%)&quot;,&quot;--color-text-muted&quot;:&quot;hsl(0 0% 100% / 56%)&quot;,&quot;--code-bg&quot;:&quot;hsl(0 0% 20%)&quot;,&quot;--code-color&quot;:&quot;#fff&quot;,&quot;--shadow-weight&quot;:&quot;10%&quot;,&quot;--shadow-color&quot;:&quot;0 0% 0%&quot;})"
-            >
-                <svg width="24" height="24">
-                    <use href="#color-pallet"></use>
-                </svg>
-                <span class="ms-2 text-small">Night</span>
-            </button>
-        
-            <button
-                class="btn"
-                style="--svg-color-pallet-theme: #2f9e44; "
-                onClick="setThemeStyle({&quot;--color-theme&quot;:&quot;#2f9e44&quot;,&quot;--color-theme-fade&quot;:&quot;hsl(undefined / 20%)&quot;,&quot;--color-on-theme&quot;:&quot;#ebfbee&quot;,&quot;--btn-theme-focus-bg&quot;:&quot;#40c057&quot;,&quot;--btn-theme-active-bg&quot;:&quot;#2b8a3e&quot;,&quot;--selection-bg&quot;:&quot;hsl(undefined / 20%)&quot;})"
-            >
-                <svg width="24" height="24">
-                    <use href="#color-pallet"></use>
-                </svg>
-                <span class="ms-2 text-small">Forest</span>
-            </button>
-        
-            <button
-                class="btn"
-                style="--svg-color-pallet-theme: #fcc419; "
-                onClick="setThemeStyle({&quot;--color-theme&quot;:&quot;#fcc419&quot;,&quot;--color-theme-fade&quot;:&quot;hsl(undefined / 20%)&quot;,&quot;--color-on-theme&quot;:&quot;#111&quot;,&quot;--link-color&quot;:&quot;#e67700&quot;,&quot;--btn-theme-focus-bg&quot;:&quot;#f59f00&quot;,&quot;--btn-theme-active-bg&quot;:&quot;#e67700&quot;,&quot;--selection-bg&quot;:&quot;hsl(undefined / 20%)&quot;})"
-            >
-                <svg width="24" height="24">
-                    <use href="#color-pallet"></use>
-                </svg>
-                <span class="ms-2 text-small">Sand</span>
-            </button>
-        
-            <button
-                class="btn"
-                style="--svg-color-pallet-theme: #f03e3e; "
-                onClick="setThemeStyle({&quot;--color-theme&quot;:&quot;#ff6b6b&quot;,&quot;--color-theme-fade&quot;:&quot;hsl(undefined / 20%)&quot;,&quot;--color-on-theme&quot;:&quot;#111&quot;,&quot;--btn-theme-focus-bg&quot;:&quot;#f03e3e&quot;,&quot;--btn-theme-active-bg&quot;:&quot;#c92a2a&quot;,&quot;--selection-bg&quot;:&quot;hsl(undefined / 20%)&quot;})"
-            >
-                <svg width="24" height="24">
-                    <use href="#color-pallet"></use>
-                </svg>
-                <span class="ms-2 text-small">Lava</span>
-            </button>
-        
-    </div>
-</div>
-<style>
-    html[style] .btn.-theme {
-        --btn-focus-bg: var(--btn-theme-focus-bg);
-        --btn-active-bg: var(--btn-theme-active-bg);
-    }
-</style>
-<script>
-    function setThemeStyle(styles) {
-        document.documentElement.removeAttribute('style');
-        if (!styles) return;
-
-        for (const [prop, value] of Object.entries(styles)) {
-            document.documentElement.style.setProperty(prop, value);
-        }
-    }
-</script>
-
+<article class="page-layout container page-spacing">
+    
+        <h1>My blog</h1>
+    
+    
+<div id="blog-grid" class="auto-grid"><a href="/blog/post-1/" class="card">
+        <div class="card-media aspect-ratio"><picture><source type="image/avif" srcset="/images/gen/t5B0SOt2pA-320.avif 320w, /images/gen/t5B0SOt2pA-640.avif 640w" sizes="100vw"><source type="image/webp" srcset="/images/gen/t5B0SOt2pA-320.webp 320w, /images/gen/t5B0SOt2pA-640.webp 640w" sizes="100vw"><source type="image/jpeg" srcset="/images/gen/t5B0SOt2pA-320.jpeg 320w, /images/gen/t5B0SOt2pA-640.jpeg 640w" sizes="100vw"><img alt="My first post" loading="lazy" decoding="async" src="/images/gen/t5B0SOt2pA-320.jpeg" width="640" height="480"></picture></div>
+        <div class="card-content">
+        <h2 class="h5">My first post</h2>
+        <div>My first post</div>
         </div>
-        <div class="preview mt-8 md-mt-0 md-ms-4 xl-ms-8">
-            <picture><source type="image/avif" srcset="/images/gen/6UqOVPmRxX-320.avif 320w, /images/gen/6UqOVPmRxX-640.avif 640w" sizes="100vw"><source type="image/webp" srcset="/images/gen/6UqOVPmRxX-320.webp 320w, /images/gen/6UqOVPmRxX-640.webp 640w" sizes="100vw"><source type="image/jpeg" srcset="/images/gen/6UqOVPmRxX-320.jpeg 320w, /images/gen/6UqOVPmRxX-640.jpeg 640w" sizes="100vw"><img alt="Beatiful picture of Nature" loading="eager" decoding="sync" src="/images/gen/6UqOVPmRxX-320.jpeg" width="640" height="640"></picture>
+    </a><a href="/blog/post-2/" class="card">
+        <div class="card-media aspect-ratio"></div>
+        <div class="card-content">
+        <h2 class="h5">My 2de post</h2>
+        <div>My 2de post</div>
         </div>
-    </div>
-</section>
+    </a><a href="/blog/post-3/" class="card">
+        <div class="card-media aspect-ratio"><picture><source type="image/avif" srcset="/images/gen/WAYSwxLozM-320.avif 320w, /images/gen/WAYSwxLozM-640.avif 640w" sizes="100vw"><source type="image/webp" srcset="/images/gen/WAYSwxLozM-320.webp 320w, /images/gen/WAYSwxLozM-640.webp 640w" sizes="100vw"><source type="image/jpeg" srcset="/images/gen/WAYSwxLozM-320.jpeg 320w, /images/gen/WAYSwxLozM-640.jpeg 640w" sizes="100vw"><img alt="My new post" loading="lazy" decoding="async" src="/images/gen/WAYSwxLozM-320.jpeg" width="640" height="480"></picture></div>
+        <div class="card-content">
+        <h2 class="h5">My new post</h2>
+        <div>My new post</div>
+        </div>
+    </a></div>
 
-<div class="container my-12">
-<p>11ty starter template build using Fylgja CSS.</p>
-<p>This 11ty starter is based on our very own site <a href="https://fylgja.dev/" rel="noopener noreferrer" target="_blank" class="external">fylgja.dev</a>,
-but slimmed down so it is just bare bones version,
-with just enough things without adding to much.</p>
-<p>This 11ty started is build with the newest version of 11ty,
-and comes packing with;</p>
-<ul>
-<li>Fylgja CSS</li>
-<li>Eleventy Sass Compiler</li>
-<li>PostCSS</li>
-<li>Rollup</li>
-<li>Html Dialog with outside click close support</li>
-<li>Eleventy Img &amp; Navigation</li>
-<li>Prebuild head with;
-<ul>
-<li>OG &amp; Twitter tags</li>
-<li>Support for loading page specific CSS and Javascript</li>
-<li>and more..</li>
-</ul>
-</li>
-<li>Offline page with service worker</li>
-</ul>
-<p><em>and more...</em></p>
-
-</div>
+</article>
 
         </main>
         <footer class="page-footer mt-8">
