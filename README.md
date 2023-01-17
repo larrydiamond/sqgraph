@@ -22,8 +22,10 @@ The SelfHosted example creates some charts based on some projects of mine in my 
 
 # How to run 
 
+```
 set SONARLOGIN=<your user token>
 java -jar build\libs\sqgraph-0.0.1-SNAPSHOT.jar YourJsonFile.json
+```
 
 # Compatibility
 This application has been used with SonarQube Community 9.8 and with SonarCloud on 16 January 2023.
