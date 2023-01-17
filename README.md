@@ -1,10 +1,10 @@
-# SonarQube Portfolio Graphing Tool
+# Code Quality Graphing Tool
 
 Have you ever asked yourself 'Which of the applications my teams maintain have the cleanest code and which applications need some more attention'?
 
 SonarQube has great tooling to show how each individual project is doing, but doing comparisons between projects has been difficult.
 
-The Portfolio Graphing Tool reads project histories from SonarCloud or your firm's SonarQube instance and creates charts based on the metrics you are interested in.
+The Code Quality Graphing Tool reads project histories from SonarCloud or your firm's SonarQube instance and creates charts based on the metrics you are interested in.
 
 # Samples
 
