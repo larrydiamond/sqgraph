@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Code Quality Graphing Tool</title>
-  <subtitle>Web Site for the Code Quality Graphing Tool</subtitle>
+  <subtitle>Compare code quality for all your applications</subtitle>
   <link href="http://localhost:8080/components/"/>
   <link href="http://localhost:8080/feed.xml" rel="self"/>
   <updated>2023-01-17T03:22:30Z</updated>
