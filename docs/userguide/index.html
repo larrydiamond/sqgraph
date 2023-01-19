@@ -172,26 +172,26 @@
     
         <h1>User Guide</h1>
     
-    <p>11ty starter template build using Fylgja CSS.</p>
-<p>This 11ty starter is based on our very own site fylgja.dev, but slimmed down so it is just bare bones version, with just enough things without adding to much.</p>
-<p>This 11ty started is build with the newest version of 11ty, and comes packing with;</p>
-<ul>
-<li>Fylgja CSS</li>
-<li>Eleventy Sass Compiler</li>
-<li>PostCSS</li>
-<li>Rollup</li>
-<li>Html Dialog with outside click close support</li>
-<li>Eleventy Img &amp; Navigation</li>
-<li>Prebuild head with;
-<ul>
-<li>OG &amp; Twitter tags</li>
-<li>Support for loading page specific CSS and Javascript</li>
-<li>and more..</li>
-</ul>
-</li>
-<li>Offline page with service worker</li>
-</ul>
-<p><em>and more...</em></p>
+    <h2>System Requirements</h2>
+<p>Java 8+ for building and at runtime.</p>
+<p>Git 2+ for obtaining the source code.</p>
+<p>Gradle 7+ for building the source code.</p>
+<h2>How to download</h2>
+<pre><code>git clone https://github.com/larrydiamond/sqgraph.git
+</code></pre>
+<h2>How to build</h2>
+<pre><code>cd sqgraph
+gradlew clean build
+copy build\libs\sqgraph-0.0.1-SNAPSHOT.jar .
+</code></pre>
+<h2>How to get running quickly (using SonarCloud)</h2>
+<p>Make an account on <a href="https://www.sonarsource.com/products/sonarcloud/signup/" rel="noopener noreferrer" target="_blank" class="external">SonarCloud.io</a></p>
+<p>Make a user token for your SonarCloud account as per <a href="https://docs.sonarcloud.io/advanced-setup/user-accounts/" rel="noopener noreferrer" target="_blank" class="external">User Tokens</a></p>
+<pre><code>set SONARLOGIN=your new user token from SonarCloud
+java -jar sqgraph-0.0.1-SNAPSHOT.jar samples\sonarcloud\sonarcloud.json
+</code></pre>
+<p>There will be some new .PNG files in the current directory - congratulations you've done it!</p>
+<h2>How to get running using your SonarQube server</h2>
 
 </article>
 
