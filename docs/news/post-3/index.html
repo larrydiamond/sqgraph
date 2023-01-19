@@ -202,36 +202,36 @@
 <p>Our home page gives an example of a synthetic metric being graphed - Violations per Thousand lines is not a metric from SonarQube - it's a synthetic metric we created.</p>
 <p>https://github.com/larrydiamond/sqgraph/blob/main/src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L234</p>
 <p>is how we created it</p>
-<p>'''</p>
-<pre><code>public static Map&lt;String,SyntheticMetric&gt; populateSynthetics () {
-	Map&lt;String,SyntheticMetric&gt; syntheticMetrics = new HashMap&lt;&gt;();
-	
-	SyntheticMetric violationsPerKLines = new SyntheticMetric() {
-		@Override public String getSyntheicName() { return &quot;ViolationsPerKLines&quot;;}
-		@Override public List&lt;String&gt; getRealMetrics() { List&lt;String&gt; list = new ArrayList&lt;&gt;();  list.add (&quot;violations&quot;);  list.add(&quot;lines&quot;);  return list;}
-		@Override public double calculate(Map&lt;String,Double&gt; metrics) {
-			double lines = 0;
-			Double lineInput = metrics.get(&quot;lines&quot;);
-			if (lineInput != null) lines = lineInput;
-			double violations = 0;
-			Double violationsInput = metrics.get(&quot;violations&quot;);
-			if (violationsInput != null) violations = violationsInput;
-			if ((lines == 0) || (violations == 0)) return 0.0;
-			return violations / lines;
-		}
-	};
+<pre><code>
+	public static Map&lt;String,SyntheticMetric&gt; populateSynthetics () {
+		Map&lt;String,SyntheticMetric&gt; syntheticMetrics = new HashMap&lt;&gt;();
+		
+		SyntheticMetric violationsPerKLines = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return &quot;ViolationsPerKLines&quot;;}
+			@Override public List&lt;String&gt; getRealMetrics() { List&lt;String&gt; list = new ArrayList&lt;&gt;();  list.add (&quot;violations&quot;);  list.add(&quot;lines&quot;);  return list;}
+			@Override public double calculate(Map&lt;String,Double&gt; metrics) {
+				double lines = 0;
+				Double lineInput = metrics.get(&quot;lines&quot;);
+				if (lineInput != null) lines = lineInput;
+				double violations = 0;
+				Double violationsInput = metrics.get(&quot;violations&quot;);
+				if (violationsInput != null) violations = violationsInput;
+				if ((lines == 0) || (violations == 0)) return 0.0;
+				return violations / lines;
+			}
+		};
 
-	syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
-	return syntheticMetrics;
-}
+		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
+		return syntheticMetrics;
+	}
+
 </code></pre>
-<p>'''</p>
 <p>Let's break this violationsPerKLines SyntheticMetric down.</p>
 <p>getSyntheticName() returns the synthetic metric's name that you'll reference in your json file.</p>
-<p>'''</p>
-<pre><code>    {&quot;metric&quot;:&quot;ViolationsPerKLines&quot;,&quot;filename&quot;:&quot;SonarViolationsPerThousandLines&quot;,&quot;title&quot;:&quot;Violations Per Thousand Lines&quot;}
+<pre><code>
+        {&quot;metric&quot;:&quot;ViolationsPerKLines&quot;,&quot;filename&quot;:&quot;SonarViolationsPerThousandLines&quot;,&quot;title&quot;:&quot;Violations Per Thousand Lines&quot;}
+
 </code></pre>
-<p>'''</p>
 <p>getRealMetrics() returns the list of real metrics we need to query from SonarQube. (List.of arrives in Java 9 and we're compatible with Java 8, at least until most teams are at Java 11)</p>
 <p>calculate() calculates the number to return.</p>
 <p>So to create a new synthetic metric, create a new object that implements the SyntheticMetric interface and add it to the syntheticMetrics list, and your new synthetic metric is good to go!   (Please consider a code contribution back to the project - we'll thank you publicly and loudly in Twitter and we'll give your code a code review!)</p>
