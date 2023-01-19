@@ -186,12 +186,24 @@ copy build\libs\sqgraph-0.0.1-SNAPSHOT.jar .
 </code></pre>
 <h2>How to get running quickly (using SonarCloud)</h2>
 <p>Make an account on <a href="https://www.sonarsource.com/products/sonarcloud/signup/" rel="noopener noreferrer" target="_blank" class="external">SonarCloud.io</a></p>
-<p>Make a user token for your SonarCloud account as per <a href="https://docs.sonarcloud.io/advanced-setup/user-accounts/" rel="noopener noreferrer" target="_blank" class="external">User Tokens</a></p>
+<p>Make a user token for your SonarCloud account as per <a href="https://docs.sonarcloud.io/advanced-setup/user-accounts/#user-tokens" rel="noopener noreferrer" target="_blank" class="external">User Tokens</a></p>
 <pre><code>set SONARLOGIN=your new user token from SonarCloud
 java -jar sqgraph-0.0.1-SNAPSHOT.jar samples\sonarcloud\sonarcloud.json
 </code></pre>
 <p>There will be some new .PNG files in the current directory - congratulations you've done it!</p>
-<h2>How to get running using your SonarQube server</h2>
+<h2>How to get running using your organization's SonarQube server (almost as quickly)</h2>
+<p>Make a user token for your SonarQube instance <a href="https://docs.sonarqube.org/latest/user-guide/user-account/generating-and-using-tokens#generating-a-token" rel="noopener noreferrer" target="_blank" class="external">User Tokens</a></p>
+<pre><code>set SONARLOGIN=your new user token from SonarCloud
+copy samples\selfhosted\sample.json .
+</code></pre>
+<p>Bring up sample.json in the text editor of your choice</p>
+<p>Change the url value to the URL of your SonarQube server</p>
+<p>Change the application titles and keys to the titles and keys of your applications</p>
+<p>save your sample.json file</p>
+<p>Now execute the following:</p>
+<pre><code>java -jar sqgraph-0.0.1-SNAPSHOT.jar sample.json
+</code></pre>
+<p>There will be some new .PNG files in the current directory - congratulations you've done it!</p>
 
 </article>
 

@@ -13,5 +13,5 @@
         {"metric":"ViolationsPerKLines","filename":"SonarViolationsPerThousandLines","title":"Violations Per Thousand Lines"}
         
     ],
-    "maxReportHistory" : "66"
+    "maxReportHistory" : "366"
 }
