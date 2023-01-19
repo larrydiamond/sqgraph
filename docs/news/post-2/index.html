@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My 2de post - Code Quality Graphing Tool</title>
-    <meta name="description" content="My 2de post"><link rel="preload" href="/css/main.css?=vdev" as="style">
+    <title>What raw metrics does SonarQube provide? - Code Quality Graphing Tool</title>
+    <meta name="description" content="What can I make graphs of?"><link rel="preload" href="/css/main.css?=vdev" as="style">
     <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@https://twitter.com/larrydiamondny/">
-        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="My 2de post - Code Quality Graphing Tool">
-    <meta name="twitter:description" content="My 2de post">
+        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="What raw metrics does SonarQube provide? - Code Quality Graphing Tool">
+    <meta name="twitter:description" content="What can I make graphs of?">
     <meta name="twitter:image" content="http://localhost:8080/images/preview.png">
-    <meta name="og:title" content="My 2de post - Code Quality Graphing Tool">
-    <meta name="og:description" content="My 2de post">
+    <meta name="og:title" content="What raw metrics does SonarQube provide? - Code Quality Graphing Tool">
+    <meta name="og:description" content="What can I make graphs of?">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://localhost:8080/news/post-2/" />
     <meta property="og:image" content="http://localhost:8080/images/preview.png">
@@ -178,7 +178,7 @@
                 </a>
             </li><li itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
             <a itemprop="item" href="/news/post-2/" aria-current="page">
-                <span itemprop="name">My 2de post</span>
+                <span itemprop="name">What raw metrics does SonarQube provide?</span>
                 <meta itemprop="position" content="2">
             </a>
         </li>
@@ -189,15 +189,256 @@
 
     <div class="mb-8 md-mb-10">
         
-            <h1 class="my-0">My 2de post</h1>
+            <h1 class="my-0">What raw metrics does SonarQube provide?</h1>
         
         <time datetime="2023-01-17T03:22:30.571Z">
             16 January 2023
         </time>
     </div>
 
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia quod ullam sit ea cumque soluta autem minus accusantium! Consequatur aspernatur rem natus quod nesciunt tempora! Nisi, quam veniam! Minima, earum.</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia quod ullam sit ea cumque soluta autem minus accusantium! Consequatur aspernatur rem natus quod nesciunt tempora! Nisi, quam veniam! Minima, earum.</p>
+    <p>This data is correct for SonarQube 9.8 - there may be some slight differences on different versions</p>
+<table>
+<thead>
+<tr>
+<th>Metric Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>blocker_violations</td>
+<td>Number of Block Violations</td>
+</tr>
+<tr>
+<td>branch_coverage</td>
+<td>Branch Coverage percentage</td>
+</tr>
+<tr>
+<td>bugs</td>
+<td>Number of Bugs</td>
+</tr>
+<tr>
+<td>classes</td>
+<td>Number of classes</td>
+</tr>
+<tr>
+<td>code_smells</td>
+<td>Number of Code Smells</td>
+</tr>
+<tr>
+<td>cognitive_complexity</td>
+<td>Cognitive Complexity</td>
+</tr>
+<tr>
+<td>comment_lines</td>
+<td>Number of comment lines</td>
+</tr>
+<tr>
+<td>comment_lines_density</td>
+<td>Comments (%)</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>Cyclomatic Complexity</td>
+</tr>
+<tr>
+<td>conditions_to_cover</td>
+<td>Conditions to cover</td>
+</tr>
+<tr>
+<td>confirmed_issues</td>
+<td>Number of Confirmed issues</td>
+</tr>
+<tr>
+<td>coverage</td>
+<td>Coverage by tests</td>
+</tr>
+<tr>
+<td>critical_violations</td>
+<td>Number of Critical issues</td>
+</tr>
+<tr>
+<td>directories</td>
+<td>Number of Directories</td>
+</tr>
+<tr>
+<td>duplicated_blocks</td>
+<td>Number of Duplicated blocks</td>
+</tr>
+<tr>
+<td>duplicated_files</td>
+<td>Number of Duplicated files</td>
+</tr>
+<tr>
+<td>duplicated_lines</td>
+<td>Number of Duplicated lines</td>
+</tr>
+<tr>
+<td>duplicated_lines_density</td>
+<td>Duplicated Lines (%)</td>
+</tr>
+<tr>
+<td>false_positive_issues</td>
+<td>Number of False positive issues</td>
+</tr>
+<tr>
+<td>files</td>
+<td>Number of files</td>
+</tr>
+<tr>
+<td>functions</td>
+<td>Number of Functions</td>
+</tr>
+<tr>
+<td>generated_lines</td>
+<td>Number of generated lines</td>
+</tr>
+<tr>
+<td>generated_ncloc</td>
+<td>Generated non Commenting Lines of Code</td>
+</tr>
+<tr>
+<td>info_violations</td>
+<td>Number of Info issues</td>
+</tr>
+<tr>
+<td>line_coverage</td>
+<td>Line coverage</td>
+</tr>
+<tr>
+<td>lines</td>
+<td>Number of Lines</td>
+</tr>
+<tr>
+<td>lines_to_cover</td>
+<td>Number of Lines to cover</td>
+</tr>
+<tr>
+<td>major_violations</td>
+<td>Number of Major issues</td>
+</tr>
+<tr>
+<td>minor_violations</td>
+<td>Number of Minor issues</td>
+</tr>
+<tr>
+<td>ncloc</td>
+<td>Number of Non commenting lines of code</td>
+</tr>
+<tr>
+<td>new_blocker_violations</td>
+<td>Number of New Blocker issues</td>
+</tr>
+<tr>
+<td>new_branch_coverage</td>
+<td>Condition coverage of new/changed code</td>
+</tr>
+<tr>
+<td>new_bugs</td>
+<td>Number of New Bugs</td>
+</tr>
+<tr>
+<td>new_code_smells</td>
+<td>Number of New Code Smells</td>
+</tr>
+<tr>
+<td>new_conditions_to_cover</td>
+<td>Number of Conditions to cover on new code</td>
+</tr>
+<tr>
+<td>new_coverage</td>
+<td>Coverage of new/changed code</td>
+</tr>
+<tr>
+<td>new_critical_violations</td>
+<td>Number of New Critical issues</td>
+</tr>
+<tr>
+<td>new_duplicated_blocks</td>
+<td>Number of Duplicated blocks on new code</td>
+</tr>
+<tr>
+<td>new_duplicated_lines</td>
+<td>Number of Duplicated Lines on New Code</td>
+</tr>
+<tr>
+<td>new_duplicated_lines_density</td>
+<td>Duplicated Lines (%) on New Code</td>
+</tr>
+<tr>
+<td>new_info_violations</td>
+<td>Number of New Info issues</td>
+</tr>
+<tr>
+<td>new_line_coverage</td>
+<td>Line Coverage on New Code Line coverage</td>
+</tr>
+<tr>
+<td>new_lines</td>
+<td>Number of New lines</td>
+</tr>
+<tr>
+<td>new_lines_to_cover</td>
+<td>Number of Lines to cover on new code</td>
+</tr>
+<tr>
+<td>new_major_violations</td>
+<td>Number of New Major issues</td>
+</tr>
+<tr>
+<td>new_minor_violations</td>
+<td>Number of New Minor issues</td>
+</tr>
+<tr>
+<td>new_security_hotspots</td>
+<td>Number of New Security Hotspots</td>
+</tr>
+<tr>
+<td>new_security_hotspots_reviewed</td>
+<td>Percentage of Security Hotspots Reviewed on New Code</td>
+</tr>
+<tr>
+<td>new_violations</td>
+<td>Number of New issues</td>
+</tr>
+<tr>
+<td>new_vulnerabilities</td>
+<td>Number of New Vulnerabilities</td>
+</tr>
+<tr>
+<td>open_issues</td>
+<td>Number of Open issues</td>
+</tr>
+<tr>
+<td>projects</td>
+<td>projects name=Project branches Number of project branches</td>
+</tr>
+<tr>
+<td>reopened_issues</td>
+<td>Number of Reopened issues</td>
+</tr>
+<tr>
+<td>security_hotspots</td>
+<td>Number of Security Hotspots</td>
+</tr>
+<tr>
+<td>security_hotspots_reviewed</td>
+<td>Percentage of Security Hotspots Reviewed</td>
+</tr>
+<tr>
+<td>skipped_tests</td>
+<td>Number of skipped unit tests</td>
+</tr>
+<tr>
+<td>statements</td>
+<td>Number of statements</td>
+</tr>
+<tr>
+<td>violations</td>
+<td>Number of Issues</td>
+</tr>
+</tbody>
+</table>
 
             <hr class="mt-12">
             <nav class="pagination">
