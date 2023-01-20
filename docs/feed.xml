@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Code Quality Graphing Tool</title>
   <subtitle>Compare code quality for all your applications</subtitle>
-  <link href="http://localhost:8080/components/"/>
-  <link href="http://localhost:8080/feed.xml" rel="self"/>
+  <link href="https://codequalitygraph.com/components/"/>
+  <link href="https://codequalitygraph.com/feed.xml" rel="self"/>
   <updated>2023-01-20T02:45:01Z</updated>
-  <id>http://localhost:8080/components/</id>
+  <id>https://codequalitygraph.com/components/</id>
   <author>
     <name>Larry Diamond</name>
   </author>
