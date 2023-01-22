@@ -110,31 +110,31 @@ public class SqgraphApplication {
 			return null;
 		}
 
-		try {
-			final String uri = config.getUrl() + "/api/metrics/search";
-			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
-			MetricsResults result = response.getBody();
-			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
-			for (Metric m : result.getMetrics()) {
-				ms.put (m.getKey(), m);
-			}
-			for (Map.Entry<String, Metric> me : ms.entrySet()) {
-				System.out.println (me.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+//		try {
+//			final String uri = config.getUrl() + "/api/metrics/search";
+//			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
+//			MetricsResults result = response.getBody();
+//			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
+//			for (Metric m : result.getMetrics()) {
+//				ms.put (m.getKey(), m);
+//			}
+//			for (Map.Entry<String, Metric> me : ms.entrySet()) {
+//				System.out.println (me.toString());
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
 
-		try {
-			final String uri = config.getUrl() + "/api/metrics/types";
-			ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
-			String result = response.getBody();
-			System.out.println ("metric types : " + result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+//		try {
+//			final String uri = config.getUrl() + "/api/metrics/types";
+//			ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+//			String result = response.getBody();
+//			System.out.println ("metric types : " + result);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
 
 		HashMap<String, String> titleLookup = new HashMap<>();
 
@@ -156,7 +156,7 @@ public class SqgraphApplication {
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
 				rawMetrics.put (key, result);
-				System.out.println (key + " : " + result);
+//				System.out.println (key + " : " + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
