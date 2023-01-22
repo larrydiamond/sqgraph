@@ -136,9 +136,9 @@ public class SqgraphApplication {
 //			return null;
 //		}
 
-		HashMap<String, String> titleLookup = new HashMap<>();
+		Map<String, String> titleLookup = new HashMap<>();
 
-		HashMap<String, SearchHistory> rawMetrics = new HashMap<>();
+		Map<String, SearchHistory> rawMetrics = new HashMap<>();
 		for (Application app : config.getApplications()) {
 			String key = app.getKey();
 			titleLookup.put(key, app.getTitle());
