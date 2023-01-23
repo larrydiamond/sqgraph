@@ -152,7 +152,7 @@ public class SqgraphApplication {
 				Date sqDate = getUTCDate (startDate);
 				String sdfsqString = sdfsq.format (sqDate);
 
-				final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&component=" + key + "&metrics=" + metrics;
+				final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&ps=999&component=" + key + "&metrics=" + metrics;
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
 				rawMetrics.put (key, result);
