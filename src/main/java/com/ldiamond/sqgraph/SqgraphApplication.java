@@ -178,6 +178,7 @@ public class SqgraphApplication {
 				chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
 				chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
 				chart.getStyler().setDatePattern("dd MMM yyyy");
+				chart.getStyler().setYAxisDecimalPattern("###,###,###.###");
 
 				for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
 					addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics);
