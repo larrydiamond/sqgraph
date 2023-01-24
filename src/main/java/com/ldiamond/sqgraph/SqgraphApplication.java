@@ -231,7 +231,7 @@ public class SqgraphApplication {
 	public static Map<String,SyntheticMetric> populateSynthetics () {
 		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
 		
-		SyntheticMetric violationsPerKLines = new SyntheticMetric() {
+		SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
 			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
@@ -245,8 +245,26 @@ public class SqgraphApplication {
 				return violations / lines;
 			}
 		};
+		syntheticMetrics.put(ViolationsPerKLines.getSyntheicName(), ViolationsPerKLines);
 
-		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
+		
+		SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return "CognitiveComplexityPerKLines";}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("lines");  return list;}
+			@Override public double calculate(Map<String,Double> metrics) {
+				double lines = 0;
+				Double lineInput = metrics.get("lines");
+				if (lineInput != null) lines = lineInput;
+				double numerator = 0;
+				Double numeratorInput = metrics.get("cognitive_complexity");
+				if (numeratorInput != null) numerator = numeratorInput;
+				if ((lines == 0) || (numerator == 0)) return 0.0;
+				return numerator / lines;
+			}
+		};
+		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheicName(), CognitiveComplexityPerKLines);
+
+
 		return syntheticMetrics;
 	}
 

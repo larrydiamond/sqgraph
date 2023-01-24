@@ -1,13 +1,14 @@
 {
     "url": "https://sonarcloud.io",
     "applications": [
-        {"title":"Apache Calcite", "key": "apache_calcite"},
         {"title":"Apache Dolphin Scheduler", "key": "apache-dolphinscheduler"},
-        {"title":"Hazelcast", "key": "hazelcast_hazelcast"},
-        {"title":"OWASP Dependency Checker", "key": "org.owasp:dependency-check-parent"}
+        {"title":"Drools", "key": "org.drools:droolsjbpm-integration"},
+        {"title":"SpotBugs", "key": "com.github.spotbugs.spotbugs"},
+        {"title":"OWASP ZAP Proxy", "key": "zaproxy_zaproxy"}
+        
     ],
     "metrics": [
-        {"metric":"complexity","filename":"SonarCloudComplexity","title":"Complexity"},
+        {"metric":"CognitiveComplexityPerKLines","filename":"SonarCloudComplexity","title":"Complexity Per Thousand Lines"},
         {"metric":"lines","filename":"SonarCloudNumLines","title":"Number of Lines"},
         {"metric":"coverage","filename":"SonarCloudCoverage","title":"Code Coverage"},
         {"metric":"ViolationsPerKLines","filename":"SonarViolationsPerThousandLines","title":"Violations Per Thousand Lines"}
