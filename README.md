@@ -16,15 +16,23 @@ The SonarCloud example creates some charts based on some projects in SonarCloud
 The SelfHosted example creates some charts based on some projects of mine in my self hosted SonarQube instance
 <img src="samples/selfhosted/ViolationsPerThousandLines.png">
 
+# Quickstart
+
+To get up and running quickly, please download the Quickstart zip file from the most recent release.
+The Quickstart zip file will contain a pre-built jar file as well as the example json files.
+
+
 # How to build
 
+```
 .\gradlew build
+```
 
 # How to run 
 
 ```
 set SONARLOGIN=<your user token>
-java -jar build\libs\sqgraph-0.0.1-SNAPSHOT.jar YourJsonFile.json
+java -jar build\libs\sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
 ```
 
 # Compatibility
