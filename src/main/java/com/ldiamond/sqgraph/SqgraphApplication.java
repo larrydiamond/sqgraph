@@ -110,21 +110,23 @@ public class SqgraphApplication {
 			return null;
 		}
 
-//		try {
-//			final String uri = config.getUrl() + "/api/metrics/search";
-//			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
-//			MetricsResults result = response.getBody();
-//			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
-//			for (Metric m : result.getMetrics()) {
-//				ms.put (m.getKey(), m);
-//			}
-//			for (Map.Entry<String, Metric> me : ms.entrySet()) {
-//				System.out.println (me.toString());
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
+		/*
+		try {
+			final String uri = config.getUrl() + "/api/metrics/search";
+			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
+			MetricsResults result = response.getBody();
+			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
+			for (Metric m : result.getMetrics()) {
+				ms.put (m.getKey(), m);
+			}
+			for (Map.Entry<String, Metric> me : ms.entrySet()) {
+				System.out.println (me.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		*/
 
 //		try {
 //			final String uri = config.getUrl() + "/api/metrics/types";
