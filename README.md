@@ -19,6 +19,7 @@ The SelfHosted example creates some charts based on some projects of mine in my 
 # Quickstart
 
 To get up and running quickly, please download the Quickstart zip file from the most recent release.
+
 The Quickstart zip file will contain a pre-built jar file as well as the example json files.
 
 
