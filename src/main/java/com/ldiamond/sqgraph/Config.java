@@ -9,6 +9,7 @@ public class Config {
     Application[] applications;
     SQMetrics[] metrics;
     int maxReportHistory;
+    String pdf;
 }
 
 @Data

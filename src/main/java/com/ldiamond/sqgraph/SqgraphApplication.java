@@ -159,15 +159,18 @@ public class SqgraphApplication {
 			}
 		}
 
-
-		Document document = new Document(new Rectangle(900, 700));
+		Document document = null;
+		if (config.getPdf() != null)
+			document = new Document(new Rectangle(900, 700));
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("Images.pdf"));
-            document.open();
-			document.addTitle ("Created by the Code Quality Graphing Tool");
-			Paragraph paragraph = new Paragraph("Created by the Code Quality Graphing Tool");
-			paragraph.setAlignment(Element.ALIGN_CENTER);
-            document.add(paragraph);
+			if (document != null) {
+				PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
+				document.open();
+				document.addTitle ("Code Quality Graphs");
+				Paragraph paragraph = new Paragraph("Created by the Code Quality Graphing Tool");
+				paragraph.setAlignment(Element.ALIGN_CENTER);
+				document.add(paragraph);
+			}
 
 			for (SQMetrics sqm : config.getMetrics()) {
 				try {
@@ -206,8 +209,10 @@ public class SqgraphApplication {
 				
 					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
 	
-					Image png = Image.getInstance(sqm.getFilename() + ".png");
-					document.add(png);
+					if (document != null) {
+						Image png = Image.getInstance(sqm.getFilename() + ".png");
+						document.add(png);
+					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -221,7 +226,8 @@ public class SqgraphApplication {
 			System.err.println(ioe.getMessage());
 		}
 	
-		document.close();
+		if (document != null) 
+			document.close();
 
 		System.out.println ("Successful completion.");
 		return null;
