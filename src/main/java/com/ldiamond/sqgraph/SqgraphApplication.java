@@ -310,53 +310,61 @@ public class SqgraphApplication {
 		));
 	}
 
+	public static void addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+		for (Measures m : history.getMeasures()) {
+			if (m.getMetric().equals(metricName)) {
+				for (History h : m.getHistory()) {
+					dates.add (getUTCDate(h.getDate()));
+					doubles.add (h.getValue());
+				}
+			}
+		}
+	}
+
+	public static void addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+		// find the first real measure needed by the synthetic metric
+		// for each of the dates in its history, look for the other metrics on the same dates 
+		// populate the String, Double map and invoke the calculate method for each and add that double
+		List<String> realMetrics = sm.getRealMetrics();
+
+		boolean notFound = true;
+		for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
+			Measures m = history.getMeasures() [loop];
+			if (realMetrics.contains(m.getMetric())) {
+				notFound = false;
+				for (History h : m.getHistory()) {
+					Date dataPoint = h.getDate();
+					dates.add (getUTCDate(dataPoint));
+
+					Map<String,Double> values = new HashMap<>();
+					values.put(m.getMetric(), h.getValue());
+					for (Measures measure : history.getMeasures()) {
+						if (realMetrics.contains(measure.getMetric())) {
+							History[] histArray = measure.getHistory();
+							for (History hist : histArray) {
+								if (hist.getDate().equals(dataPoint)) {
+									values.put (measure.getMetric(), hist.getValue());
+								}
+							}
+						}
+					}
+
+					double calculatedValue = sm.calculate(values);
+					doubles.add (calculatedValue);
+				}
+			}
+		}
+	}
+
 	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, final Map<String,SyntheticMetric> syntheticMetrics) {
 		List<Date> dates = new ArrayList<>();
 		List<Double> doubles = new ArrayList<>();
 
 		SyntheticMetric sm = syntheticMetrics.get(metricName);
 		if (sm == null) {
-			for (Measures m : history.getMeasures()) {
-				if (m.getMetric().equals(metricName)) {
-					for (History h : m.getHistory()) {
-						dates.add (getUTCDate(h.getDate()));
-						doubles.add (h.getValue());
-					}
-				}
-			}
+			addSeriesForNativeMetric (metricName, history, dates, doubles);
 		} else {
-			// find the first real measure needed by the synthetic metric
-			// for each of the dates in its history, look for the other metrics on the same dates 
-			// populate the String, Double map and invoke the calculate method for each and add that double
-			List<String> realMetrics = sm.getRealMetrics();
-
-			boolean notFound = true;
-			for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
-				Measures m = history.getMeasures() [loop];
-				if (realMetrics.contains(m.getMetric())) {
-					notFound = false;
-					for (History h : m.getHistory()) {
-						Date dataPoint = h.getDate();
-						dates.add (getUTCDate(dataPoint));
-
-						Map<String,Double> values = new HashMap<>();
-						values.put(m.getMetric(), h.getValue());
-						for (Measures measure : history.getMeasures()) {
-							if (realMetrics.contains(measure.getMetric())) {
-								History[] histArray = measure.getHistory();
-								for (History hist : histArray) {
-									if (hist.getDate().equals(dataPoint)) {
-										values.put (measure.getMetric(), hist.getValue());
-									}
-								}
-							}
-						}
-
-						double calculatedValue = sm.calculate(values);
-						doubles.add (calculatedValue);
-					}
-				}
-			}
+			addSeriesForSyntheticMetric (sm, history, dates, doubles);
 		}
 
 		if (!dates.isEmpty() && (!doubles.isEmpty()))
