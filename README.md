@@ -37,7 +37,7 @@ java -jar build\libs\sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
 ```
 
 # Compatibility
-This application has been used with SonarQube Community 9.8 and with SonarCloud on 16 January 2023.
+This application has been used with several different versions of SonarQube Community from 8.9 up to 9.9 and with SonarCloud.
 
 The APIs this application needs have not changed in several revisions and are expected to work with SonarQube back to version 6.3 but this has not been tested
 
