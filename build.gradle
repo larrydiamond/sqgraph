@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.ldiamond'
-version = '1.0.1-SNAPSHOT'
+version = '2.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
@@ -47,7 +47,7 @@ tasks.named('test') {
 sonarqube {
     properties {
         property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.login", "sqa_b7608f144a0805551384a8dfbc127ab332b3e7a6"
+        property "sonar.login", "squ_02ba2d25af380625e62e00c840f77f6a187ba3b0"
         property "sonar.scm.disabled", "true"
     }
 }

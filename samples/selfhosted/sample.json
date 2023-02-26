@@ -2,8 +2,7 @@
     "url": "http://127.0.0.1:9000",
     "applications": [
         {"title":"SonarQube Graphing Application", "key": "com.ldiamond:sqgraph"},
-        {"title":"Validation Service", "key": "com.ldiamond:tmdbnewep"},
-        {"title":"Enrichment Service", "key": "com.ldiamond:transtator"}
+        {"title":"Validation Service", "key": "com.ldiamond:tmdbnewep"}
     ],
     "metrics": [
         {"metric":"complexity","filename":"Complexity","title":"Complexity"},
