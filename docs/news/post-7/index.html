@@ -4,21 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>User Guide - Code Quality Graphing Tool</title>
-    <meta name="description" content="11ty starter template build using Fylgja CSS"><link rel="preload" href="/css/main.css?=vdev" as="style">
+    <title>Version 2.0.0 released! - Code Quality Graphing Tool</title>
+    <meta name="description" content="PDF of all your graphs!"><link rel="preload" href="/css/main.css?=vdev" as="style">
     <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@https://twitter.com/larrydiamondny/">
-        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="User Guide - Code Quality Graphing Tool">
-    <meta name="twitter:description" content="11ty starter template build using Fylgja CSS">
+        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="Version 2.0.0 released! - Code Quality Graphing Tool">
+    <meta name="twitter:description" content="PDF of all your graphs!">
     <meta name="twitter:image" content="https://codequalitygraph.com/images/preview.png">
-    <meta name="og:title" content="User Guide - Code Quality Graphing Tool">
-    <meta name="og:description" content="11ty starter template build using Fylgja CSS">
+    <meta name="og:title" content="Version 2.0.0 released! - Code Quality Graphing Tool">
+    <meta name="og:description" content="PDF of all your graphs!">
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://codequalitygraph.com/userguide/" />
+    <meta property="og:url" content="https://codequalitygraph.com/news/post-7/" />
     <meta property="og:image" content="https://codequalitygraph.com/images/preview.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <link rel="canonical" href="https://codequalitygraph.com/userguide/" />
+    <link rel="canonical" href="https://codequalitygraph.com/news/post-7/" />
     <link rel="alternate" type="application/rss+xml" title="" href="https://codequalitygraph.com/feed.xml"/>
     <meta name="generator" content="Eleventy v1.0.2">
 
@@ -44,7 +44,7 @@
 
     
     <link rel="stylesheet" href="/css/main.css?=vdev"><style>
-            .page-layout{--container-size:84ch}
+            .post-layout{--container-size:84ch}time{color:var(--color-text-muted)}
         </style><script src="/js/main.js?=vdev" defer></script></head>
 
     <body class="flex flex-col min-h-screen">
@@ -73,8 +73,8 @@
                     <li>
                         <a
                             href="/userguide/"
-                            class="is-active"
-                            aria-current="page"
+                            
+                            
                         >User Guide</a>
                     </li>
                     <li>
@@ -143,8 +143,8 @@
                 <li>
                     <a
                         href="/userguide/"
-                        class="is-active"
-                        aria-current="page"
+                        
+                        
                     >User Guide</a>
                 </li>
                 <li>
@@ -179,44 +179,46 @@
 
         <main id="page-main" class="page-container flex-grow">
             
-<article class="page-layout container page-spacing">
-    
-        <h1>User Guide</h1>
-    
-    <h2>System Requirements</h2>
-<p>Java 8+ for building and at runtime.</p>
-<p>Git 2+ and Gradle 7+ to obtain and build the source code.</p>
-<h2>How to download the Quickstart</h2>
-<p>Go to <a href="https://github.com/larrydiamond/sqgraph/releases" rel="noopener noreferrer" target="_blank" class="external">https://github.com/larrydiamond/sqgraph/releases</a> to the latest release and download the QUICKSTART zip file and copy the contents into an empty directory.</p>
-<p>(and now you can skip downloading the source code and building and go right to &quot;How to get running quickly&quot;)</p>
-<h2>How to download the source code</h2>
-<pre><code>git clone https://github.com/larrydiamond/sqgraph.git
-</code></pre>
-<h2>How to build</h2>
-<pre><code>cd sqgraph
-gradlew clean build
-copy build\libs\sqgraph-0.0.1-SNAPSHOT.jar .
-</code></pre>
-<h2>How to get running quickly (using SonarCloud)</h2>
-<p>Make an account on <a href="https://www.sonarsource.com/products/sonarcloud/signup/" rel="noopener noreferrer" target="_blank" class="external">SonarCloud.io</a></p>
-<p>Make a user token for your SonarCloud account as per <a href="https://docs.sonarcloud.io/advanced-setup/user-accounts/#user-tokens" rel="noopener noreferrer" target="_blank" class="external">User Tokens</a></p>
-<pre><code>set SONARLOGIN=your new user token from SonarCloud
-java -jar sqgraph-x.y.z-SNAPSHOT.jar sonarcloud.json
-</code></pre>
-<p>There will be some new .PNG files in the current directory - congratulations you've done it!</p>
-<h2>How to get running using your organization's SonarQube server (almost as quickly)</h2>
-<p>Make a user token for your SonarQube instance <a href="https://docs.sonarqube.org/latest/user-guide/user-account/generating-and-using-tokens#generating-a-token" rel="noopener noreferrer" target="_blank" class="external">User Tokens</a></p>
-<pre><code>set SONARLOGIN=your new user token from your organization's SonarQube server
-</code></pre>
-<p>Bring up sample.json in the text editor of your choice</p>
-<p>Change the url value to the URL of your SonarQube server</p>
-<p>Change the application titles and keys to the titles and keys of your applications</p>
-<p>save your modified sample.json file</p>
-<p>Now execute the following:</p>
-<pre><code>java -jar sqgraph-x.y.z-SNAPSHOT.jar sample.json
-</code></pre>
-<p>There will be some new .PNG files in the current directory - congratulations you've done it!</p>
+<article class="post-layout container page-spacing"><div class="page-banner aspect-ratio mb-6">
+            <picture><source type="image/avif" srcset="/images/gen/SQ_HDMMJ2N-320.avif 320w" sizes="100vw"><source type="image/webp" srcset="/images/gen/SQ_HDMMJ2N-320.webp 320w" sizes="100vw"><img alt="Version 2.0.0 released!" loading="lazy" decoding="async" src="/images/gen/SQ_HDMMJ2N-320.png" width="320" height="348"></picture>
+        </div>
+<nav aria-label="breadcrumb">
+    <span class="aria-only">You are here: </span>
+    <ol class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                <a itemprop="item" href="/news/">
+                    <span itemprop="name">News</span>
+                    <meta itemprop="position" content="1" />
+                </a>
+            </li><li itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="/news/post-7/" aria-current="page">
+                <span itemprop="name">Version 2.0.0 released!</span>
+                <meta itemprop="position" content="2">
+            </a>
+        </li>
+    </ol>
+</nav>
 
+
+
+    <div class="mb-8 md-mb-10">
+        
+            <h1 class="my-0">Version 2.0.0 released!</h1>
+        
+        <time datetime="2023-02-17T15:57:38.014Z">
+            17 February 2023
+        </time>
+    </div>
+
+    <p>Yay! We are proud to release version 2.0.0 of the Code Quality Graphing tool, which has the following improvements:</p>
+<p>PDF Output!   Rather than have to contend with a bunch of .PNG files, we've created the optional ability to create a PDF file of all the images so that you can see everything in a quick glance.</p>
+<p>There's a new optional pdf field in the json file which specifies the location to write the pdf file.</p>
+<p>As always, please feel free to ask a question or open an issue in the github repo at <a href="https://github.com/larrydiamond/sqgraph" rel="noopener noreferrer" target="_blank" class="external">https://github.com/larrydiamond/sqgraph</a></p>
+
+            <hr class="mt-12">
+            <nav class="pagination">
+                    <a href="/news/post-6/" class="ms-auto">Next: What synthetic metrics does the Code Quality Graphing tool provide?</a>
+                
+            </nav>
 </article>
 
         </main>

@@ -2,27 +2,17 @@
 package com.ldiamond.sqgraph;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.knowm.xchart.BitmapEncoder;
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
@@ -31,10 +21,8 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
@@ -43,6 +31,13 @@ import org.springframework.http.HttpEntity;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfWriter;
 
 @SpringBootApplication
 public class SqgraphApplication {
@@ -73,6 +68,7 @@ public class SqgraphApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 
+		SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 		Config config = null;
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -89,8 +85,7 @@ public class SqgraphApplication {
 		}
 
 		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics();
-
-		System.out.println (config.toString());
+//		System.out.println (config.toString());
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -148,7 +143,6 @@ public class SqgraphApplication {
 				List<String> metricsToQuery = getMetricsListNeeded(config,syntheticMetrics);
 				String metrics = getCommaSeparatedListOfMetrics (metricsToQuery);
 				
-				SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
 				Date sqDate = getUTCDate (startDate);
@@ -165,35 +159,77 @@ public class SqgraphApplication {
 			}
 		}
 
-		for (SQMetrics sqm : config.getMetrics()) {
-			try {
-				XYChart chart = new XYChartBuilder()
-				.width(800)
-				.height(600)
-				.title(sqm.getTitle())
-				.xAxisTitle("X")
-				.yAxisTitle("Y")
-				.build();
-	
-				chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
-				chart.getStyler().setAxisTitlesVisible(false);
-				chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
-				chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
-				chart.getStyler().setDatePattern("dd MMM yyyy");
-				chart.getStyler().setYAxisDecimalPattern("###,###,###.###");
-
-				for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-					addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics);
-				}
-				
-				BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+		Document document = null;
+		if (config.getPdf() != null)
+			document = new Document(new Rectangle(900, 700));
+        try {
+			if (document != null) {
+				PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
+				document.open();
+				document.addTitle ("Code Quality Graphs");
+				Paragraph paragraph = new Paragraph("Created by the Code Quality Graphing Tool");
+				paragraph.setAlignment(Element.ALIGN_CENTER);
+				document.add(paragraph);
 			}
-		}
 
-		System.out.println ("no failures yet");
+			for (SQMetrics sqm : config.getMetrics()) {
+				try {
+					XYChart chart = null;
+					if (rawMetrics.size() > 7) {
+						chart = new XYChartBuilder()
+						.width(800)
+						.height(600)
+						.title(sqm.getTitle())
+						.xAxisTitle("X")
+						.yAxisTitle("Y")
+						.build();
+		
+						chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
+						chart.getStyler().setLegendLayout(Styler.LegendLayout.Vertical);
+					} else {
+						chart = new XYChartBuilder()
+						.width(800)
+						.height(600)
+						.title(sqm.getTitle())
+						.xAxisTitle("X")
+						.yAxisTitle("Y")
+						.build();
+						
+						chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
+						chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
+					}
+
+					chart.getStyler().setAxisTitlesVisible(false);
+					chart.getStyler().setDatePattern("dd MMM yyyy");
+					chart.getStyler().setYAxisDecimalPattern("###,###,###.###");
+
+					for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
+						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics);
+					}
+				
+					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
+	
+					if (document != null) {
+						Image png = Image.getInstance(sqm.getFilename() + ".png");
+						document.add(png);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		} catch(DocumentException de) {
+			System.err.println(de.getMessage());
+		}
+		catch(IOException ioe) {
+			System.err.println(ioe.getMessage());
+		}
+	
+		if (document != null) 
+			document.close();
+
+		System.out.println ("Successful completion.");
 		return null;
 	}
 
@@ -280,53 +316,61 @@ public class SqgraphApplication {
 		));
 	}
 
+	public static void addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+		for (Measures m : history.getMeasures()) {
+			if (m.getMetric().equals(metricName)) {
+				for (History h : m.getHistory()) {
+					dates.add (getUTCDate(h.getDate()));
+					doubles.add (h.getValue());
+				}
+			}
+		}
+	}
+
+	public static void addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+		// find the first real measure needed by the synthetic metric
+		// for each of the dates in its history, look for the other metrics on the same dates 
+		// populate the String, Double map and invoke the calculate method for each and add that double
+		List<String> realMetrics = sm.getRealMetrics();
+
+		boolean notFound = true;
+		for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
+			Measures m = history.getMeasures() [loop];
+			if (realMetrics.contains(m.getMetric())) {
+				notFound = false;
+				for (History h : m.getHistory()) {
+					Date dataPoint = h.getDate();
+					dates.add (getUTCDate(dataPoint));
+
+					Map<String,Double> values = new HashMap<>();
+					values.put(m.getMetric(), h.getValue());
+					for (Measures measure : history.getMeasures()) {
+						if (realMetrics.contains(measure.getMetric())) {
+							History[] histArray = measure.getHistory();
+							for (History hist : histArray) {
+								if (hist.getDate().equals(dataPoint)) {
+									values.put (measure.getMetric(), hist.getValue());
+								}
+							}
+						}
+					}
+
+					double calculatedValue = sm.calculate(values);
+					doubles.add (calculatedValue);
+				}
+			}
+		}
+	}
+
 	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, final Map<String,SyntheticMetric> syntheticMetrics) {
 		List<Date> dates = new ArrayList<>();
 		List<Double> doubles = new ArrayList<>();
 
 		SyntheticMetric sm = syntheticMetrics.get(metricName);
 		if (sm == null) {
-			for (Measures m : history.getMeasures()) {
-				if (m.getMetric().equals(metricName)) {
-					for (History h : m.getHistory()) {
-						dates.add (getUTCDate(h.getDate()));
-						doubles.add (h.getValue());
-					}
-				}
-			}
+			addSeriesForNativeMetric (metricName, history, dates, doubles);
 		} else {
-			// find the first real measure needed by the synthetic metric
-			// for each of the dates in its history, look for the other metrics on the same dates 
-			// populate the String, Double map and invoke the calculate method for each and add that double
-			List<String> realMetrics = sm.getRealMetrics();
-
-			boolean notFound = true;
-			for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
-				Measures m = history.getMeasures() [loop];
-				if (realMetrics.contains(m.getMetric())) {
-					notFound = false;
-					for (History h : m.getHistory()) {
-						Date dataPoint = h.getDate();
-						dates.add (getUTCDate(dataPoint));
-
-						Map<String,Double> values = new HashMap<>();
-						values.put(m.getMetric(), h.getValue());
-						for (Measures measure : history.getMeasures()) {
-							if (realMetrics.contains(measure.getMetric())) {
-								History[] histArray = measure.getHistory();
-								for (History hist : histArray) {
-									if (hist.getDate().equals(dataPoint)) {
-										values.put (measure.getMetric(), hist.getValue());
-									}
-								}
-							}
-						}
-
-						double calculatedValue = sm.calculate(values);
-						doubles.add (calculatedValue);
-					}
-				}
-			}
+			addSeriesForSyntheticMetric (sm, history, dates, doubles);
 		}
 
 		if (!dates.isEmpty() && (!doubles.isEmpty()))
