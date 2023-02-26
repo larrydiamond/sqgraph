@@ -14,5 +14,6 @@
         {"metric":"ViolationsPerKLines","filename":"SonarViolationsPerThousandLines","title":"Violations Per Thousand Lines"}
         
     ],
+    "pdf": "CodeQuality.pdf",
     "maxReportHistory" : "366"
 }
