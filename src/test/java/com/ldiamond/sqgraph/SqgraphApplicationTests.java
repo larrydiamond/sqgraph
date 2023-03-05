@@ -85,5 +85,46 @@ class SqgraphApplicationTests {
 		assertEquals("alpha,beta", output);
 	}
 
+	@Test
+	void testPopulatingSynthetics() {
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics();
+		assertEquals(2, synths.size());
+	}
+
+	@Test
+	void testViolationsPerKLines() {
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics();
+		SyntheticMetric sm = synths.get ("ViolationsPerKLines");
+		Map<String,Double> metrics = new HashMap<>();
+		metrics.put("nothingofuse", 999.9);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put("lines", 0.0);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put ("lines", 500.0);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put ("violations", 500.0);
+		assertEquals(1.0, sm.calculate(metrics));
+	}
+
+	@Test
+	void testCognitiveComplexityPerKLines() {
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics();
+		SyntheticMetric sm = synths.get ("CognitiveComplexityPerKLines");
+		Map<String,Double> metrics = new HashMap<>();
+		metrics.put("nothingofuse", 999.9);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put("lines", 0.0);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put ("lines", 500.0);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put ("cognitive_complexity", 500.0);
+		assertEquals(1.0, sm.calculate(metrics));
+	}
 
 }
