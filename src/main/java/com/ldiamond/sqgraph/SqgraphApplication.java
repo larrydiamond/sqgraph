@@ -4,6 +4,7 @@ package com.ldiamond.sqgraph;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -11,6 +12,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableCellRenderer;
 
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.XYChart;
@@ -39,10 +50,20 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
 
+import com.google.common.collect.HashBasedTable;
+import java.awt.image.BufferedImage;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.FontMetrics;
+
 @SpringBootApplication
 public class SqgraphApplication {
 	static String login = null;
 	static String filename = null;
+	static String standardDecimalFormat = "###,###,###.###";
+	static DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
 
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
@@ -172,6 +193,8 @@ public class SqgraphApplication {
 				document.add(paragraph);
 			}
 
+			HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
+
 			for (SQMetrics sqm : config.getMetrics()) {
 				try {
 					XYChart chart = null;
@@ -201,10 +224,10 @@ public class SqgraphApplication {
 
 					chart.getStyler().setAxisTitlesVisible(false);
 					chart.getStyler().setDatePattern("dd MMM yyyy");
-					chart.getStyler().setYAxisDecimalPattern("###,###,###.###");
+					chart.getStyler().setYAxisDecimalPattern(standardDecimalFormat);
 
 					for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics);
+						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
 					}
 				
 					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
@@ -219,6 +242,57 @@ public class SqgraphApplication {
 					return null;
 				}
 			}
+
+			String [] dashboardColumns = new String [1 + dashboardData.rowKeySet().size()];
+			dashboardColumns [0] = "";
+			int dcOffset = 1;
+			for (String dcCol : dashboardData.rowKeySet()) {
+				dashboardColumns [dcOffset++] = dcCol;
+			}
+
+			String [] [] dashboardFormattedData = new String [config.getApplications().length] [];
+
+			int rowLoop = 0;
+			for (Application app : config.getApplications()) {
+				Map<String,Double> rowMap = dashboardData.column(app.getTitle());
+				String [] dRow = new String [1 + dashboardData.rowKeySet().size()];
+				dRow [0] = app.getTitle();
+				int colLoop = 1;
+				for (String dcCol : dashboardData.rowKeySet()) {
+					dRow [colLoop] = standardDecimalFormatter.format (rowMap.get(dcCol));
+					colLoop++;
+				}
+				dashboardFormattedData[rowLoop] = dRow;
+				rowLoop++;
+			}
+
+			JTable jt = new JTable(dashboardFormattedData, dashboardColumns);
+			sizeColumnsToFit(jt, 15);
+			jt.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			jt.setGridColor(new Color(115,52,158));
+			jt.setRowMargin(5);
+			jt.setShowGrid(true);
+			jt.doLayout();
+
+			JScrollPane scroll = new JScrollPane(jt);
+			JPanel p = new JPanel(new BorderLayout());
+			p.add(scroll,BorderLayout.CENTER);
+
+			p.addNotify();
+			p.setSize(getTableWidth(jt) + 5, getTableHeight(jt));
+			p.validate();
+
+			BufferedImage bi = new BufferedImage(
+				(int)p.getSize().getWidth(),
+				(int)p.getSize().getHeight(),
+				BufferedImage.TYPE_INT_RGB
+				);
+	
+			Graphics g = bi.createGraphics();
+			p.paint(g);
+			ImageIO.write(bi,"png",new File("table.png"));
+			g.dispose();
+
 		} catch(DocumentException de) {
 			System.err.println(de.getMessage());
 		}
@@ -316,18 +390,23 @@ public class SqgraphApplication {
 		));
 	}
 
-	public static void addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+	public static Double addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+		Double lastDataPoint = 0.0;
 		for (Measures m : history.getMeasures()) {
 			if (m.getMetric().equals(metricName)) {
 				for (History h : m.getHistory()) {
 					dates.add (getUTCDate(h.getDate()));
 					doubles.add (h.getValue());
+					lastDataPoint = h.getValue();
 				}
 			}
 		}
+		return lastDataPoint;
 	}
 
-	public static void addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+	public static Double addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+		Double lastDataPoint = 0.0;
+
 		// find the first real measure needed by the synthetic metric
 		// for each of the dates in its history, look for the other metrics on the same dates 
 		// populate the String, Double map and invoke the calculate method for each and add that double
@@ -357,25 +436,153 @@ public class SqgraphApplication {
 
 					double calculatedValue = sm.calculate(values);
 					doubles.add (calculatedValue);
+					lastDataPoint = calculatedValue;
 				}
 			}
 		}
+		return lastDataPoint;
 	}
 
-	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, final Map<String,SyntheticMetric> syntheticMetrics) {
+	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, 
+	final Map<String,SyntheticMetric> syntheticMetrics, HashBasedTable<String, String, Double> dashboardData, String metricTitle) {
 		List<Date> dates = new ArrayList<>();
 		List<Double> doubles = new ArrayList<>();
-
+		Double lastDataPoint = null;
 		SyntheticMetric sm = syntheticMetrics.get(metricName);
 		if (sm == null) {
-			addSeriesForNativeMetric (metricName, history, dates, doubles);
+			lastDataPoint = addSeriesForNativeMetric (metricName, history, dates, doubles);
 		} else {
-			addSeriesForSyntheticMetric (sm, history, dates, doubles);
+			lastDataPoint = addSeriesForSyntheticMetric (sm, history, dates, doubles);
 		}
 
 		if (!dates.isEmpty() && (!doubles.isEmpty()))
 			chart.addSeries(application, dates, doubles);
+
+		dashboardData.put (metricTitle, application, lastDataPoint);
 	}
+
+
+
+	public static int getTableWidth (final JTable table) {
+		int width = 0;
+
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+
+		for(int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+			width += table.getColumnModel().getColumn(columnIndex).getMaxWidth();
+			if (columnIndex > 0)
+				table.getColumnModel().getColumn(columnIndex).setCellRenderer(rightRenderer);
+		}
+
+		return width;
+	}
+
+	public static int getTableHeight (final JTable table) {
+		int height = table.getTableHeader().getHeight();
+
+		for(int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+			height += table.getRowHeight(rowIndex);
+		}
+
+		return Math.max(height, (2 + table.getRowCount()) * table.getRowHeight());
+	}
+
+	public static void sizeColumnsToFit(JTable table, int columnMargin) {
+        JTableHeader tableHeader = table.getTableHeader();
+ 
+        if(tableHeader == null) {
+            // can't auto size a table without a header
+            return;
+        }
+ 
+        FontMetrics headerFontMetrics = tableHeader.getFontMetrics(tableHeader.getFont());
+ 
+        int[] minWidths = new int[table.getColumnCount()];
+        int[] maxWidths = new int[table.getColumnCount()];
+ 
+        for(int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+            int headerWidth = headerFontMetrics.stringWidth(table.getColumnName(columnIndex));
+            minWidths[columnIndex] = headerWidth + columnMargin;
+            int maxWidth = getMaximalRequiredColumnWidth(table, columnIndex, headerWidth);
+            maxWidths[columnIndex] = Math.max(maxWidth, minWidths[columnIndex]) + columnMargin;
+        }
+ 
+        adjustMaximumWidths(table, minWidths, maxWidths);
+        for(int i = 0; i < minWidths.length; i++) {
+            if(minWidths[i] > 0) {
+                table.getColumnModel().getColumn(i).setMinWidth(minWidths[i]);
+            }
+ 
+            if(maxWidths[i] > 0) {
+                table.getColumnModel().getColumn(i).setMinWidth(maxWidths[i]);
+                table.getColumnModel().getColumn(i).setMaxWidth(maxWidths[i]);
+                table.getColumnModel().getColumn(i).setWidth(maxWidths[i]);
+            }
+        }
+    }
+ 
+    private static void adjustMaximumWidths(JTable table, int[] minWidths, int[] maxWidths) {
+        if(table.getWidth() > 0) {
+            // to prevent infinite loops in exceptional situations
+            int breaker = 0;
+ 
+            // keep stealing one pixel of the maximum width of the highest column until we can fit in the width of the table
+            while(sum(maxWidths) > table.getWidth() && breaker < 10000) {
+                int highestWidthIndex = findLargestIndex(maxWidths);
+                maxWidths[highestWidthIndex] -= 1;
+                maxWidths[highestWidthIndex] = Math.max(maxWidths[highestWidthIndex], minWidths[highestWidthIndex]);
+                breaker++;
+            }
+        }
+    }
+ 
+    private static int getMaximalRequiredColumnWidth(JTable table, int columnIndex, int headerWidth) {
+        int maxWidth = headerWidth;
+        TableColumn column = table.getColumnModel().getColumn(columnIndex);
+        TableCellRenderer cellRenderer = column.getCellRenderer();
+        if(cellRenderer == null) {
+            cellRenderer = new DefaultTableCellRenderer();
+        }
+ 
+        for(int row = 0; row < table.getModel().getRowCount(); row++) {
+            Component rendererComponent = cellRenderer.getTableCellRendererComponent(table,
+                table.getModel().getValueAt(row, columnIndex),
+                false,
+                false,
+                row,
+                columnIndex);
+ 
+            double valueWidth = rendererComponent.getPreferredSize().getWidth();
+            maxWidth = (int) Math.max(maxWidth, valueWidth);
+        }
+ 
+        return maxWidth;
+    }
+ 
+    private static int findLargestIndex(int[] widths) {
+        int largestIndex = 0;
+        int largestValue = 0;
+ 
+        for(int i = 0; i < widths.length; i++) {
+            if(widths[i] > largestValue) {
+                largestIndex = i;
+                largestValue = widths[i];
+            }
+        }
+ 
+        return largestIndex;
+    }
+ 
+    private static int sum(int[] widths) {
+        int sum = 0;
+ 
+        for(int width : widths) {
+            sum += width;
+        }
+ 
+        return sum;
+    }
 
 
 }
