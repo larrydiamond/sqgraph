@@ -41,8 +41,9 @@ import com.google.common.collect.HashBasedTable;
 public class SqgraphApplication {
 	static String login = null;
 	static String filename = null;
-	public static String standardDecimalFormat = "###,###,###.###";
-	static DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
+	public static final String standardDecimalFormat = "###,###,###.###";
+	public static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
+	public static final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
@@ -68,7 +69,6 @@ public class SqgraphApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 
-		SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 		Config config = null;
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -85,7 +85,6 @@ public class SqgraphApplication {
 		}
 
 		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics();
-//		System.out.println (config.toString());
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -104,34 +103,6 @@ public class SqgraphApplication {
 			e.printStackTrace();
 			return null;
 		}
-
-		/*
-		try {
-			final String uri = config.getUrl() + "/api/metrics/search";
-			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
-			MetricsResults result = response.getBody();
-			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
-			for (Metric m : result.getMetrics()) {
-				ms.put (m.getKey(), m);
-			}
-			for (Map.Entry<String, Metric> me : ms.entrySet()) {
-				System.out.println (me.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		*/
-
-//		try {
-//			final String uri = config.getUrl() + "/api/metrics/types";
-//			ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
-//			String result = response.getBody();
-//			System.out.println ("metric types : " + result);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
 
 		Map<String, String> titleLookup = new HashMap<>();
 
@@ -152,7 +123,6 @@ public class SqgraphApplication {
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
 				rawMetrics.put (key, result);
-//				System.out.println (key + " : " + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -210,7 +180,7 @@ public class SqgraphApplication {
 	}
 
 	public static String getCommaSeparatedListOfMetrics (final List<String> metrics) {
-		String output = "";
+		StringBuilder output = new StringBuilder();
 		boolean comma = false;
 		List<String> alreadyAdded = new ArrayList<>();
 		for (String metric : metrics) {
@@ -219,12 +189,12 @@ public class SqgraphApplication {
 				if (!comma) {
 					comma = true;
 				} else {
-					output = output + ",";
+					output.append (",");
 				}
-				output = output + metric;
+				output.append (metric);
 			}
 		}
-		return output;
+		return output.toString();
 	}
 
 	public static Map<String,SyntheticMetric> populateSynthetics () {
