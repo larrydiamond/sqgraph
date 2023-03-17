@@ -230,7 +230,11 @@ public class SqgraphApplication {
 						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
 					}
 
-					if (sqm.getFilename() != null) {
+					if (sqm.getFilename() == null) {
+						sqm.setFilename(sqm.getTitle());
+					}
+
+					if (sqm.getFilename() != null) { // definitely not going to be null now but lets keep the null check in here anyway for future me
 						String pngfilename = sqm.getFilename();
 						if (!pngfilename.endsWith(".png")) {
 							pngfilename += ".png";
@@ -267,7 +271,7 @@ public class SqgraphApplication {
 				dRow [0] = app.getTitle();
 				int colLoop = 1;
 				for (String dcCol : dashboardData.rowKeySet()) {
-					dRow [colLoop] = standardDecimalFormatter.format (rowMap.get(dcCol));
+					dRow [colLoop] = standardDecimalFormatter.format (rowMap.get(dcCol)) + " ";
 					colLoop++;
 				}
 				dashboardFormattedData[rowLoop] = dRow;
