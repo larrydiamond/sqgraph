@@ -258,7 +258,7 @@ public class SqgraphApplication {
 			dashboardColumns [0] = "";
 			int dcOffset = 1;
 			for (String dcCol : dashboardData.rowKeySet()) {
-				dashboardColumns [dcOffset++] = " " + dcCol;
+				dashboardColumns [dcOffset++] = dcCol + " ";
 			}
 
 			String [] [] dashboardFormattedData = new String [config.getApplications().length] [];
@@ -267,7 +267,7 @@ public class SqgraphApplication {
 			for (Application app : config.getApplications()) {
 				Map<String,Double> rowMap = dashboardData.column(app.getTitle());
 				String [] dRow = new String [1 + dashboardData.rowKeySet().size()];
-				dRow [0] = app.getTitle();
+				dRow [0] = " " + app.getTitle();
 				int colLoop = 1;
 				for (String dcCol : dashboardData.rowKeySet()) {
 					dRow [colLoop] = standardDecimalFormatter.format (rowMap.get(dcCol)) + " ";
@@ -278,7 +278,7 @@ public class SqgraphApplication {
 			}
 
 			JTable jt = new JTable(dashboardFormattedData, dashboardColumns);
-			sizeColumnsToFit(jt, 15);
+			sizeColumnsToFit(jt, 4);
 			jt.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jt.setGridColor(new Color(115,52,158));
 			jt.setRowMargin(5);
