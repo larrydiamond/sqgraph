@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -259,7 +258,7 @@ public class SqgraphApplication {
 			dashboardColumns [0] = "";
 			int dcOffset = 1;
 			for (String dcCol : dashboardData.rowKeySet()) {
-				dashboardColumns [dcOffset++] = dcCol;
+				dashboardColumns [dcOffset++] = " " + dcCol;
 			}
 
 			String [] [] dashboardFormattedData = new String [config.getApplications().length] [];
@@ -291,7 +290,7 @@ public class SqgraphApplication {
 			p.add(scroll,BorderLayout.CENTER);
 
 			p.addNotify();
-			p.setSize(getTableWidth(jt) + 5, getTableHeight(jt));
+			p.setSize(getTableWidth(jt, config) + 5, getTableHeight(jt));
 			p.validate();
 
 			BufferedImage bi = new BufferedImage(
@@ -488,18 +487,14 @@ public class SqgraphApplication {
 		dashboardData.put (metricTitle, application, lastDataPoint);
 	}
 
-
-
-	public static int getTableWidth (final JTable table) {
+	public static int getTableWidth (final JTable table, final Config config) {
 		int width = 0;
-
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		DashboardCellRenderer dcr = new DashboardCellRenderer(config);
 
 		for(int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
 			width += table.getColumnModel().getColumn(columnIndex).getMaxWidth();
 			if (columnIndex > 0)
-				table.getColumnModel().getColumn(columnIndex).setCellRenderer(rightRenderer);
+				table.getColumnModel().getColumn(columnIndex).setCellRenderer(dcr);
 		}
 
 		return width;
@@ -613,3 +608,4 @@ public class SqgraphApplication {
 
 
 }
+
