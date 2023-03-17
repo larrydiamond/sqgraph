@@ -182,6 +182,7 @@ public class SqgraphApplication {
 		Document document = null;
 		if (config.getPdf() != null)
 			document = new Document(new Rectangle(900, 700));
+			
         try {
 			if (document != null) {
 				PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
@@ -229,24 +230,18 @@ public class SqgraphApplication {
 						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
 					}
 
-					if (sqm.getFilename() == null) {
+					if (sqm.getFilename() == null)
 						sqm.setFilename(sqm.getTitle());
-					}
+					
+					if (!sqm.getFilename().endsWith(".png"))
+						sqm.setFilename(sqm.getFilename() + ".png");
 
-					if (sqm.getFilename() != null) { // definitely not going to be null now but lets keep the null check in here anyway for future me
-						String pngfilename = sqm.getFilename();
-						if (!pngfilename.endsWith(".png")) {
-							pngfilename += ".png";
-						}
-
-						BitmapEncoder.saveBitmap(chart, pngfilename, BitmapFormat.PNG);
+					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
 	
-						if (document != null) {
-							Image png = Image.getInstance(pngfilename);
-							document.add(png);
-						}
+					if (document != null) {
+						Image png = Image.getInstance(sqm.getFilename());
+						document.add(png);
 					}
-				
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -308,11 +303,14 @@ public class SqgraphApplication {
 			java.awt.Image scaled = bi.getScaledInstance(scaledWidth, scaledHeight, java.awt.Image.SCALE_SMOOTH);
 			BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
 			outputImage.getGraphics().drawImage(scaled, 0, 0, null);
+				
+			if (config.getDashboard() == null)
+				config.setDashboard("dashboard.png");
+			
+			if (!config.getDashboard().endsWith(".png"))
+				config.setDashboard(config.getDashboard() + ".png");
 
-			String dashboardfile = config.getDashboard();
-			if (dashboardfile == null) 
-				dashboardfile = "dashboard.png";
-			ImageIO.write(bi,"png",new File(dashboardfile));
+			ImageIO.write(bi,"png",new File(config.getDashboard()));
 			g.dispose();
 
 			if (document != null) {
