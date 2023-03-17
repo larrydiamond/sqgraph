@@ -22,12 +22,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
 
-import org.knowm.xchart.BitmapEncoder;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.BitmapEncoder.BitmapFormat;
-import org.knowm.xchart.style.Styler;
-import org.knowm.xchart.style.Styler.LegendPosition;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -61,7 +55,7 @@ import java.awt.FontMetrics;
 public class SqgraphApplication {
 	static String login = null;
 	static String filename = null;
-	static String standardDecimalFormat = "###,###,###.###";
+	public static String standardDecimalFormat = "###,###,###.###";
 	static DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
 
 	public static void main(String[] args) {
@@ -182,7 +176,7 @@ public class SqgraphApplication {
 		Document document = null;
 		if (config.getPdf() != null)
 			document = new Document(new Rectangle(900, 700));
-			
+
         try {
 			if (document != null) {
 				PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
@@ -195,59 +189,7 @@ public class SqgraphApplication {
 
 			HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
 
-			for (SQMetrics sqm : config.getMetrics()) {
-				try {
-					XYChart chart = null;
-					if (rawMetrics.size() > 7) {
-						chart = new XYChartBuilder()
-						.width(800)
-						.height(600)
-						.title(sqm.getTitle())
-						.xAxisTitle("X")
-						.yAxisTitle("Y")
-						.build();
-		
-						chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
-						chart.getStyler().setLegendLayout(Styler.LegendLayout.Vertical);
-					} else {
-						chart = new XYChartBuilder()
-						.width(800)
-						.height(600)
-						.title(sqm.getTitle())
-						.xAxisTitle("X")
-						.yAxisTitle("Y")
-						.build();
-						
-						chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
-						chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
-					}
-
-					chart.getStyler().setAxisTitlesVisible(false);
-					chart.getStyler().setDatePattern("dd MMM yyyy");
-					chart.getStyler().setYAxisDecimalPattern(standardDecimalFormat);
-
-					for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
-					}
-
-					if (sqm.getFilename() == null)
-						sqm.setFilename(sqm.getTitle());
-					
-					if (!sqm.getFilename().endsWith(".png"))
-						sqm.setFilename(sqm.getFilename() + ".png");
-
-					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
-	
-					if (document != null) {
-						Image png = Image.getInstance(sqm.getFilename());
-						document.add(png);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
+			GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics, document);
 
 			String [] dashboardColumns = new String [1 + dashboardData.rowKeySet().size()];
 			dashboardColumns [0] = "";
@@ -412,77 +354,6 @@ public class SqgraphApplication {
 			date.getDate() + 1,
 			0,0,0
 		));
-	}
-
-	public static Double addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
-		Double lastDataPoint = 0.0;
-		for (Measures m : history.getMeasures()) {
-			if (m.getMetric().equals(metricName)) {
-				for (History h : m.getHistory()) {
-					dates.add (getUTCDate(h.getDate()));
-					doubles.add (h.getValue());
-					lastDataPoint = h.getValue();
-				}
-			}
-		}
-		return lastDataPoint;
-	}
-
-	public static Double addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
-		Double lastDataPoint = 0.0;
-
-		// find the first real measure needed by the synthetic metric
-		// for each of the dates in its history, look for the other metrics on the same dates 
-		// populate the String, Double map and invoke the calculate method for each and add that double
-		List<String> realMetrics = sm.getRealMetrics();
-
-		boolean notFound = true;
-		for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
-			Measures m = history.getMeasures() [loop];
-			if (realMetrics.contains(m.getMetric())) {
-				notFound = false;
-				for (History h : m.getHistory()) {
-					Date dataPoint = h.getDate();
-					dates.add (getUTCDate(dataPoint));
-
-					Map<String,Double> values = new HashMap<>();
-					values.put(m.getMetric(), h.getValue());
-					for (Measures measure : history.getMeasures()) {
-						if (realMetrics.contains(measure.getMetric())) {
-							History[] histArray = measure.getHistory();
-							for (History hist : histArray) {
-								if (hist.getDate().equals(dataPoint)) {
-									values.put (measure.getMetric(), hist.getValue());
-								}
-							}
-						}
-					}
-
-					double calculatedValue = sm.calculate(values);
-					doubles.add (calculatedValue);
-					lastDataPoint = calculatedValue;
-				}
-			}
-		}
-		return lastDataPoint;
-	}
-
-	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, 
-	final Map<String,SyntheticMetric> syntheticMetrics, HashBasedTable<String, String, Double> dashboardData, String metricTitle) {
-		List<Date> dates = new ArrayList<>();
-		List<Double> doubles = new ArrayList<>();
-		Double lastDataPoint = null;
-		SyntheticMetric sm = syntheticMetrics.get(metricName);
-		if (sm == null) {
-			lastDataPoint = addSeriesForNativeMetric (metricName, history, dates, doubles);
-		} else {
-			lastDataPoint = addSeriesForSyntheticMetric (sm, history, dates, doubles);
-		}
-
-		if (!dates.isEmpty() && (!doubles.isEmpty()))
-			chart.addSeries(application, dates, doubles);
-
-		dashboardData.put (metricTitle, application, lastDataPoint);
 	}
 
 	public static int getTableWidth (final JTable table, final Config config) {
