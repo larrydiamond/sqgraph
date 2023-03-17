@@ -20,7 +20,7 @@ import com.lowagie.text.Image;
 
 public class GraphOutput {
     
-    static void outputGraphs (final Config config, final Map<String, SearchHistory> rawMetrics, 
+    public static void outputGraphs (final Config config, final Map<String, SearchHistory> rawMetrics, 
                               final HashBasedTable<String,String,Double> dashboardData, final Map<String, String> titleLookup, 
                               final Map<String, SyntheticMetric> syntheticMetrics, final Document document) {
         for (SQMetrics sqm : config.getMetrics()) {
