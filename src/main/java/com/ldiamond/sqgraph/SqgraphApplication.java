@@ -229,13 +229,21 @@ public class SqgraphApplication {
 					for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
 						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
 					}
-				
-					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
+
+					if (sqm.getFilename() != null) {
+						String pngfilename = sqm.getFilename();
+						if (!pngfilename.endsWith(".png")) {
+							pngfilename += ".png";
+						}
+
+						BitmapEncoder.saveBitmap(chart, pngfilename, BitmapFormat.PNG);
 	
-					if (document != null) {
-						Image png = Image.getInstance(sqm.getFilename() + ".png");
-						document.add(png);
+						if (document != null) {
+							Image png = Image.getInstance(pngfilename);
+							document.add(png);
+						}
 					}
+				
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -290,9 +298,24 @@ public class SqgraphApplication {
 	
 			Graphics g = bi.createGraphics();
 			p.paint(g);
-			ImageIO.write(bi,"png",new File("table.png"));
+
+			int scaledWidth = Math.min(800, (int)p.getSize().getWidth());
+			int scaledHeight = (((int)p.getSize().getHeight()) * scaledWidth) / ((int)p.getSize().getWidth());
+
+			java.awt.Image scaled = bi.getScaledInstance(scaledWidth, scaledHeight, java.awt.Image.SCALE_SMOOTH);
+			BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
+			outputImage.getGraphics().drawImage(scaled, 0, 0, null);
+
+			String dashboardfile = config.getDashboard();
+			if (dashboardfile == null) 
+				dashboardfile = "dashboard.png";
+			ImageIO.write(bi,"png",new File(dashboardfile));
 			g.dispose();
 
+			if (document != null) {
+				Image png = Image.getInstance(outputImage, null);
+				document.add(png);
+			}
 		} catch(DocumentException de) {
 			System.err.println(de.getMessage());
 		}

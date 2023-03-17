@@ -10,6 +10,7 @@ public class Config {
     SQMetrics[] metrics;
     int maxReportHistory;
     String pdf;
+    String dashboard;
 }
 
 @Data
@@ -17,6 +18,8 @@ class SQMetrics {
     String metric;
     String filename;
     String title;
+    String green;
+    String yellow;
 }
 
 @Data
