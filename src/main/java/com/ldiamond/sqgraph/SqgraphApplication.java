@@ -2,7 +2,6 @@
 package com.ldiamond.sqgraph;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -13,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JTable;
+import java.awt.image.BufferedImage;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,13 +27,6 @@ import org.springframework.http.HttpEntity;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfWriter;
-
 import com.google.common.collect.HashBasedTable;
 
 @SpringBootApplication
@@ -43,7 +35,6 @@ public class SqgraphApplication {
 	static String filename = null;
 	public static final String standardDecimalFormat = "###,###,###.###";
 	public static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
-	public static final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
@@ -95,7 +86,7 @@ public class SqgraphApplication {
 			final String uri = config.getUrl() + "/api/authentication/validate";
 			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
 			ValidationResult result = response.getBody();
-			if (!result.isValid()) {
+			if ((result != null) && (!result.isValid())) {
 				System.out.println ("SonarQube login token was not valid");
 				return null;
 			}
@@ -105,6 +96,7 @@ public class SqgraphApplication {
 		}
 
 		Map<String, String> titleLookup = new HashMap<>();
+		final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
 		Map<String, SearchHistory> rawMetrics = new HashMap<>();
 		for (Application app : config.getApplications()) {
@@ -129,35 +121,19 @@ public class SqgraphApplication {
 			}
 		}
 
-		Document document = null;
-		if (config.getPdf() != null)
-			document = new Document(new Rectangle(900, 700));
+		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
 
-        try {
-			if (document != null) {
-				PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
-				document.open();
-				document.addTitle ("Code Quality Graphs");
-				Paragraph paragraph = new Paragraph("Created by the Code Quality Graphing Tool");
-				paragraph.setAlignment(Element.ALIGN_CENTER);
-				document.add(paragraph);
-			}
+		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
-			HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
+		BufferedImage bi = DashboardOutput.outputDashboard(dashboardData, config);
 
-			GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics, document);
-
-			DashboardOutput.outputDashboard(dashboardData, config, document);
-
-		} catch(DocumentException de) {
-			System.err.println(de.getMessage());
+		if (config.getPdf() != null) {
+			PDFOutput.createPDF (config);
+			if (bi != null)
+				PDFOutput.addDashboard (bi);
+			PDFOutput.addGraphs(config);
+			PDFOutput.closePDF();
 		}
-		catch(IOException ioe) {
-			System.err.println(ioe.getMessage());
-		}
-	
-		if (document != null) 
-			document.close();
 
 		System.out.println ("Successful completion.");
 		return null;

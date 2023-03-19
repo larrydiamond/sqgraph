@@ -9,6 +9,7 @@ import java.awt.FontMetrics;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -21,15 +22,13 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
 
 import com.google.common.collect.HashBasedTable;
-import com.lowagie.text.Document;
-import com.lowagie.text.Image;
 
 public class DashboardOutput {
+
+    private DashboardOutput () {}
     
-    public static void outputDashboard (HashBasedTable<String, String, Double> dashboardData, Config config, Document document) {
-
+    public static BufferedImage outputDashboard (HashBasedTable<String, String, Double> dashboardData, Config config) {
         try {
-
             String [] dashboardColumns = new String [1 + dashboardData.rowKeySet().size()];
             dashboardColumns [0] = "";
             int dcOffset = 1;
@@ -94,20 +93,17 @@ public class DashboardOutput {
             ImageIO.write(bi,"png",new File(config.getDashboard()));
             g.dispose();
 
-            if (document != null) {
-                Image png = Image.getInstance(outputImage, null);
-                document.add(png);
-            }
+            return outputImage;
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
+            return null;
         }
 
     }
 
     public static void sizeColumnsToFit(JTable table, int columnMargin) {
         JTableHeader tableHeader = table.getTableHeader();
- 
         if(tableHeader == null) {
             // can't auto size a table without a header
             return;
@@ -143,9 +139,10 @@ public class DashboardOutput {
         if(table.getWidth() > 0) {
             // to prevent infinite loops in exceptional situations
             int breaker = 0;
- 
+
+            // sum of maxWidths is that stream thing below
             // keep stealing one pixel of the maximum width of the highest column until we can fit in the width of the table
-            while(sum(maxWidths) > table.getWidth() && breaker < 10000) {
+            while((Arrays.stream(maxWidths).sum()) > table.getWidth() && breaker < 10000) {
                 int highestWidthIndex = findLargestIndex(maxWidths);
                 maxWidths[highestWidthIndex] -= 1;
                 maxWidths[highestWidthIndex] = Math.max(maxWidths[highestWidthIndex], minWidths[highestWidthIndex]);
@@ -178,7 +175,7 @@ public class DashboardOutput {
     }
  
 
-    private static int findLargestIndex(int[] widths) {
+    public static int findLargestIndex(int[] widths) {
         int largestIndex = 0;
         int largestValue = 0;
  
@@ -190,16 +187,6 @@ public class DashboardOutput {
         }
  
         return largestIndex;
-    }
- 
-    private static int sum(int[] widths) {
-        int sum = 0;
- 
-        for(int width : widths) {
-            sum += width;
-        }
- 
-        return sum;
     }
 
 	public static int getTableWidth (final JTable table, final Config config) {
@@ -224,11 +211,5 @@ public class DashboardOutput {
 
 		return Math.max(height, (2 + table.getRowCount()) * table.getRowHeight());
 	}
-
-
-
-
-
-    
 
 }

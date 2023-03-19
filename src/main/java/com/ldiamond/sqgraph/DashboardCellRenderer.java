@@ -14,7 +14,7 @@ public class DashboardCellRenderer extends DefaultTableCellRenderer {
 		this.config = config;
 	}
 
-	public Component getTableCellRendererComponent(JTable jt, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex) {
+	@Override public Component getTableCellRendererComponent(JTable jt, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex) {
 		SQMetrics metric = config.getMetrics()[columnIndex-1];
 		String greenString = metric.getGreen();
 		String yellowString = metric.getYellow();

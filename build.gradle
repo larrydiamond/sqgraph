@@ -49,7 +49,9 @@ sonarqube {
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.login", "squ_02ba2d25af380625e62e00c840f77f6a187ba3b0"
         property "sonar.scm.disabled", "true"
-		property "sonar.sources", "src/main/java/com/ldiamond/sqgraph/*.java"
+		property "sonar.sources", "src/main/java/com/ldiamond/sqgraph"
+		property "sonar.coverage.exclusions", 
+			"src/main/java/com/ldiamond/sqgraph/Config.java,src/main/java/com/ldiamond/sqgraph/SearchHistory.java,src/main/java/com/ldiamond/sqgraph/ValidationResult.java,src/main/java/com/ldiamond/sqgraph/MetricsResults.java"
     }
 }
 

@@ -15,14 +15,14 @@ import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 import com.google.common.collect.HashBasedTable;
-import com.lowagie.text.Document;
-import com.lowagie.text.Image;
 
 public class GraphOutput {
     
+    private GraphOutput () {}
+
     public static void outputGraphs (final Config config, final Map<String, SearchHistory> rawMetrics, 
                               final HashBasedTable<String,String,Double> dashboardData, final Map<String, String> titleLookup, 
-                              final Map<String, SyntheticMetric> syntheticMetrics, final Document document) {
+                              final Map<String, SyntheticMetric> syntheticMetrics) {
         for (SQMetrics sqm : config.getMetrics()) {
             try {
                 XYChart chart = null;
@@ -65,11 +65,6 @@ public class GraphOutput {
                     sqm.setFilename(sqm.getFilename() + ".png");
 
                 BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
-
-                if (document != null) {
-                    Image png = Image.getInstance(sqm.getFilename());
-                    document.add(png);
-                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -147,8 +142,4 @@ public class GraphOutput {
 
 		dashboardData.put (metricTitle, application, lastDataPoint);
 	}
-
-
-
-
 }
