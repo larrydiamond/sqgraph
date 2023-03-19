@@ -5,10 +5,12 @@
         {"title":"Validation Service", "key": "com.ldiamond:tmdbnewep"}
     ],
     "metrics": [
-        {"metric":"complexity","filename":"Complexity","title":"Complexity"},
-        {"metric":"coverage","filename":"Coverage","title":"Code Coverage"},
+        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"1"}, 
         {"metric":"ViolationsPerKLines","filename":"ViolationsPerThousandLines","title":"Violations Per Thousand Lines"},
+        {"metric":"CognitiveComplexityPerKLines","filename":"Complexity.png","title":"Complexity Per Thousand Lines"},
         {"metric":"lines","filename":"NumLines","title":"Number of Lines"}
     ],
-    "maxReportHistory" : "366"
+    "pdf": "CodeQuality.pdf",
+    "maxReportHistory" : "366",
+    "dashboard": "Dashboard.png"
 }

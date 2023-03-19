@@ -1,26 +1,34 @@
 // Copyright Larry Diamond 2023 All Rights Reserved
 package com.ldiamond.sqgraph;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class Config {
+public class Config implements Serializable {
+    private static final long serialVersionUID = 2405172041950251807L;
     String url;
     Application[] applications;
     SQMetrics[] metrics;
     int maxReportHistory;
     String pdf;
+    String dashboard;
 }
 
 @Data
-class SQMetrics {
+class SQMetrics implements Serializable {
+    private static final long serialVersionUID = 2405111141950251807L;
     String metric;
     String filename;
     String title;
+    String green;
+    String yellow;
 }
 
 @Data
-class Application {
+class Application implements Serializable {
+    private static final long serialVersionUID = 2422222041950251807L;
     String key;
     String title;
 }

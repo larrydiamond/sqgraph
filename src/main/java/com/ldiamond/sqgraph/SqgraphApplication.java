@@ -2,8 +2,8 @@
 package com.ldiamond.sqgraph;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -12,12 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.knowm.xchart.BitmapEncoder;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.BitmapEncoder.BitmapFormat;
-import org.knowm.xchart.style.Styler;
-import org.knowm.xchart.style.Styler.LegendPosition;
+import java.awt.image.BufferedImage;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,18 +27,14 @@ import org.springframework.http.HttpEntity;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Image;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfWriter;
+import com.google.common.collect.HashBasedTable;
 
 @SpringBootApplication
 public class SqgraphApplication {
 	static String login = null;
 	static String filename = null;
+	public static final String standardDecimalFormat = "###,###,###.###";
+	public static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
 
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
@@ -68,7 +60,6 @@ public class SqgraphApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 
-		SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 		Config config = null;
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -85,7 +76,6 @@ public class SqgraphApplication {
 		}
 
 		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics();
-//		System.out.println (config.toString());
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -96,7 +86,7 @@ public class SqgraphApplication {
 			final String uri = config.getUrl() + "/api/authentication/validate";
 			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
 			ValidationResult result = response.getBody();
-			if (!result.isValid()) {
+			if ((result != null) && (!result.isValid())) {
 				System.out.println ("SonarQube login token was not valid");
 				return null;
 			}
@@ -105,35 +95,8 @@ public class SqgraphApplication {
 			return null;
 		}
 
-		/*
-		try {
-			final String uri = config.getUrl() + "/api/metrics/search";
-			ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
-			MetricsResults result = response.getBody();
-			ConcurrentSkipListMap<String, Metric> ms = new ConcurrentSkipListMap<>();
-			for (Metric m : result.getMetrics()) {
-				ms.put (m.getKey(), m);
-			}
-			for (Map.Entry<String, Metric> me : ms.entrySet()) {
-				System.out.println (me.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		*/
-
-//		try {
-//			final String uri = config.getUrl() + "/api/metrics/types";
-//			ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
-//			String result = response.getBody();
-//			System.out.println ("metric types : " + result);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-
 		Map<String, String> titleLookup = new HashMap<>();
+		final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
 		Map<String, SearchHistory> rawMetrics = new HashMap<>();
 		for (Application app : config.getApplications()) {
@@ -152,82 +115,25 @@ public class SqgraphApplication {
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
 				rawMetrics.put (key, result);
-//				System.out.println (key + " : " + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
 		}
 
-		Document document = null;
-		if (config.getPdf() != null)
-			document = new Document(new Rectangle(900, 700));
-        try {
-			if (document != null) {
-				PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
-				document.open();
-				document.addTitle ("Code Quality Graphs");
-				Paragraph paragraph = new Paragraph("Created by the Code Quality Graphing Tool");
-				paragraph.setAlignment(Element.ALIGN_CENTER);
-				document.add(paragraph);
-			}
+		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
 
-			for (SQMetrics sqm : config.getMetrics()) {
-				try {
-					XYChart chart = null;
-					if (rawMetrics.size() > 7) {
-						chart = new XYChartBuilder()
-						.width(800)
-						.height(600)
-						.title(sqm.getTitle())
-						.xAxisTitle("X")
-						.yAxisTitle("Y")
-						.build();
-		
-						chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
-						chart.getStyler().setLegendLayout(Styler.LegendLayout.Vertical);
-					} else {
-						chart = new XYChartBuilder()
-						.width(800)
-						.height(600)
-						.title(sqm.getTitle())
-						.xAxisTitle("X")
-						.yAxisTitle("Y")
-						.build();
-						
-						chart.getStyler().setLegendPosition(LegendPosition.OutsideS);
-						chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
-					}
+		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
-					chart.getStyler().setAxisTitlesVisible(false);
-					chart.getStyler().setDatePattern("dd MMM yyyy");
-					chart.getStyler().setYAxisDecimalPattern("###,###,###.###");
+		BufferedImage bi = DashboardOutput.outputDashboard(dashboardData, config);
 
-					for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
-						addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics);
-					}
-				
-					BitmapEncoder.saveBitmap(chart, sqm.getFilename(), BitmapFormat.PNG);
-	
-					if (document != null) {
-						Image png = Image.getInstance(sqm.getFilename() + ".png");
-						document.add(png);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		} catch(DocumentException de) {
-			System.err.println(de.getMessage());
+		if (config.getPdf() != null) {
+			PDFOutput.createPDF (config);
+			if (bi != null)
+				PDFOutput.addDashboard (bi);
+			PDFOutput.addGraphs(config);
+			PDFOutput.closePDF();
 		}
-		catch(IOException ioe) {
-			System.err.println(ioe.getMessage());
-		}
-	
-		if (document != null) 
-			document.close();
 
 		System.out.println ("Successful completion.");
 		return null;
@@ -250,7 +156,7 @@ public class SqgraphApplication {
 	}
 
 	public static String getCommaSeparatedListOfMetrics (final List<String> metrics) {
-		String output = "";
+		StringBuilder output = new StringBuilder();
 		boolean comma = false;
 		List<String> alreadyAdded = new ArrayList<>();
 		for (String metric : metrics) {
@@ -259,12 +165,12 @@ public class SqgraphApplication {
 				if (!comma) {
 					comma = true;
 				} else {
-					output = output + ",";
+					output.append (",");
 				}
-				output = output + metric;
+				output.append (metric);
 			}
 		}
-		return output;
+		return output.toString();
 	}
 
 	public static Map<String,SyntheticMetric> populateSynthetics () {
@@ -316,66 +222,5 @@ public class SqgraphApplication {
 		));
 	}
 
-	public static void addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
-		for (Measures m : history.getMeasures()) {
-			if (m.getMetric().equals(metricName)) {
-				for (History h : m.getHistory()) {
-					dates.add (getUTCDate(h.getDate()));
-					doubles.add (h.getValue());
-				}
-			}
-		}
-	}
-
-	public static void addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
-		// find the first real measure needed by the synthetic metric
-		// for each of the dates in its history, look for the other metrics on the same dates 
-		// populate the String, Double map and invoke the calculate method for each and add that double
-		List<String> realMetrics = sm.getRealMetrics();
-
-		boolean notFound = true;
-		for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
-			Measures m = history.getMeasures() [loop];
-			if (realMetrics.contains(m.getMetric())) {
-				notFound = false;
-				for (History h : m.getHistory()) {
-					Date dataPoint = h.getDate();
-					dates.add (getUTCDate(dataPoint));
-
-					Map<String,Double> values = new HashMap<>();
-					values.put(m.getMetric(), h.getValue());
-					for (Measures measure : history.getMeasures()) {
-						if (realMetrics.contains(measure.getMetric())) {
-							History[] histArray = measure.getHistory();
-							for (History hist : histArray) {
-								if (hist.getDate().equals(dataPoint)) {
-									values.put (measure.getMetric(), hist.getValue());
-								}
-							}
-						}
-					}
-
-					double calculatedValue = sm.calculate(values);
-					doubles.add (calculatedValue);
-				}
-			}
-		}
-	}
-
-	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, final Map<String,SyntheticMetric> syntheticMetrics) {
-		List<Date> dates = new ArrayList<>();
-		List<Double> doubles = new ArrayList<>();
-
-		SyntheticMetric sm = syntheticMetrics.get(metricName);
-		if (sm == null) {
-			addSeriesForNativeMetric (metricName, history, dates, doubles);
-		} else {
-			addSeriesForSyntheticMetric (sm, history, dates, doubles);
-		}
-
-		if (!dates.isEmpty() && (!doubles.isEmpty()))
-			chart.addSeries(application, dates, doubles);
-	}
-
-
 }
+

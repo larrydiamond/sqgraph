@@ -16,6 +16,9 @@ The SonarCloud example creates some charts based on some projects in SonarCloud
 The SelfHosted example creates some charts based on some projects of mine in my self hosted SonarQube instance
 <img src="samples/selfhosted/ViolationsPerThousandLines.png">
 
+And each will produce a dashboard
+<img src="docs/images/DashboardResized.png">
+
 # Quickstart
 
 To get up and running quickly, please download the Quickstart zip file from the most recent release.
