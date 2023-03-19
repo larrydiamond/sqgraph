@@ -8,12 +8,15 @@
         
     ],
     "metrics": [
-        {"metric":"CognitiveComplexityPerKLines","filename":"SonarCloudComplexity","title":"Complexity Per Thousand Lines"},
-        {"metric":"lines","filename":"SonarCloudNumLines","title":"Number of Lines"},
-        {"metric":"coverage","filename":"SonarCloudCoverage","title":"Code Coverage"},
-        {"metric":"ViolationsPerKLines","filename":"SonarViolationsPerThousandLines","title":"Violations Per Thousand Lines"}
+        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"1"}, 
+        {"metric":"CognitiveComplexityPerKLines","filename":"Complexity.png","title":"Complexity Per Thousand Lines"},
+        {"metric":"lines","filename":"NumLines.png","title":"Number of Lines"},
+        {"metric":"bugs","title":"Bugs"},
+        {"metric":"vulnerabilities","filename":"Vulnerabilities.png","title":"Vulnerabilities"},
+        {"metric":"ViolationsPerKLines","filename":"ViolationsPerThousandLines.png","title":"Violations Per Thousand Lines"}
         
     ],
     "pdf": "CodeQuality.pdf",
-    "maxReportHistory" : "366"
+    "maxReportHistory" : "366",
+    "dashboard": "Dashboard.png"
 }
