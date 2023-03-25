@@ -239,7 +239,7 @@
 				Double violationsInput = metrics.get(&quot;violations&quot;);
 				if (violationsInput != null) violations = violationsInput;
 				if ((lines == 0) || (violations == 0)) return 0.0;
-				return violations / lines;
+				return (1000.0 * violations) / lines;
 			}
 		};
 
