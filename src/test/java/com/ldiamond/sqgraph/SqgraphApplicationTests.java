@@ -87,13 +87,25 @@ class SqgraphApplicationTests {
 
 	@Test
 	void testPopulatingSynthetics() {
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics();
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [1];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(2, synths.size());
 	}
 
 	@Test
 	void testViolationsPerKLines() {
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics();
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [1];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		SyntheticMetric sm = synths.get ("ViolationsPerKLines");
 		Map<String,Double> metrics = new HashMap<>();
 		metrics.put("nothingofuse", 999.9);
@@ -106,12 +118,18 @@ class SqgraphApplicationTests {
 		assertEquals(0.0, sm.calculate(metrics));
 
 		metrics.put ("violations", 500.0);
-		assertEquals(1.0, sm.calculate(metrics));
+		assertEquals(1000.0, sm.calculate(metrics));
 	}
 
 	@Test
 	void testCognitiveComplexityPerKLines() {
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics();
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [1];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		SyntheticMetric sm = synths.get ("CognitiveComplexityPerKLines");
 		Map<String,Double> metrics = new HashMap<>();
 		metrics.put("nothingofuse", 999.9);
@@ -124,7 +142,7 @@ class SqgraphApplicationTests {
 		assertEquals(0.0, sm.calculate(metrics));
 
 		metrics.put ("cognitive_complexity", 500.0);
-		assertEquals(1.0, sm.calculate(metrics));
+		assertEquals(1000.0, sm.calculate(metrics));
 	}
 
 }

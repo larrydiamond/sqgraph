@@ -75,7 +75,7 @@ public class SqgraphApplication {
 			return null;
 		}
 
-		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics();
+		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics(config);
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -120,6 +120,19 @@ public class SqgraphApplication {
 				return null;
 			}
 		}
+
+
+		/* 
+	
+		final String uri = config.getUrl() + "/api/metrics/search?ps=499";
+		ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
+		MetricsResults metricsResults = response.getBody();
+		System.out.println ("Metrics = " + metricsResults.toString());
+		for (Metric m : metricsResults.metrics) {
+			System.out.println (m.toString());
+		}
+
+		*/
 
 		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
 
@@ -173,8 +186,83 @@ public class SqgraphApplication {
 		return output.toString();
 	}
 
-	public static Map<String,SyntheticMetric> populateSynthetics () {
+	public static Map<String,SyntheticMetric> populateSynthetics (final Config config) {
 		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
+
+		for (SQMetrics sqm : config.getMetrics()) {
+			int offset = sqm.getMetric().indexOf("__PER__");
+			if (offset != -1) {
+				String prefix = sqm.getMetric().substring(0, offset);
+				String suffix = sqm.getMetric().substring(offset + 7);
+
+				System.out.println ("Made synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+
+				SyntheticMetric generatedMetric = new SyntheticMetric() {
+					@Override public String getSyntheicName() { return sqm.getMetric();}
+					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
+					@Override public double calculate(Map<String,Double> metrics) {
+						double denominator = 0;
+						Double denominatorInput = metrics.get(suffix);
+						if (denominatorInput != null) denominator = denominatorInput;
+						double numerator = 0;
+						Double numeratorInput = metrics.get(prefix);
+						if (numeratorInput != null) numerator = numeratorInput;
+						if ((denominator == 0) || (numerator == 0)) return 0.0;
+						return numerator / denominator;
+					}
+				};
+				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
+			}
+
+			offset = sqm.getMetric().indexOf("__PER_K_");
+			if (offset != -1) {
+				String prefix = sqm.getMetric().substring(0, offset);
+				String suffix = sqm.getMetric().substring(offset + 8);
+
+				System.out.println ("Made k synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+
+				SyntheticMetric generatedMetric = new SyntheticMetric() {
+					@Override public String getSyntheicName() { return sqm.getMetric();}
+					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
+					@Override public double calculate(Map<String,Double> metrics) {
+						double denominator = 0;
+						Double denominatorInput = metrics.get(suffix);
+						if (denominatorInput != null) denominator = denominatorInput;
+						double numerator = 0;
+						Double numeratorInput = metrics.get(prefix);
+						if (numeratorInput != null) numerator = numeratorInput;
+						if ((denominator == 0) || (numerator == 0)) return 0.0;
+						return (1000.0 * numerator) / denominator;
+					}
+				};
+				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
+			}
+
+			offset = sqm.getMetric().indexOf("__PER_H_");
+			if (offset != -1) {
+				String prefix = sqm.getMetric().substring(0, offset);
+				String suffix = sqm.getMetric().substring(offset + 8);
+
+				System.out.println ("Made h synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+
+				SyntheticMetric generatedMetric = new SyntheticMetric() {
+					@Override public String getSyntheicName() { return sqm.getMetric();}
+					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
+					@Override public double calculate(Map<String,Double> metrics) {
+						double denominator = 0;
+						Double denominatorInput = metrics.get(suffix);
+						if (denominatorInput != null) denominator = denominatorInput;
+						double numerator = 0;
+						Double numeratorInput = metrics.get(prefix);
+						if (numeratorInput != null) numerator = numeratorInput;
+						if ((denominator == 0) || (numerator == 0)) return 0.0;
+						return (100.0 * numerator) / denominator;
+					}
+				};
+				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
+			}
+		}
+
 		
 		SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
 			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
@@ -187,7 +275,7 @@ public class SqgraphApplication {
 				Double violationsInput = metrics.get("violations");
 				if (violationsInput != null) violations = violationsInput;
 				if ((lines == 0) || (violations == 0)) return 0.0;
-				return violations / lines;
+				return (1000.0 * violations) / lines;
 			}
 		};
 		syntheticMetrics.put(ViolationsPerKLines.getSyntheicName(), ViolationsPerKLines);
@@ -204,7 +292,7 @@ public class SqgraphApplication {
 				Double numeratorInput = metrics.get("cognitive_complexity");
 				if (numeratorInput != null) numerator = numeratorInput;
 				if ((lines == 0) || (numerator == 0)) return 0.0;
-				return numerator / lines;
+				return (1000.0 * numerator) / lines;
 			}
 		};
 		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheicName(), CognitiveComplexityPerKLines);
