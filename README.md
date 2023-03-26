@@ -11,7 +11,7 @@ The Code Quality Graphing Tool reads project histories from SonarCloud or your f
 The Samples directory has two samples in it
 
 The SonarCloud example creates some charts based on some projects in SonarCloud
-<img src="samples/sonarcloud/SonarViolationsPerThousandLines.png">
+<img src="samples/sonarcloud/ViolationsPerThousandLines.png">
 
 The SelfHosted example creates some charts based on some projects of mine in my self hosted SonarQube instance
 <img src="samples/selfhosted/ViolationsPerThousandLines.png">
