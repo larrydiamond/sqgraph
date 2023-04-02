@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Code Quality Graphing Tool</title>
-  <subtitle>Compare code quality for all your applications</subtitle>
+  <title>Management Code Metrics</title>
+  <subtitle>Compare code metrics for all your applications</subtitle>
   <link href="https://codequalitygraph.com/components/"/>
   <link href="https://codequalitygraph.com/feed.xml" rel="self"/>
   <updated>2023-03-19T18:16:23Z</updated>
