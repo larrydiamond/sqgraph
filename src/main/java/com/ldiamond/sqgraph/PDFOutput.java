@@ -22,8 +22,8 @@ public class PDFOutput {
             document = new Document(new Rectangle(900, 700));
             PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
             document.open();
-            document.addTitle ("Code Quality Graphs");
-            final Paragraph paragraph = new Paragraph("Created by the Code Quality Graphing Tool");
+            document.addTitle ("Management Code Metrics");
+            final Paragraph paragraph = new Paragraph("Created by Management Code Metrics codequalitygraph.com");
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph);
         } catch (IOException ioe) {
