@@ -4,21 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Version 3.0.0 released! - Management Code Metrics</title>
-    <meta name="description" content="We have a dashboard!"><link rel="preload" href="/css/main.css?=vdev" as="style">
+    <title>Version 4.0.0 released! - Management Code Metrics</title>
+    <meta name="description" content="Create your own custom metrics just by changing your metric"><link rel="preload" href="/css/main.css?=vdev" as="style">
     <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@https://twitter.com/larrydiamondny/">
-        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="Version 3.0.0 released! - Management Code Metrics">
-    <meta name="twitter:description" content="We have a dashboard!">
+        <meta name="twitter:creator" content="@https://twitter.com/larrydiamondny/"><meta name="twitter:title" content="Version 4.0.0 released! - Management Code Metrics">
+    <meta name="twitter:description" content="Create your own custom metrics just by changing your metric">
     <meta name="twitter:image" content="https://codequalitygraph.com/images/preview.png">
-    <meta name="og:title" content="Version 3.0.0 released! - Management Code Metrics">
-    <meta name="og:description" content="We have a dashboard!">
+    <meta name="og:title" content="Version 4.0.0 released! - Management Code Metrics">
+    <meta name="og:description" content="Create your own custom metrics just by changing your metric">
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://codequalitygraph.com/news/post-8/" />
+    <meta property="og:url" content="https://codequalitygraph.com/news/post-9/" />
     <meta property="og:image" content="https://codequalitygraph.com/images/preview.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <link rel="canonical" href="https://codequalitygraph.com/news/post-8/" />
+    <link rel="canonical" href="https://codequalitygraph.com/news/post-9/" />
     <link rel="alternate" type="application/rss+xml" title="" href="https://codequalitygraph.com/feed.xml"/>
     <meta name="generator" content="Eleventy v1.0.2">
 
@@ -189,7 +189,7 @@
         <main id="page-main" class="page-container flex-grow">
             
 <article class="post-layout container page-spacing"><div class="page-banner aspect-ratio mb-6">
-            <picture><source type="image/avif" srcset="/images/gen/QBKOljuwy--320.avif 320w" sizes="100vw"><source type="image/webp" srcset="/images/gen/QBKOljuwy--320.webp 320w" sizes="100vw"><img alt="Version 3.0.0 released!" loading="lazy" decoding="async" src="/images/gen/QBKOljuwy--320.png" width="320" height="113"></picture>
+            <picture><source type="image/avif" srcset="/images/gen/peZkRr6aXh-320.avif 320w" sizes="100vw"><source type="image/webp" srcset="/images/gen/peZkRr6aXh-320.webp 320w" sizes="100vw"><img alt="Version 4.0.0 released!" loading="lazy" decoding="async" src="/images/gen/peZkRr6aXh-320.png" width="320" height="320"></picture>
         </div>
 <nav aria-label="breadcrumb">
     <span class="aria-only">You are here: </span>
@@ -199,8 +199,8 @@
                     <meta itemprop="position" content="1" />
                 </a>
             </li><li itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
-            <a itemprop="item" href="/news/post-8/" aria-current="page">
-                <span itemprop="name">Version 3.0.0 released!</span>
+            <a itemprop="item" href="/news/post-9/" aria-current="page">
+                <span itemprop="name">Version 4.0.0 released!</span>
                 <meta itemprop="position" content="2">
             </a>
         </li>
@@ -211,32 +211,31 @@
 
     <div class="mb-8 md-mb-10">
         
-            <h1 class="my-0">Version 3.0.0 released!</h1>
+            <h1 class="my-0">Version 4.0.0 released!</h1>
         
-        <time datetime="2023-03-19T18:16:23.007Z">
-            19 March 2023
+        <time datetime="2023-04-20T02:52:48.029Z">
+            19 April 2023
         </time>
     </div>
 
-    <p>Yay! We are proud to release version 3.0.0 of Management Code Metrics, which has the following improvements:</p>
-<p>A dashboard! We now create a dashboard of the current state of all your applications in one PDF - and this image starts off your PDF file.</p>
-<img src="https://codequalitygraph.com/images/DashboardResized.png" alt="Dashboard Image" width="640" height="72">
-<p>In that dashboard, the we've added the ability to color code your data if you want to give a visual indicator of &quot;good&quot; vs &quot;not so good&quot; vs &quot;we should probably improve this&quot;.</p>
-<p>For example:</p>
-<pre><code>        {&quot;metric&quot;:&quot;coverage&quot;,&quot;filename&quot;:&quot;CodeCoverage.png&quot;,&quot;title&quot;:&quot;Code Coverage&quot;,&quot;green&quot;:&quot;50&quot;,&quot;yellow&quot;:&quot;1&quot;}, 
+    <p>Yay! We are proud to release version 4.0.0 of Management Code Metrics, which has the following improvements:</p>
+<p>Custom metrics can now be dynamically created by changing the metric text.</p>
+<p>Some real examples:</p>
+<pre><code>        {&quot;metric&quot;:&quot;critical_violations__PER_K_ncloc&quot;,&quot;filename&quot;:&quot;CriticalViolationsPerThousandLines&quot;,&quot;title&quot;:&quot;Criticals Per Thousand Lines&quot;},
 </code></pre>
-<p>Will show 50%+ Code Coverage as green, 1% to 50% as yellow, 0% as red.</p>
-<pre><code>        {&quot;metric&quot;:&quot;bugs&quot;,&quot;title&quot;:&quot;Bugs&quot;,&quot;green&quot;:&quot;1&quot;,&quot;yellow&quot;:&quot;100&quot;},
+<p>Will create a metric &quot;Criticals Per Thousand Lines&quot; by taking the 1000.0 * number of critical violations and dividing it by the number of non-comment lines in your projects.</p>
+<pre><code>        {&quot;metric&quot;:&quot;critical_violations__PER_H_ncloc&quot;,&quot;filename&quot;:&quot;CriticalViolationsPerHundredLines&quot;,&quot;title&quot;:&quot;Criticals Per Hundred Lines&quot;},
 </code></pre>
-<p>Will show 1 bug or less as green, 100 bugs down to 2 bugs as yellow, and 101+ bugs as red.</p>
-<p>If you decide you wont want color coding of that column, simply exclude the green and yellow fields and that field will not be color coded.</p>
+<p>Will create a metric &quot;Criticals Per Hundred Lines&quot; by taking the 100.0 * number of critical violations and dividing it by the number of non-comment lines in your projects.</p>
+<pre><code>        {&quot;metric&quot;:&quot;critical_violations__PER__ncloc&quot;,&quot;filename&quot;:&quot;CriticalViolationsPerLines&quot;,&quot;title&quot;:&quot;Criticals Per Lines&quot;},
+</code></pre>
+<p>Will create a metric &quot;Criticals Per Lines&quot; by taking the number of critical violations and dividing it by the number of non-comment lines in your projects.</p>
+<p>Some bug fixes and better defaults are also included in this release.</p>
 <p>As always, please feel free to ask a question or open an issue in the github repo at <a href="https://github.com/larrydiamond/sqgraph" rel="noopener noreferrer" target="_blank" class="external">https://github.com/larrydiamond/sqgraph</a></p>
 
             <hr class="mt-12">
             <nav class="pagination">
-                    <a href="/news/post-9/">Previous: Version 4.0.0 released!</a>
-                
-                    <a href="/news/post-7/" class="ms-auto">Next: Version 2.0.0 released!</a>
+                    <a href="/news/post-8/" class="ms-auto">Next: Version 3.0.0 released!</a>
                 
             </nav>
 </article>
