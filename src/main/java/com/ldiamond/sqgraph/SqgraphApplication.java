@@ -122,7 +122,7 @@ public class SqgraphApplication {
 		}
 
 
-		/* 
+		/*
 	
 		final String uri = config.getUrl() + "/api/metrics/search?ps=499";
 		ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
@@ -132,7 +132,7 @@ public class SqgraphApplication {
 			System.out.println (m.toString());
 		}
 
-		*/
+		/* */
 
 		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
 
@@ -266,10 +266,10 @@ public class SqgraphApplication {
 		
 		SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
 			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("ncloc");  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double lines = 0;
-				Double lineInput = metrics.get("lines");
+				Double lineInput = metrics.get("ncloc");
 				if (lineInput != null) lines = lineInput;
 				double violations = 0;
 				Double violationsInput = metrics.get("violations");
@@ -283,10 +283,10 @@ public class SqgraphApplication {
 		
 		SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
 			@Override public String getSyntheicName() { return "CognitiveComplexityPerKLines";}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("lines");  return list;}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("ncloc");  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double lines = 0;
-				Double lineInput = metrics.get("lines");
+				Double lineInput = metrics.get("ncloc");
 				if (lineInput != null) lines = lineInput;
 				double numerator = 0;
 				Double numeratorInput = metrics.get("cognitive_complexity");

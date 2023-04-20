@@ -111,10 +111,10 @@ class SqgraphApplicationTests {
 		metrics.put("nothingofuse", 999.9);
 		assertEquals(0.0, sm.calculate(metrics));
 
-		metrics.put("lines", 0.0);
+		metrics.put("ncloc", 0.0);
 		assertEquals(0.0, sm.calculate(metrics));
 
-		metrics.put ("lines", 500.0);
+		metrics.put ("ncloc", 500.0);
 		assertEquals(0.0, sm.calculate(metrics));
 
 		metrics.put ("violations", 500.0);
@@ -135,10 +135,10 @@ class SqgraphApplicationTests {
 		metrics.put("nothingofuse", 999.9);
 		assertEquals(0.0, sm.calculate(metrics));
 
-		metrics.put("lines", 0.0);
+		metrics.put("ncloc", 0.0);
 		assertEquals(0.0, sm.calculate(metrics));
 
-		metrics.put ("lines", 500.0);
+		metrics.put ("ncloc", 500.0);
 		assertEquals(0.0, sm.calculate(metrics));
 
 		metrics.put ("cognitive_complexity", 500.0);
