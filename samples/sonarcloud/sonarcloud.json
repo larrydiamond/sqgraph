@@ -7,12 +7,12 @@
         {"title":"OWASP ZAP Proxy", "key": "zaproxy_zaproxy"}
     ],
     "metrics": [
-        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"1"}, 
-        {"metric":"CognitiveComplexityPerKLines","filename":"Complexity.png","title":"Complexity Per Thousand Lines"},
-        {"metric":"bugs","title":"Bugs"},
-        {"metric":"vulnerabilities","filename":"Vulnerabilities.png","title":"Vulnerabilities"},
-        {"metric":"critical_violations__PER_K_ncloc","filename":"CriticalViolationsPerThousandLines","title":"Criticals Per Thousand Lines"},
-        {"metric":"ViolationsPerKLines","filename":"ViolationsPerThousandLines.png","title":"Violations Per Thousand Lines"}
+        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"1","description":"Code Coverage: More is better: What percentage of the code is covered by unit tests."}, 
+        {"metric":"CognitiveComplexityPerKLines","filename":"Complexity.png","title":"Complexity Per Thousand Lines","description":"Cognitive Complexity: Less is better: How testable and maintainable are the methods in this application?"},
+        {"metric":"bugs","title":"Bugs","description":"Bugs: Less is better: How many Sonarqube bug code violations were found in this application?"},
+        {"metric":"vulnerabilities","filename":"Vulnerabilities.png","title":"Vulnerabilities","description":"Vulnerabilities: Less is better: How many Sonarqube security vulnerabilities were found in this application?"},
+        {"metric":"critical_violations__PER_K_ncloc","filename":"CriticalViolationsPerThousandLines","title":"Criticals Per Thousand Lines","description":"Critical Violations: Less is better: How many Sonarqube critical violations were found per thousand lines of code?"},
+        {"metric":"ViolationsPerKLines","filename":"ViolationsPerThousandLines.png","title":"Violations Per Thousand Lines","description":"Violations: Less is better: How many Sonarqube violations were found per thousand lines of code?"}
     ],
     "pdf": "CodeQuality.pdf",
     "maxReportHistory" : "366",

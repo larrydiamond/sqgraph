@@ -144,5 +144,4 @@ class SqgraphApplicationTests {
 		metrics.put ("cognitive_complexity", 500.0);
 		assertEquals(1000.0, sm.calculate(metrics));
 	}
-
 }

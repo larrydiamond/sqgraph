@@ -24,6 +24,7 @@ class SQMetrics implements Serializable {
     String title;
     String green;
     String yellow;
+    String description;
 }
 
 @Data

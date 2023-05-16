@@ -115,6 +115,11 @@ public class SqgraphApplication {
 				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 				SearchHistory result = response.getBody();
 				rawMetrics.put (key, result);
+/*
+				ResponseEntity<String> responseString = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+				String resultString = responseString.getBody();
+				System.out.println ("Resultstring for " + metrics + " = " + resultString);
+/* */
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -134,7 +139,7 @@ public class SqgraphApplication {
 
 		/* */
 
-		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(10, 10);
+		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
 
 		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
@@ -142,6 +147,7 @@ public class SqgraphApplication {
 
 		if (config.getPdf() != null) {
 			PDFOutput.createPDF (config);
+// not ready for prime time..... yet			PDFOutput.addTextDashboard (dashboardData, config);
 			if (bi != null)
 				PDFOutput.addDashboard (bi);
 			PDFOutput.addGraphs(config);
@@ -195,7 +201,7 @@ public class SqgraphApplication {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 7);
 
-				System.out.println ("Made synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+//				System.out.println ("Made synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
 
 				SyntheticMetric generatedMetric = new SyntheticMetric() {
 					@Override public String getSyntheicName() { return sqm.getMetric();}
@@ -219,7 +225,7 @@ public class SqgraphApplication {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 8);
 
-				System.out.println ("Made k synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+//				System.out.println ("Made k synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
 
 				SyntheticMetric generatedMetric = new SyntheticMetric() {
 					@Override public String getSyntheicName() { return sqm.getMetric();}
@@ -243,7 +249,7 @@ public class SqgraphApplication {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 8);
 
-				System.out.println ("Made h synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+//				System.out.println ("Made h synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
 
 				SyntheticMetric generatedMetric = new SyntheticMetric() {
 					@Override public String getSyntheicName() { return sqm.getMetric();}
