@@ -20,7 +20,7 @@ public class GraphOutput {
     
     private GraphOutput () {}
 
-    public static void outputGraphs (final Config config, final Map<String, SearchHistory> rawMetrics, 
+    public static void outputGraphs (final Config config, final Map<String, AssembledSearchHistory> rawMetrics, 
                               final HashBasedTable<String,String,Double> dashboardData, final Map<String, String> titleLookup, 
                               final Map<String, SyntheticMetric> syntheticMetrics) {
         for (SQMetrics sqm : config.getMetrics()) {
@@ -54,7 +54,7 @@ public class GraphOutput {
                 chart.getStyler().setDatePattern("dd MMM yyyy");
                 chart.getStyler().setYAxisDecimalPattern(SqgraphApplication.standardDecimalFormat);
 
-                for (Map.Entry<String, SearchHistory> entry : rawMetrics.entrySet()) {
+                for (Map.Entry<String, AssembledSearchHistory> entry : rawMetrics.entrySet()) {
                     addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
                 }
 
@@ -72,7 +72,7 @@ public class GraphOutput {
         }
     }
 
-	public static Double addSeriesForNativeMetric (final String metricName, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+	public static Double addSeriesForNativeMetric (final String metricName, final AssembledSearchHistory history, List<Date> dates, List<Double> doubles) {
 		Double lastDataPoint = 0.0;
 		for (Measures m : history.getMeasures()) {
 			if (m.getMetric().equals(metricName)) {
@@ -86,7 +86,7 @@ public class GraphOutput {
 		return lastDataPoint;
 	}
 
-	public static Double addSeriesForSyntheticMetric (final SyntheticMetric sm, final SearchHistory history, List<Date> dates, List<Double> doubles) {
+	public static Double addSeriesForSyntheticMetric (final SyntheticMetric sm, final AssembledSearchHistory history, List<Date> dates, List<Double> doubles) {
 		Double lastDataPoint = 0.0;
 
 		// find the first real measure needed by the synthetic metric
@@ -95,8 +95,8 @@ public class GraphOutput {
 		List<String> realMetrics = sm.getRealMetrics();
 
 		boolean notFound = true;
-		for (int loop = 0; ((loop < history.getMeasures().length) && (notFound)); loop++) {
-			Measures m = history.getMeasures() [loop];
+		for (int loop = 0; ((loop < history.getMeasures().size()) && (notFound)); loop++) {
+			Measures m = history.getMeasures().get(loop);
 			if (realMetrics.contains(m.getMetric())) {
 				notFound = false;
 				for (History h : m.getHistory()) {
@@ -125,7 +125,7 @@ public class GraphOutput {
 		return lastDataPoint;
 	}
 
-	public static void addSeriesForMetric (final String metricName, final SearchHistory history, final XYChart chart, final String application, 
+	public static void addSeriesForMetric (final String metricName, final AssembledSearchHistory history, final XYChart chart, final String application, 
 	final Map<String,SyntheticMetric> syntheticMetrics, HashBasedTable<String, String, Double> dashboardData, String metricTitle) {
 		List<Date> dates = new ArrayList<>();
 		List<Double> doubles = new ArrayList<>();

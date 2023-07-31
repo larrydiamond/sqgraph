@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,7 +99,7 @@ public class SqgraphApplication {
 		Map<String, String> titleLookup = new HashMap<>();
 		final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
-		Map<String, SearchHistory> rawMetrics = new HashMap<>();
+		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
 		for (Application app : config.getApplications()) {
 			String key = app.getKey();
 			titleLookup.put(key, app.getTitle());
@@ -109,12 +110,10 @@ public class SqgraphApplication {
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
 				Date sqDate = getUTCDate (startDate);
-				String sdfsqString = sdfsq.format (sqDate);
+				final String sdfsqString = sdfsq.format (sqDate);
 
-				final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&ps=999&component=" + key + "&metrics=" + metrics;
-				ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
-				SearchHistory result = response.getBody();
-				rawMetrics.put (key, result);
+				AssembledSearchHistory history = getHistory (config, sdfsqString, key, metrics, headers, restTemplate);
+				rawMetrics.put (key, history);
 
 				Thread.currentThread().sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
 /*
@@ -158,6 +157,35 @@ public class SqgraphApplication {
 
 		System.out.println ("Successful completion.");
 		return null;
+	}
+
+	private static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, final HttpHeaders headers, RestTemplate restTemplate) {
+		AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
+		int page = 1;
+		boolean notYetLastPage = true;
+		do {
+			final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&p="+page+"&ps=999&component=" + key + "&metrics=" + metrics;
+			System.out.println (uri);
+			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
+			SearchHistory result = response.getBody();
+			if (result != null) {
+				if (result.getPaging() != null) {
+					if (result.getPaging().total == page) {
+						notYetLastPage = false;
+					}						
+				}
+				if (result.getMeasures() != null) {
+					List<Measures> measures = assembledSearchHistory.getMeasures();
+					if (measures == null) {
+						measures = new ArrayList<>();
+						assembledSearchHistory.setMeasures(measures);
+					}
+					measures.addAll(Arrays.asList(result.getMeasures()));
+				}
+			}
+			page++;
+		} while (notYetLastPage);
+		return assembledSearchHistory;
 	}
 
 	public static List<String> getMetricsListNeeded (final Config config, final Map<String,SyntheticMetric> synthetics) {
