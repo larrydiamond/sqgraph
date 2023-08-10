@@ -142,7 +142,8 @@ public class PDFOutput {
 
         int [] w = new int [colWidths.size()];
         int sum = 0;
-        for (int loop = 0; loop < colWidths.size(); loop++) {
+        int colWidthsSize = colWidths.size();
+        for (int loop = 0; loop < colWidthsSize; loop++) {
 //            System.out.println ("width " + loop + " = " + colWidths.get(loop));
             w [loop] = colWidths.get(loop);
             sum += w [loop];
