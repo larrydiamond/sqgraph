@@ -115,7 +115,7 @@ public class SqgraphApplication {
 				AssembledSearchHistory history = getHistory (config, sdfsqString, key, metrics, headers, restTemplate);
 				rawMetrics.put (key, history);
 
-				Thread.currentThread().sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
+				Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
 /*
 				ResponseEntity<String> responseString = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
 				String resultString = responseString.getBody();
