@@ -14,6 +14,49 @@ public class DashboardCellRenderer extends DefaultTableCellRenderer {
 		this.config = config;
 	}
 
+
+	private Component greenHighThenYellowThenRed (double green, double yellow, JTable jt, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex, double cellvalue) {
+		if (cellvalue > green) {
+            Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
+            this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+	        dtcr.setBackground(Color.green);
+        	return dtcr;
+		} else {
+			if (cellvalue > yellow) {
+                Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
+                this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                dtcr.setBackground(Color.yellow);
+                return dtcr;
+			} else {
+                Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
+                this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                dtcr.setBackground(Color.pink);
+                 return dtcr;
+			}
+		}
+	}
+
+	private Component greenLowThenYellowThenRed (double green, double yellow, JTable jt, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex, double cellvalue) {
+		if (cellvalue < green) {
+            Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
+            this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+	        dtcr.setBackground(Color.green);
+            return dtcr;
+		} else {
+			if (cellvalue < yellow) {
+                Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
+                this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                dtcr.setBackground(Color.yellow);
+                return dtcr;
+			} else {
+                Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
+                this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                dtcr.setBackground(Color.pink);
+                return dtcr;
+			}
+		}
+	}
+
 	@Override public Component getTableCellRendererComponent(JTable jt, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex) {
 		SQMetrics metric = config.getMetrics()[columnIndex-1];
 		String greenString = metric.getGreen();
@@ -26,43 +69,9 @@ public class DashboardCellRenderer extends DefaultTableCellRenderer {
 			String cellvalueString = (String) jt.getModel().getValueAt(rowIndex, columnIndex);
 			double cellvalue = Double.parseDouble(cellvalueString);
 			if (greenHigher) {
-				if (cellvalue > green) {
-                    Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
-            		this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		            dtcr.setBackground(Color.green);
-                    return dtcr;
-				} else {
-					if (cellvalue > yellow) {
-                        Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
-                        this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-                        dtcr.setBackground(Color.yellow);
-                        return dtcr;
-					} else {
-                        Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
-                        this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-                        dtcr.setBackground(Color.pink);
-                        return dtcr;
-					}
-				}
+				return greenHighThenYellowThenRed(green, yellow, jt, cellvalueString, isSelected, hasFocus, rowIndex, columnIndex, cellvalue);
 			} else {
-				if (cellvalue < green) {
-                    Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
-            		this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		            dtcr.setBackground(Color.green);
-                    return dtcr;
-				} else {
-					if (cellvalue < yellow) {
-                        Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
-                        this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-                        dtcr.setBackground(Color.yellow);
-                        return dtcr;
-					} else {
-                        Component dtcr = super.getTableCellRendererComponent(jt, value, isSelected, hasFocus, rowIndex, columnIndex);
-                        this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-                        dtcr.setBackground(Color.pink);
-                        return dtcr;
-					}
-				}
+				return greenLowThenYellowThenRed(green, yellow, jt, cellvalueString, isSelected, hasFocus, rowIndex, columnIndex, cellvalue);
 			}
 		}
         
@@ -71,5 +80,8 @@ public class DashboardCellRenderer extends DefaultTableCellRenderer {
         dtcr.setBackground(Color.white);
         return dtcr;
 	}
+
+
+
 }
 
