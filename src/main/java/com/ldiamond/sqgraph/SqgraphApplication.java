@@ -165,7 +165,7 @@ public class SqgraphApplication {
 		boolean notYetLastPage = true;
 		do {
 			final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&p="+page+"&ps=999&component=" + key + "&metrics=" + metrics;
-			System.out.println (uri);
+//			System.out.println (uri);
 			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 			SearchHistory result = response.getBody();
 			if (result != null) {
