@@ -80,7 +80,7 @@ public class SqgraphApplication {
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		String base64 = "Basic " + new String (Base64.getEncoder().encodeToString (new String (login + ":").getBytes()));
+		String base64 = "Basic " + Base64.getEncoder().encodeToString (new String (login + ":").getBytes());
 		headers.set ("Authorization", base64);
 
 		try {
