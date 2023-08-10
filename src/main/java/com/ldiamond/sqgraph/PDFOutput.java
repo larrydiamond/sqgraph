@@ -9,16 +9,12 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.HashBasedTable;
-import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
-import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.Table;
-import com.lowagie.text.alignment.HorizontalAlignment;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -102,8 +98,8 @@ public class PDFOutput {
 
     public static void addTextDashboard(final HashBasedTable<String, String, Double> dashboardData, final Config config) {
         document.add(new Phrase ("")); // spacer
-        Phrase p = new Phrase ("blah");
-        Font f = p.getFont();
+//        Phrase p = new Phrase ("blah");
+//        Font f = p.getFont();
 //        System.out.println ("Font " + f.getFamilyname() + " size " + f.getSize());
 
         List<Integer> colWidths = new ArrayList<>(); 
@@ -151,7 +147,7 @@ public class PDFOutput {
             w [loop] = colWidths.get(loop);
             sum += w [loop];
         }
-//        System.out.println ("Sum = " + sum);
+        System.out.println ("Sum = " + sum);
 
         
 
