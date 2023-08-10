@@ -222,6 +222,38 @@ public class SqgraphApplication {
 		return output.toString();
 	}
 
+		static SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("ncloc");  return list;}
+			@Override public double calculate(Map<String,Double> metrics) {
+				double lines = 0;
+				Double lineInput = metrics.get("ncloc");
+				if (lineInput != null) lines = lineInput;
+				double violations = 0;
+				Double violationsInput = metrics.get("violations");
+				if (violationsInput != null) violations = violationsInput;
+				if ((lines == 0) || (violations == 0)) return 0.0;
+				return (1000.0 * violations) / lines;
+			}
+		};
+
+		static SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return "CognitiveComplexityPerKLines";}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("ncloc");  return list;}
+			@Override public double calculate(Map<String,Double> metrics) {
+				double lines = 0;
+				Double lineInput = metrics.get("ncloc");
+				if (lineInput != null) lines = lineInput;
+				double numerator = 0;
+				Double numeratorInput = metrics.get("cognitive_complexity");
+				if (numeratorInput != null) numerator = numeratorInput;
+				if ((lines == 0) || (numerator == 0)) return 0.0;
+				return (1000.0 * numerator) / lines;
+			}
+		};
+
+
+
 	public static Map<String,SyntheticMetric> populateSynthetics (final Config config) {
 		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
 
@@ -299,40 +331,8 @@ public class SqgraphApplication {
 			}
 		}
 
-		
-		SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
-			@Override public String getSyntheicName() { return "ViolationsPerKLines";}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("ncloc");  return list;}
-			@Override public double calculate(Map<String,Double> metrics) {
-				double lines = 0;
-				Double lineInput = metrics.get("ncloc");
-				if (lineInput != null) lines = lineInput;
-				double violations = 0;
-				Double violationsInput = metrics.get("violations");
-				if (violationsInput != null) violations = violationsInput;
-				if ((lines == 0) || (violations == 0)) return 0.0;
-				return (1000.0 * violations) / lines;
-			}
-		};
 		syntheticMetrics.put(ViolationsPerKLines.getSyntheicName(), ViolationsPerKLines);
-
-		
-		SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
-			@Override public String getSyntheicName() { return "CognitiveComplexityPerKLines";}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("ncloc");  return list;}
-			@Override public double calculate(Map<String,Double> metrics) {
-				double lines = 0;
-				Double lineInput = metrics.get("ncloc");
-				if (lineInput != null) lines = lineInput;
-				double numerator = 0;
-				Double numeratorInput = metrics.get("cognitive_complexity");
-				if (numeratorInput != null) numerator = numeratorInput;
-				if ((lines == 0) || (numerator == 0)) return 0.0;
-				return (1000.0 * numerator) / lines;
-			}
-		};
 		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheicName(), CognitiveComplexityPerKLines);
-
 
 		return syntheticMetrics;
 	}
