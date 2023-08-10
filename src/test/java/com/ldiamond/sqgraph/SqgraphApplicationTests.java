@@ -2,6 +2,7 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,5 +144,38 @@ class SqgraphApplicationTests {
 
 		metrics.put ("cognitive_complexity", 500.0);
 		assertEquals(1000.0, sm.calculate(metrics));
+	}
+
+	@Test
+	void populateMetricsNoSynthetics() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [1];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		assertEquals(2, synths.size());
+		assertNotNull(synths.get("ViolationsPerKLines"));
+		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+	}
+
+	@Test
+	void populateMetricsHasSyntheticPer() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [2];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+		metricsArray [1] = new SQMetrics();
+		metricsArray[1].setMetric("something__PER__otherthing");
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		assertEquals(3, synths.size());
+		assertNotNull(synths.get("ViolationsPerKLines"));
+		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("something__PER__otherthing"));
+		assertEquals(synths.get("something__PER__otherthing").getRealMetrics().get(0), "something");
+		assertEquals(synths.get("something__PER__otherthing").getRealMetrics().get(1), "otherthing");
 	}
 }
