@@ -169,10 +169,8 @@ public class SqgraphApplication {
 			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 			SearchHistory result = response.getBody();
 			if (result != null) {
-				if (result.getPaging() != null) {
-					if (result.getPaging().total == page) {
-						notYetLastPage = false;
-					}						
+				if ((result.getPaging() != null) && (result.getPaging().total == page)) {
+					notYetLastPage = false;
 				}
 				if (result.getMeasures() != null) {
 					List<Measures> measures = assembledSearchHistory.getMeasures();
