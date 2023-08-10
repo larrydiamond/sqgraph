@@ -170,6 +170,10 @@ class SqgraphApplicationTests {
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER__otherthing");
 
+		Map<String,Double> metrics = new HashMap<>();
+		metrics.put("something", 50.0);
+		metrics.put("otherthing", 25.0);
+
 		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(3, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
@@ -177,5 +181,54 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("something__PER__otherthing"));
 		assertEquals(synths.get("something__PER__otherthing").getRealMetrics().get(0), "something");
 		assertEquals(synths.get("something__PER__otherthing").getRealMetrics().get(1), "otherthing");
+		assertEquals(2.0, synths.get("something__PER__otherthing").calculate(metrics), 0);
+	}
+
+	@Test
+	void populateMetricsHasSyntheticPerK() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [2];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+		metricsArray [1] = new SQMetrics();
+		metricsArray[1].setMetric("something__PER_K_otherthing");
+
+		Map<String,Double> metrics = new HashMap<>();
+		metrics.put("something", 50.0);
+		metrics.put("otherthing", 25.0);
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		assertEquals(3, synths.size());
+		assertNotNull(synths.get("ViolationsPerKLines"));
+		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("something__PER_K_otherthing"));
+		assertEquals(synths.get("something__PER_K_otherthing").getRealMetrics().get(0), "something");
+		assertEquals(synths.get("something__PER_K_otherthing").getRealMetrics().get(1), "otherthing");
+		assertEquals(2000.0, synths.get("something__PER_K_otherthing").calculate(metrics), 0);
+	}
+
+	@Test
+	void populateMetricsHasSyntheticPerH() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [2];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+		metricsArray [1] = new SQMetrics();
+		metricsArray[1].setMetric("something__PER_H_otherthing");
+
+		Map<String,Double> metrics = new HashMap<>();
+		metrics.put("something", 50.0);
+		metrics.put("otherthing", 25.0);
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		assertEquals(3, synths.size());
+		assertNotNull(synths.get("ViolationsPerKLines"));
+		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("something__PER_H_otherthing"));
+		assertEquals(synths.get("something__PER_H_otherthing").getRealMetrics().get(0), "something");
+		assertEquals(synths.get("something__PER_H_otherthing").getRealMetrics().get(1), "otherthing");
+		assertEquals(200.0, synths.get("something__PER_H_otherthing").calculate(metrics), 0);
 	}
 }
