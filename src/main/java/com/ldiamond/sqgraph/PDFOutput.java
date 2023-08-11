@@ -69,6 +69,7 @@ public class PDFOutput {
         document.close();
 	}
 
+    /* 
     private static int getWidthOfString(final String s) {
         int width = 2;
 
@@ -96,7 +97,6 @@ public class PDFOutput {
         }
     }
 
-    /* 
     public static void addTextDashboard(final HashBasedTable<String, String, Double> dashboardData, final Config config) {
         document.add(new Phrase ("")); // spacer
 //        Phrase p = new Phrase ("blah");
