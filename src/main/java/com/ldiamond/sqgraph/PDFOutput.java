@@ -96,6 +96,7 @@ public class PDFOutput {
         }
     }
 
+    /* 
     public static void addTextDashboard(final HashBasedTable<String, String, Double> dashboardData, final Config config) {
         document.add(new Phrase ("")); // spacer
 //        Phrase p = new Phrase ("blah");
@@ -156,4 +157,6 @@ public class PDFOutput {
 
         document.add (table);
     }
+
+    /* */
 }
