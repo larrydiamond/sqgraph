@@ -3,14 +3,28 @@ package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
+@ExtendWith(MockitoExtension.class)     
 class SqgraphApplicationTests {
 
 	@Test
@@ -230,5 +244,52 @@ class SqgraphApplicationTests {
 		assertEquals(synths.get("something__PER_H_otherthing").getRealMetrics().get(0), "something");
 		assertEquals(synths.get("something__PER_H_otherthing").getRealMetrics().get(1), "otherthing");
 		assertEquals(200.0, synths.get("something__PER_H_otherthing").calculate(metrics), 0);
+	}
+
+	@Mock
+	RestTemplate restTemplate;
+
+	@Test
+	void getHistory() {
+		final Config config = new Config();
+		config.setUrl("prefix");
+
+		SearchHistory sh = new SearchHistory();
+		Paging paging = new Paging();
+		paging.setTotal(2);
+		Measures[] measuresArray = new Measures[2];
+		sh.setMeasures(measuresArray);
+		measuresArray [0] = new Measures();
+		measuresArray [0].setMetric("first");
+		measuresArray [0].setHistory(new History[1]);
+		measuresArray [0].history[0] = new History();
+		measuresArray [0].history[0].setDate(new Date("Tue, 1 Aug 1995 13:30:00 GMT"));
+		measuresArray [0].history[0].setValue(1.0);
+		
+		measuresArray [1] = new Measures();
+		measuresArray [1].setMetric("second");
+		measuresArray [1].setHistory(new History[1]);
+		measuresArray [1].history[0] = new History();
+		measuresArray [1].history[0].setDate(new Date("Wed, 2 Aug 1995 13:30:00 GMT"));
+		measuresArray [1].history[0].setValue(2.0);
+		
+		sh.setPaging(paging);
+
+		ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
+		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=1&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
+		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=2&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
+		AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
+
+		assertEquals(4, ash.getMeasures().size());
+		assertEquals("first", ash.getMeasures().get(0).getMetric());
+		assertEquals("second", ash.getMeasures().get(1).getMetric());
+		assertEquals("first", ash.getMeasures().get(2).getMetric());
+		assertEquals("second", ash.getMeasures().get(3).getMetric());
+		assertEquals(1, ash.getMeasures().get(0).history.length);
+		assertEquals(1, ash.getMeasures().get(1).history.length);
+		assertEquals(1, ash.getMeasures().get(2).history.length);
+		assertEquals(1, ash.getMeasures().get(3).history.length);
 	}
 }

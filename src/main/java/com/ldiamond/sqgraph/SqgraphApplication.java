@@ -159,13 +159,14 @@ public class SqgraphApplication {
 		return null;
 	}
 
-	private static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, final HttpHeaders headers, RestTemplate restTemplate) {
+	public static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, 
+	final HttpHeaders headers, RestTemplate restTemplate) {
 		AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
 		int page = 1;
 		boolean notYetLastPage = true;
 		do {
 			final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&p="+page+"&ps=999&component=" + key + "&metrics=" + metrics;
-//			System.out.println (uri);
+			System.out.println (uri);
 			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 			SearchHistory result = response.getBody();
 			if (result != null) {
