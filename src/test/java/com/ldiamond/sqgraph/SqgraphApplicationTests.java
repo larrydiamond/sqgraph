@@ -202,8 +202,8 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("something__PER__otherthing"));
-		assertEquals(synths.get("something__PER__otherthing").getRealMetrics().get(0), "something");
-		assertEquals(synths.get("something__PER__otherthing").getRealMetrics().get(1), "otherthing");
+		assertEquals("something", synths.get("something__PER__otherthing").getRealMetrics().get(0));
+		assertEquals("otherthing", synths.get("something__PER__otherthing").getRealMetrics().get(1));
 		assertEquals(2.0, synths.get("something__PER__otherthing").calculate(metrics), 0);
 	}
 
@@ -226,8 +226,8 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("something__PER_K_otherthing"));
-		assertEquals(synths.get("something__PER_K_otherthing").getRealMetrics().get(0), "something");
-		assertEquals(synths.get("something__PER_K_otherthing").getRealMetrics().get(1), "otherthing");
+		assertEquals("something", synths.get("something__PER_K_otherthing").getRealMetrics().get(0));
+		assertEquals("otherthing", synths.get("something__PER_K_otherthing").getRealMetrics().get(1));
 		assertEquals(2000.0, synths.get("something__PER_K_otherthing").calculate(metrics), 0);
 	}
 
@@ -250,8 +250,8 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("something__PER_H_otherthing"));
-		assertEquals(synths.get("something__PER_H_otherthing").getRealMetrics().get(0), "something");
-		assertEquals(synths.get("something__PER_H_otherthing").getRealMetrics().get(1), "otherthing");
+		assertEquals("something", synths.get("something__PER_H_otherthing").getRealMetrics().get(0));
+		assertEquals("otherthing", synths.get("something__PER_H_otherthing").getRealMetrics().get(1));
 		assertEquals(200.0, synths.get("something__PER_H_otherthing").calculate(metrics), 0);
 	}
 

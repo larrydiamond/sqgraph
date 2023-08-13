@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class GraphOutputTests {
+class GraphOutputTests {
 
 	@Test
 	void testAddSeriesForNativeMetric() {
