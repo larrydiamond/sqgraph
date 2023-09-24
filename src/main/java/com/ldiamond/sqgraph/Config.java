@@ -11,6 +11,7 @@
 package com.ldiamond.sqgraph;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Config implements Serializable {
     int maxReportHistory;
     String pdf;
     String dashboard;
+    List<Application> expandedApplications;
 }
 
 @Data
@@ -41,4 +43,5 @@ class Application implements Serializable {
     private static final long serialVersionUID = 2422222041950251807L;
     String key;
     String title;
+    String query;
 }

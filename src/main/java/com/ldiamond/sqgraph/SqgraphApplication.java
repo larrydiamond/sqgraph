@@ -105,11 +105,30 @@ public class SqgraphApplication {
 			return null;
 		}
 
+		// Copy the config applications to the expanded applications and perform any searches
+		config.setExpandedApplications(new ArrayList<>());
+		for (Application app : config.getApplications()) {
+			if (app.getKey() != null) {
+				config.getExpandedApplications().add(app);
+			} else {
+				if (app.getQuery() != null) {
+					final String uri = config.getUrl() + "/api/project/search?qualifiers=TRK&q=" + app.getQuery();
+					ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
+					ApiProjectsSearchResults result = response.getBody();
+					if ((result != null) && (result.getComponents() != null)) {
+						for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
+							config.getExpandedApplications().add(c.getApplication());
+						}
+					}
+				}
+			}
+		}
+
 		Map<String, String> titleLookup = new HashMap<>();
 		final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
 		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
-		for (Application app : config.getApplications()) {
+		for (Application app : config.getExpandedApplications()) {
 			String key = app.getKey();
 			titleLookup.put(key, app.getTitle());
 			try {
