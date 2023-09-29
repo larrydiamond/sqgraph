@@ -32,6 +32,9 @@ public class ArchitectureUnitTests {
     static final ArchRule no_treeset = noClasses().should().callConstructor(java.util.TreeSet.class).because("Use ConcurrentSkipListSet");
 
     @ArchTest
+    static final ArchRule no_threadgroup = noClasses().should().callConstructor(java.lang.ThreadGroup.class).because("Use ExecutorService");
+
+    @ArchTest
     static final ArchRule no_treemap = noClasses().should().callConstructor(java.util.TreeMap.class).because("Use ConcurrentSkipListMap");
 
     @ArchTest
