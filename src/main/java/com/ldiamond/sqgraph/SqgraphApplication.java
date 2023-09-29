@@ -112,7 +112,7 @@ public class SqgraphApplication {
 				config.getExpandedApplications().add(app);
 			} else {
 				if (app.getQuery() != null) {
-					final String uri = config.getUrl() + "/api/project/search?qualifiers=TRK&q=" + app.getQuery();
+					final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
 					ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
 					ApiProjectsSearchResults result = response.getBody();
 					if ((result != null) && (result.getComponents() != null)) {
@@ -198,7 +198,7 @@ public class SqgraphApplication {
 			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 			SearchHistory result = response.getBody();
 			if (result != null) {
-				if ((result.getPaging() != null) && (result.getPaging().total == page)) {
+				if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
 					notYetLastPage = false;
 					try {
 						Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
