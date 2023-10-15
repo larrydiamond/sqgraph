@@ -46,10 +46,10 @@ public class DashboardOutput {
                 dashboardColumns [dcOffset++] = dcCol + " ";
             }
 
-            String [] [] dashboardFormattedData = new String [config.getApplications().length] [];
+            String [] [] dashboardFormattedData = new String [config.getExpandedApplications().size()] [];
 
             int rowLoop = 0;
-            for (Application app : config.getApplications()) {
+            for (Application app : config.getExpandedApplications()) {
                 Map<String,Double> rowMap = dashboardData.column(app.getTitle());
                 String [] dRow = new String [1 + dashboardData.rowKeySet().size()];
                 dRow [0] = " " + app.getTitle();

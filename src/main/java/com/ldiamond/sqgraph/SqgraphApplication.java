@@ -105,11 +105,30 @@ public class SqgraphApplication {
 			return null;
 		}
 
+		// Copy the config applications to the expanded applications and perform any searches
+		config.setExpandedApplications(new ArrayList<>());
+		for (Application app : config.getApplications()) {
+			if (app.getKey() != null) {
+				config.getExpandedApplications().add(app);
+			} else {
+				if (app.getQuery() != null) {
+					final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
+					ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
+					ApiProjectsSearchResults result = response.getBody();
+					if ((result != null) && (result.getComponents() != null)) {
+						for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
+							config.getExpandedApplications().add(c.getApplication());
+						}
+					}
+				}
+			}
+		}
+
 		Map<String, String> titleLookup = new HashMap<>();
 		final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
 
 		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
-		for (Application app : config.getApplications()) {
+		for (Application app : config.getExpandedApplications()) {
 			String key = app.getKey();
 			titleLookup.put(key, app.getTitle());
 			try {
@@ -179,7 +198,7 @@ public class SqgraphApplication {
 			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 			SearchHistory result = response.getBody();
 			if (result != null) {
-				if ((result.getPaging() != null) && (result.getPaging().total == page)) {
+				if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
 					notYetLastPage = false;
 					try {
 						Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)

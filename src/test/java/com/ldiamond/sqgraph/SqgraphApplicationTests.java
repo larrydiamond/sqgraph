@@ -301,4 +301,26 @@ class SqgraphApplicationTests {
 		assertEquals(1, ash.getMeasures().get(2).history.length);
 		assertEquals(1, ash.getMeasures().get(3).history.length);
 	}
+
+	@Test
+	void getHistoryEmpty() {
+	
+		final Config config = new Config();
+		config.setUrl("prefix");
+
+		SearchHistory sh = new SearchHistory();
+		Paging paging = new Paging();
+		paging.setTotal(0);
+		sh.setPaging(paging);
+		Measures[] measuresArray = new Measures[0];
+		sh.setMeasures(measuresArray);
+
+		ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
+		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=1&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
+		AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
+
+		assertEquals(0, ash.getMeasures().size());
+	}
 }
