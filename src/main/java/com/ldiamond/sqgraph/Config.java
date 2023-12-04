@@ -24,7 +24,7 @@ public class Config implements Serializable {
     int maxReportHistory;
     String pdf;
     String dashboard;
-    List<Application> expandedApplications;
+    transient List<Application> expandedApplications;
 }
 
 @Data
