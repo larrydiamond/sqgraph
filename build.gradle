@@ -9,8 +9,8 @@ plugins {
 
 group = 'com.ldiamond'
 version = '5.0.0-SNAPSHOT'
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 configurations {
 	compileOnly {
@@ -48,8 +48,9 @@ tasks.named('test') {
 
 sonarqube {
     properties {
+		property "sonar.host.url", "http://192.168.1.189:9000"
         property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.login", "squ_73a3a590231be8f84094b6d2f418f5cd05e272ce"
+        property "sonar.token", "squ_da5956b7fcfa8394b75e488cee53ba5b9a512cc1"
         property "sonar.scm.disabled", "true"
 		property "sonar.sources", "src/main/java/com/ldiamond/sqgraph"
 		property "sonar.coverage.exclusions", 

@@ -43,8 +43,8 @@ import com.google.common.collect.HashBasedTable;
 public class SqgraphApplication {
 	static String login = null;
 	static String filename = null;
-	public static final String standardDecimalFormat = "###,###,###.###";
-	public static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
+	public static final String STANDARDDECIMALFORMAT = "###,###,###.###";
+	public static final DecimalFormat standardDecimalFormatter = new DecimalFormat (STANDARDDECIMALFORMAT);
 
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
@@ -253,7 +253,7 @@ public class SqgraphApplication {
 		return output.toString();
 	}
 
-	static SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
+	static SyntheticMetric violationsPerKLines = new SyntheticMetric() {
 		@Override public String getSyntheicName() { return "ViolationsPerKLines";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("ncloc");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
@@ -268,7 +268,7 @@ public class SqgraphApplication {
 		}
 	};
 
-	static SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
+	static SyntheticMetric cognitiveComplexityPerKLines = new SyntheticMetric() {
 		@Override public String getSyntheicName() { return "CognitiveComplexityPerKLines";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("ncloc");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
@@ -360,8 +360,8 @@ public class SqgraphApplication {
 			}
 		}
 
-		syntheticMetrics.put(ViolationsPerKLines.getSyntheicName(), ViolationsPerKLines);
-		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheicName(), CognitiveComplexityPerKLines);
+		syntheticMetrics.put(violationsPerKLines.getSyntheicName(), violationsPerKLines);
+		syntheticMetrics.put(cognitiveComplexityPerKLines.getSyntheicName(), cognitiveComplexityPerKLines);
 
 		return syntheticMetrics;
 	}
