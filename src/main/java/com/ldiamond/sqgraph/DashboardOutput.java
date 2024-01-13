@@ -87,7 +87,7 @@ public class DashboardOutput {
             Graphics g = bi.createGraphics();
             p.paint(g);
 
-            int scaledWidth = Math.min(825, (int)p.getSize().getWidth());
+            int scaledWidth = 1725;
             int scaledHeight = (((int)p.getSize().getHeight()) * scaledWidth) / ((int)p.getSize().getWidth());
 
             java.awt.Image scaled = bi.getScaledInstance(scaledWidth, scaledHeight, java.awt.Image.SCALE_SMOOTH);
