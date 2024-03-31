@@ -16,7 +16,14 @@ import com.tngtech.archunit.lang.ArchRule;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 
-@AnalyzeClasses(packages = "com.ldiamond")
+import java.util.Arrays;
+
+import org.junit.jupiter.api.Test;
+
+import com.ldiamond.archunittest.ArchitectureRule;
+import com.ldiamond.archunittest.ArchitectureUnitTest;
+
+@AnalyzeClasses(packages = "com.ldiamond.sqgraph")
 public class ArchitectureUnitTests {
     
     @ArchTest
@@ -39,5 +46,13 @@ public class ArchitectureUnitTests {
 
     @ArchTest
     private final ArchRule no_jodatime = NO_CLASSES_SHOULD_USE_JODATIME;
+
+    
+    @Test
+    public void runArchitectureTests() {
+        ArchitectureUnitTest.testArchitecture(
+            Arrays.asList(ArchitectureRule.ARCHUNIT_DEPRECATED_API_SHOULD_NOT_BE_USED, ArchitectureRule.ARCHUNIT_NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS),
+            "com.ldiamond.sqgraph");
+    }
 
 }
