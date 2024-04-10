@@ -50,7 +50,6 @@ tasks.named('test') {
 sonarqube {
     properties {
         property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.login", "squ_35a3bb236089d69724749ee5735d279e1223a921"
         property "sonar.scm.disabled", "true"
 		property "sonar.sources", "src/main/java/com/ldiamond/sqgraph"
 		property "sonar.coverage.exclusions", 
