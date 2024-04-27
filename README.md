@@ -1,5 +1,6 @@
 # Management Code Metrics
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5aeafa08488d4f7d88e568686b5384a4)](https://app.codacy.com/gh/larrydiamond/sqgraph?utm_source=github.com&utm_medium=referral&utm_content=larrydiamond/sqgraph&utm_campaign=Badge_Grade)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=bugs)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
