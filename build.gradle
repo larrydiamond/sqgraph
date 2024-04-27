@@ -57,6 +57,7 @@ sonarqube {
 		property "sonar.sources", "src/main/java/com/ldiamond/sqgraph"
 		property "sonar.coverage.exclusions", 
 			"src/main/java/com/ldiamond/sqgraph/Config.java,src/main/java/com/ldiamond/sqgraph/SearchHistory.java,src/main/java/com/ldiamond/sqgraph/ValidationResult.java,src/main/java/com/ldiamond/sqgraph/MetricsResults.java"
+		property "sonar.coverage.jacoco.xmlReportPaths","build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 
@@ -65,12 +66,8 @@ test {
 }
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
-}
-
-jacocoTestReport {
     reports {
         xml.required = true
         csv.required = true
     }
 }
-
