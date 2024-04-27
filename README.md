@@ -8,6 +8,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4081a15b46254732b9493311e317753e)](https://app.codacy.com/gh/larrydiamond/sqgraph/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Have you ever asked yourself 'Which of the applications my teams maintain have the cleanest code and which applications need some more attention'?
 
