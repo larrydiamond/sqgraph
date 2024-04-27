@@ -49,6 +49,9 @@ tasks.named('test') {
 
 sonarqube {
     properties {
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.projectKey", "larrydiamond_sqgraph"
+		property "sonar.organization", "larrydiamond-github"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.scm.disabled", "true"
 		property "sonar.sources", "src/main/java/com/ldiamond/sqgraph"
@@ -68,7 +71,6 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = true
-        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
 
