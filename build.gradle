@@ -58,6 +58,7 @@ sonarqube {
 		property "sonar.coverage.exclusions", 
 			"src/main/java/com/ldiamond/sqgraph/Config.java,src/main/java/com/ldiamond/sqgraph/SearchHistory.java,src/main/java/com/ldiamond/sqgraph/ValidationResult.java,src/main/java/com/ldiamond/sqgraph/MetricsResults.java"
 		property "sonar.coverage.jacoco.xmlReportPaths","build/reports/jacoco/test/jacocoTestReport.xml"
+		property "sonar.jacoco.reportPaths","build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 
