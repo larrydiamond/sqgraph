@@ -1,5 +1,14 @@
 # Management Code Metrics
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=bugs)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
+
 Have you ever asked yourself 'Which of the applications my teams maintain have the cleanest code and which applications need some more attention'?
 
 SonarQube has great tooling to show how each individual project is doing, but doing comparisons between projects has been difficult.
