@@ -118,7 +118,7 @@ class SqgraphApplicationTests {
 		metricsArray[0].setMetric("alpha");
 
 		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(2, synths.size());
+		assertEquals(3, synths.size());
 	}
 
 	@Test
@@ -178,9 +178,10 @@ class SqgraphApplicationTests {
 		metricsArray[0].setMetric("alpha");
 
 		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(2, synths.size());
+		assertEquals(3, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("BugsPlusSecurity"));
 	}
 
 	@Test
@@ -198,9 +199,10 @@ class SqgraphApplicationTests {
 		metrics.put("otherthing", 25.0);
 
 		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(3, synths.size());
+		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("BugsPlusSecurity"));
 		assertNotNull(synths.get("something__PER__otherthing"));
 		assertEquals("something", synths.get("something__PER__otherthing").getRealMetrics().get(0));
 		assertEquals("otherthing", synths.get("something__PER__otherthing").getRealMetrics().get(1));
@@ -222,9 +224,10 @@ class SqgraphApplicationTests {
 		metrics.put("otherthing", 25.0);
 
 		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(3, synths.size());
+		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("BugsPlusSecurity"));
 		assertNotNull(synths.get("something__PER_K_otherthing"));
 		assertEquals("something", synths.get("something__PER_K_otherthing").getRealMetrics().get(0));
 		assertEquals("otherthing", synths.get("something__PER_K_otherthing").getRealMetrics().get(1));
@@ -246,9 +249,10 @@ class SqgraphApplicationTests {
 		metrics.put("otherthing", 25.0);
 
 		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(3, synths.size());
+		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
+		assertNotNull(synths.get("BugsPlusSecurity"));
 		assertNotNull(synths.get("something__PER_H_otherthing"));
 		assertEquals("something", synths.get("something__PER_H_otherthing").getRealMetrics().get(0));
 		assertEquals("otherthing", synths.get("something__PER_H_otherthing").getRealMetrics().get(1));

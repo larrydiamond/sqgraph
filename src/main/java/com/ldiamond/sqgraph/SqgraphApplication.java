@@ -283,6 +283,26 @@ public class SqgraphApplication {
 		}
 	};
 
+	static SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
+		@Override public String getSyntheicName() { return "BugsPlusSecurity";}
+		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  return list;}
+		@Override public double calculate(Map<String,Double> metrics) {
+			double bugs = 0;
+			Double bugsInput = metrics.get("bugs");
+			if (bugsInput != null) bugs = bugsInput;
+			
+			double vulnerabilities = 0;
+			Double vulnInput = metrics.get("vulnerabilities");
+			if (vulnInput != null) vulnerabilities = vulnInput;
+			
+			double sech = 0;
+			Double sechInput = metrics.get("security_hotspots");
+			if (sechInput != null) sech = sechInput;
+			
+			return bugs + vulnerabilities + sech;
+		}
+	};
+
 	public static Map<String,SyntheticMetric> populateSynthetics (final Config config) {
 		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
 
@@ -362,6 +382,7 @@ public class SqgraphApplication {
 
 		syntheticMetrics.put(ViolationsPerKLines.getSyntheicName(), ViolationsPerKLines);
 		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheicName(), CognitiveComplexityPerKLines);
+		syntheticMetrics.put(bugsPlusSecurity.getSyntheicName(), bugsPlusSecurity);
 
 		return syntheticMetrics;
 	}
