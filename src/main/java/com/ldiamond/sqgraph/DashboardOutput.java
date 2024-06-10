@@ -17,6 +17,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.FontMetrics;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -40,7 +42,7 @@ public class DashboardOutput {
     public static BufferedImage outputDashboard (HashBasedTable<String, String, Double> dashboardData, Config config) {
         try {
             String [] dashboardColumns = new String [1 + dashboardData.rowKeySet().size()];
-            dashboardColumns [0] = "";
+            dashboardColumns [0] = "Project ";
             int dcOffset = 1;
             for (String dcCol : dashboardData.rowKeySet()) {
                 dashboardColumns [dcOffset++] = dcCol + " ";
@@ -102,6 +104,34 @@ public class DashboardOutput {
 
             ImageIO.write(bi,"png",new File(config.getDashboard()));
             g.dispose();
+
+            BufferedWriter bw = null;
+
+            try {
+                if (config.getCsv() == null)
+                    config.setCsv("dashboard.csv");
+                
+                if (!config.getCsv().endsWith(".csv"))
+                    config.setCsv(config.getCsv() + ".csv");
+
+                bw = new BufferedWriter(new FileWriter(config.getCsv()));
+                for (String column : dashboardColumns) {
+                    bw.write(column + ",");
+                }
+                bw.newLine();
+
+                for (String [] rowData : dashboardFormattedData) {
+                    for (String cellData : rowData) {
+                        bw.write(cellData + ",");
+                    }
+                    bw.newLine();
+                }
+                bw.newLine();
+                bw.close();
+
+            } catch (Exception eee) { // fall through so the rest of the PDF gets generated anyway 
+                eee.printStackTrace();
+            }
 
             return outputImage;
 
