@@ -373,9 +373,7 @@ public class SqgraphApplication {
 		String prefix = sqm.getMetric().substring(0, offset);
 		String suffix = sqm.getMetric().substring(offset + 7);
 
-//				System.out.println ("Made synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
-
-		SyntheticMetric generatedMetric = new SyntheticMetric() {
+		return new SyntheticMetric() {
 			@Override public String getSyntheicName() { return sqm.getMetric();}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
@@ -389,7 +387,6 @@ public class SqgraphApplication {
 				return numerator / denominator;
 			}
 		};
-		return generatedMetric;
 	}
 
 	public static Date getUTCDate (final Date date) {
