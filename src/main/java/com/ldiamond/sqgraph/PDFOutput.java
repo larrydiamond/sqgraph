@@ -37,7 +37,7 @@ public class PDFOutput {
 
     public static void createPDF (final Config config) {
         try {
-            document = new Document(new Rectangle(900, (700 * config.getMetrics().length)));
+            document = new Document(new Rectangle(1800, (1400 * config.getMetrics().length)));
             PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
             document.open();
             document.addTitle ("Management Code Metrics");

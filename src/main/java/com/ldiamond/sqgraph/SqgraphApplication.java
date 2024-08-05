@@ -89,7 +89,7 @@ public class SqgraphApplication {
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		String base64 = "Basic " + Base64.getEncoder().encodeToString (new String (login + ":").getBytes());
+		String base64 = "Basic " + Base64.getEncoder().encodeToString ((login + ":").getBytes());
 		headers.set ("Authorization", base64);
 
 		try {
@@ -309,25 +309,7 @@ public class SqgraphApplication {
 		for (SQMetrics sqm : config.getMetrics()) {
 			int offset = sqm.getMetric().indexOf("__PER__");
 			if (offset != -1) {
-				String prefix = sqm.getMetric().substring(0, offset);
-				String suffix = sqm.getMetric().substring(offset + 7);
-
-//				System.out.println ("Made synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
-
-				SyntheticMetric generatedMetric = new SyntheticMetric() {
-					@Override public String getSyntheicName() { return sqm.getMetric();}
-					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
-					@Override public double calculate(Map<String,Double> metrics) {
-						double denominator = 0;
-						Double denominatorInput = metrics.get(suffix);
-						if (denominatorInput != null) denominator = denominatorInput;
-						double numerator = 0;
-						Double numeratorInput = metrics.get(prefix);
-						if (numeratorInput != null) numerator = numeratorInput;
-						if ((denominator == 0) || (numerator == 0)) return 0.0;
-						return numerator / denominator;
-					}
-				};
+				SyntheticMetric generatedMetric = getSyntheticMetric(sqm, offset);
 				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
 			}
 
@@ -385,6 +367,29 @@ public class SqgraphApplication {
 		syntheticMetrics.put(bugsPlusSecurity.getSyntheicName(), bugsPlusSecurity);
 
 		return syntheticMetrics;
+	}
+
+	private static SyntheticMetric getSyntheticMetric(SQMetrics sqm, int offset) {
+		String prefix = sqm.getMetric().substring(0, offset);
+		String suffix = sqm.getMetric().substring(offset + 7);
+
+//				System.out.println ("Made synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
+
+		SyntheticMetric generatedMetric = new SyntheticMetric() {
+			@Override public String getSyntheicName() { return sqm.getMetric();}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
+			@Override public double calculate(Map<String,Double> metrics) {
+				double denominator = 0;
+				Double denominatorInput = metrics.get(suffix);
+				if (denominatorInput != null) denominator = denominatorInput;
+				double numerator = 0;
+				Double numeratorInput = metrics.get(prefix);
+				if (numeratorInput != null) numerator = numeratorInput;
+				if ((denominator == 0) || (numerator == 0)) return 0.0;
+				return numerator / denominator;
+			}
+		};
+		return generatedMetric;
 	}
 
 	public static Date getUTCDate (final Date date) {

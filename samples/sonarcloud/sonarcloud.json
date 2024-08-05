@@ -2,8 +2,10 @@
     "url": "https://sonarcloud.io",
     "applications": [
         {"title":"Apache Dolphin Scheduler", "key": "apache-dolphinscheduler"},
-        {"title":"Drools", "key": "org.drools:droolsjbpm-integration"},
+        {"title":"Apache PDFBox", "key": "pdfbox-reactor"},
+        {"title":"Drools", "key": "apache_incubator-kie-drools"},
         {"title":"SpotBugs", "key": "com.github.spotbugs.spotbugs"},
+        {"title":"Twilio", "key": "twilio_twilio-java"},
         {"title":"OWASP ZAP Proxy", "key": "zaproxy_zaproxy"}
     ],
     "metrics": [

@@ -37,8 +37,8 @@ public class GraphOutput {
                 XYChart chart = null;
                 if (rawMetrics.size() > 7) {
                     chart = new XYChartBuilder()
-                    .width(825)
-                    .height(600)
+                    .width(1650)
+                    .height(1200)
                     .title(sqm.getTitle())
                     .xAxisTitle("X")
                     .yAxisTitle("Y")
@@ -48,8 +48,8 @@ public class GraphOutput {
                     chart.getStyler().setLegendLayout(Styler.LegendLayout.Vertical);
                 } else {
                     chart = new XYChartBuilder()
-                    .width(825)
-                    .height(600)
+                    .width(1650)
+                    .height(1200)
                     .title(sqm.getTitle())
                     .xAxisTitle("X")
                     .yAxisTitle("Y")
