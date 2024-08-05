@@ -40,7 +40,7 @@ dependencies {
 
 	testImplementation 'com.tngtech.archunit:archunit-junit5:1.1.0'
 	testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.11.0' // cant go beyond this until Java 11
-	testImplementation 'com.ldiamond:architectureunittests:0.1.0'
+	testImplementation 'com.ldiamond:architectureunittests:1.1.0'
 }
 
 tasks.named('test') {
