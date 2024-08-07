@@ -57,7 +57,11 @@ public class DashboardOutput {
                 dRow [0] = " " + app.getTitle();
                 int colLoop = 1;
                 for (String dcCol : dashboardData.rowKeySet()) {
-                    dRow [colLoop] = SqgraphApplication.standardDecimalFormatter.format (rowMap.get(dcCol)) + " ";
+                    try {
+                        dRow [colLoop] = SqgraphApplication.standardDecimalFormatter.format (rowMap.get(dcCol)) + " ";
+                    } catch (Exception e) {
+                        dRow [colLoop] = "0.0";
+                    }
                     colLoop++;
                 }
                 dashboardFormattedData[rowLoop] = dRow;
@@ -122,7 +126,7 @@ public class DashboardOutput {
 
                 for (String [] rowData : dashboardFormattedData) {
                     for (String cellData : rowData) {
-                        bw.write(cellData + ",");
+                        bw.write("\"" + cellData + "\"" + ",");
                     }
                     bw.newLine();
                 }
