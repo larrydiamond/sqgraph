@@ -38,7 +38,7 @@ dependencies {
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '1.3.43'
 	implementation("com.google.guava:guava:32.1.2-jre")
 
-	testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.11.0' // cant go beyond this until Java 11
+	testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
 	testImplementation 'com.ldiamond:architectureunittests:1.1.0'
 }
 
