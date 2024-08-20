@@ -39,7 +39,7 @@ dependencies {
 	implementation("com.google.guava:guava:32.1.2-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
-	testImplementation 'com.ldiamond:architectureunittests:1.1.0'
+	testImplementation 'com.ldiamond:architectureunittests:2.0.0'
 }
 
 tasks.named('test') {
