@@ -77,7 +77,7 @@ class SqgraphApplicationTests {
 
 		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
 		SyntheticMetric unitTestSynthetic = new SyntheticMetric() {
-			@Override public String getSyntheicName() { return "UnitTest";}
+			@Override public String getSyntheticName() { return "UnitTest";}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double lines = 0;
@@ -91,7 +91,7 @@ class SqgraphApplicationTests {
 			}
 		};
 
-		syntheticMetrics.put(unitTestSynthetic.getSyntheicName(), unitTestSynthetic);
+		syntheticMetrics.put(unitTestSynthetic.getSyntheticName(), unitTestSynthetic);
 
 		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
 		assertEquals (5, results.size(), results.toString());

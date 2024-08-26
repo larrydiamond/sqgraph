@@ -254,7 +254,7 @@ public class SqgraphApplication {
 	}
 
 	static SyntheticMetric ViolationsPerKLines = new SyntheticMetric() {
-		@Override public String getSyntheicName() { return "ViolationsPerKLines";}
+		@Override public String getSyntheticName() { return "ViolationsPerKLines";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("ncloc");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double lines = 0;
@@ -269,7 +269,7 @@ public class SqgraphApplication {
 	};
 
 	static SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
-		@Override public String getSyntheicName() { return "CognitiveComplexityPerKLines";}
+		@Override public String getSyntheticName() { return "CognitiveComplexityPerKLines";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("ncloc");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double lines = 0;
@@ -284,7 +284,7 @@ public class SqgraphApplication {
 	};
 
 	static SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
-		@Override public String getSyntheicName() { return "BugsPlusSecurity";}
+		@Override public String getSyntheticName() { return "BugsPlusSecurity";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double bugs = 0;
@@ -321,7 +321,7 @@ public class SqgraphApplication {
 //				System.out.println ("Made k synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
 
 				SyntheticMetric generatedMetric = new SyntheticMetric() {
-					@Override public String getSyntheicName() { return sqm.getMetric();}
+					@Override public String getSyntheticName() { return sqm.getMetric();}
 					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
 					@Override public double calculate(Map<String,Double> metrics) {
 						double denominator = 0;
@@ -345,7 +345,7 @@ public class SqgraphApplication {
 //				System.out.println ("Made h synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
 
 				SyntheticMetric generatedMetric = new SyntheticMetric() {
-					@Override public String getSyntheicName() { return sqm.getMetric();}
+					@Override public String getSyntheticName() { return sqm.getMetric();}
 					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
 					@Override public double calculate(Map<String,Double> metrics) {
 						double denominator = 0;
@@ -362,9 +362,9 @@ public class SqgraphApplication {
 			}
 		}
 
-		syntheticMetrics.put(ViolationsPerKLines.getSyntheicName(), ViolationsPerKLines);
-		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheicName(), CognitiveComplexityPerKLines);
-		syntheticMetrics.put(bugsPlusSecurity.getSyntheicName(), bugsPlusSecurity);
+		syntheticMetrics.put(ViolationsPerKLines.getSyntheticName(), ViolationsPerKLines);
+		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheticName(), CognitiveComplexityPerKLines);
+		syntheticMetrics.put(bugsPlusSecurity.getSyntheticName(), bugsPlusSecurity);
 
 		return syntheticMetrics;
 	}
@@ -374,7 +374,7 @@ public class SqgraphApplication {
 		String suffix = sqm.getMetric().substring(offset + 7);
 
 		return new SyntheticMetric() {
-			@Override public String getSyntheicName() { return sqm.getMetric();}
+			@Override public String getSyntheticName() { return sqm.getMetric();}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double denominator = 0;

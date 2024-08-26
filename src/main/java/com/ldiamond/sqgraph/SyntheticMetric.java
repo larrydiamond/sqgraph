@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface SyntheticMetric {
-    String getSyntheicName ();
+    String getSyntheticName ();
     List<String> getRealMetrics();
     double calculate (Map<String,Double> metrics);
 }

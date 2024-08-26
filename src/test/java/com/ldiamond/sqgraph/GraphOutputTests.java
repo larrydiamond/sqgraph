@@ -53,7 +53,7 @@ class GraphOutputTests {
 
 
 	static SyntheticMetric unitTestSyntheticMetric = new SyntheticMetric() {
-		@Override public String getSyntheicName() { return "unitTestSyntheticMetric";}
+		@Override public String getSyntheticName() { return "unitTestSyntheticMetric";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("unittest");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double lines = 0;
