@@ -36,7 +36,7 @@ dependencies {
 	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.8'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.16.0'
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.3'
-	implementation("com.google.guava:guava:32.1.2-jre")
+	implementation("com.google.guava:guava:33.3.0-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
 	testImplementation 'com.ldiamond:architectureunittests:2.0.0'
@@ -69,5 +69,12 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = true
+    }
+}
+
+dependencyCheck {
+    nvd {
+        apiKey = System.getenv('NVD_KEY')
+		delay = 16000
     }
 }
