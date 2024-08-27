@@ -341,24 +341,7 @@ public class SqgraphApplication {
 			if (offset != -1) {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 8);
-
-//				System.out.println ("Made h synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
-
-				SyntheticMetric generatedMetric = new SyntheticMetric() {
-					@Override public String getSyntheticName() { return sqm.getMetric();}
-					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
-					@Override public double calculate(Map<String,Double> metrics) {
-						double denominator = 0;
-						Double denominatorInput = metrics.get(suffix);
-						if (denominatorInput != null) denominator = denominatorInput;
-						double numerator = 0;
-						Double numeratorInput = metrics.get(prefix);
-						if (numeratorInput != null) numerator = numeratorInput;
-						if ((denominator == 0) || (numerator == 0)) return 0.0;
-						return (100.0 * numerator) / denominator;
-					}
-				};
-				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
+				syntheticMetrics.put(sqm.getMetric(), getMetric(sqm, prefix, suffix, 100.0));
 			}
 		}
 
@@ -369,22 +352,26 @@ public class SqgraphApplication {
 		return syntheticMetrics;
 	}
 
-	private static SyntheticMetric getSyntheticMetric(SQMetrics sqm, int offset) {
+	private static SyntheticMetric getSyntheticMetric(final SQMetrics sqm, final int offset) {
 		String prefix = sqm.getMetric().substring(0, offset);
 		String suffix = sqm.getMetric().substring(offset + 7);
 
+		return getMetric(sqm, prefix, suffix, 1.0);
+	}
+
+	private static SyntheticMetric getMetric (final SQMetrics sqm, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
 		return new SyntheticMetric() {
 			@Override public String getSyntheticName() { return sqm.getMetric();}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (numeratorMetric);  list.add(denominatorMetric);  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double denominator = 0;
-				Double denominatorInput = metrics.get(suffix);
+				Double denominatorInput = metrics.get(denominatorMetric);
 				if (denominatorInput != null) denominator = denominatorInput;
 				double numerator = 0;
-				Double numeratorInput = metrics.get(prefix);
+				Double numeratorInput = metrics.get(numeratorMetric);
 				if (numeratorInput != null) numerator = numeratorInput;
 				if ((denominator == 0) || (numerator == 0)) return 0.0;
-				return numerator / denominator;
+				return (multiplier * numerator) / denominator;
 			}
 		};
 	}
