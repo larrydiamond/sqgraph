@@ -309,32 +309,16 @@ public class SqgraphApplication {
 		for (SQMetrics sqm : config.getMetrics()) {
 			int offset = sqm.getMetric().indexOf("__PER__");
 			if (offset != -1) {
-				SyntheticMetric generatedMetric = getSyntheticMetric(sqm, offset);
-				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
+				String prefix = sqm.getMetric().substring(0, offset);
+				String suffix = sqm.getMetric().substring(offset + 7);
+				syntheticMetrics.put(sqm.getMetric(), getMetric(sqm, prefix, suffix, 1.0));
 			}
 
 			offset = sqm.getMetric().indexOf("__PER_K_");
 			if (offset != -1) {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 8);
-
-//				System.out.println ("Made k synthetic " + sqm.getMetric() + " from " + prefix + " and " + suffix);
-
-				SyntheticMetric generatedMetric = new SyntheticMetric() {
-					@Override public String getSyntheticName() { return sqm.getMetric();}
-					@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (prefix);  list.add(suffix);  return list;}
-					@Override public double calculate(Map<String,Double> metrics) {
-						double denominator = 0;
-						Double denominatorInput = metrics.get(suffix);
-						if (denominatorInput != null) denominator = denominatorInput;
-						double numerator = 0;
-						Double numeratorInput = metrics.get(prefix);
-						if (numeratorInput != null) numerator = numeratorInput;
-						if ((denominator == 0) || (numerator == 0)) return 0.0;
-						return (1000.0 * numerator) / denominator;
-					}
-				};
-				syntheticMetrics.put(sqm.getMetric(), generatedMetric);
+				syntheticMetrics.put(sqm.getMetric(), getMetric(sqm, prefix, suffix, 1000.0));
 			}
 
 			offset = sqm.getMetric().indexOf("__PER_H_");
@@ -350,13 +334,6 @@ public class SqgraphApplication {
 		syntheticMetrics.put(bugsPlusSecurity.getSyntheticName(), bugsPlusSecurity);
 
 		return syntheticMetrics;
-	}
-
-	private static SyntheticMetric getSyntheticMetric(final SQMetrics sqm, final int offset) {
-		String prefix = sqm.getMetric().substring(0, offset);
-		String suffix = sqm.getMetric().substring(offset + 7);
-
-		return getMetric(sqm, prefix, suffix, 1.0);
 	}
 
 	private static SyntheticMetric getMetric (final SQMetrics sqm, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
