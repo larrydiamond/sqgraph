@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -337,8 +339,12 @@ public class SqgraphApplication {
 	}
 
 	private static SyntheticMetric getMetric (final SQMetrics sqm, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
+		return getMetricString(sqm.getMetric(), numeratorMetric, denominatorMetric, multiplier);
+	}
+
+	private static SyntheticMetric getMetricString (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
 		return new SyntheticMetric() {
-			@Override public String getSyntheticName() { return sqm.getMetric();}
+			@Override public String getSyntheticName() { return metricName;}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (numeratorMetric);  list.add(denominatorMetric);  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double denominator = 0;
@@ -354,12 +360,8 @@ public class SqgraphApplication {
 	}
 
 	public static Date getUTCDate (final Date date) {
-		return new Date (Date.UTC (
-			date.getYear(),
-			date.getMonth(),
-			date.getDate() + 1,
-			0,0,0
-		));
+    	LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC).withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
+    	return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
 	}
 
 }
