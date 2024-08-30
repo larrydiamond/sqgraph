@@ -313,21 +313,21 @@ public class SqgraphApplication {
 			if (offset != -1) {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 7);
-				syntheticMetrics.put(sqm.getMetric(), getMetric(sqm, prefix, suffix, 1.0));
+				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 1.0));
 			}
 
 			offset = sqm.getMetric().indexOf("__PER_K_");
 			if (offset != -1) {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 8);
-				syntheticMetrics.put(sqm.getMetric(), getMetric(sqm, prefix, suffix, 1000.0));
+				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 1000.0));
 			}
 
 			offset = sqm.getMetric().indexOf("__PER_H_");
 			if (offset != -1) {
 				String prefix = sqm.getMetric().substring(0, offset);
 				String suffix = sqm.getMetric().substring(offset + 8);
-				syntheticMetrics.put(sqm.getMetric(), getMetric(sqm, prefix, suffix, 100.0));
+				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 100.0));
 			}
 		}
 
@@ -338,11 +338,7 @@ public class SqgraphApplication {
 		return syntheticMetrics;
 	}
 
-	private static SyntheticMetric getMetric (final SQMetrics sqm, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
-		return getMetricString(sqm.getMetric(), numeratorMetric, denominatorMetric, multiplier);
-	}
-
-	private static SyntheticMetric getMetricString (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
+	private static SyntheticMetric getMetric (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
 		return new SyntheticMetric() {
 			@Override public String getSyntheticName() { return metricName;}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (numeratorMetric);  list.add(denominatorMetric);  return list;}
