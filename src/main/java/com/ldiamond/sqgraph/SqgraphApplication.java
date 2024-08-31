@@ -270,24 +270,12 @@ public class SqgraphApplication {
 		}
 	};
 
-	static SyntheticMetric CognitiveComplexityPerKLines = new SyntheticMetric() {
-		@Override public String getSyntheticName() { return "CognitiveComplexityPerKLines";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("cognitive_complexity");  list.add("ncloc");  return list;}
-		@Override public double calculate(Map<String,Double> metrics) {
-			double lines = 0;
-			Double lineInput = metrics.get("ncloc");
-			if (lineInput != null) lines = lineInput;
-			double numerator = 0;
-			Double numeratorInput = metrics.get("cognitive_complexity");
-			if (numeratorInput != null) numerator = numeratorInput;
-			if ((lines == 0) || (numerator == 0)) return 0.0;
-			return (1000.0 * numerator) / lines;
-		}
-	};
+	static SyntheticMetric CognitiveComplexityPerKLines = getMetric ("CognitiveComplexityPerKLines", "cognitive_complexity", "ncloc", 1000.0);
 
 	static SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "BugsPlusSecurity";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  return list;}
+
 		@Override public double calculate(Map<String,Double> metrics) {
 			double bugs = 0;
 			Double bugsInput = metrics.get("bugs");
