@@ -34,7 +34,7 @@ dependencies {
 	implementation group: 'commons-codec', name: 'commons-codec'
 
 	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.8'
-	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.16.0'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.3'
 	implementation("com.google.guava:guava:33.3.0-jre")
 
