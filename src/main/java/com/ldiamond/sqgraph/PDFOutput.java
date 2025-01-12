@@ -10,6 +10,7 @@
  **/
 package com.ldiamond.sqgraph;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.List;
 import com.google.common.collect.HashBasedTable;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
@@ -79,7 +81,109 @@ public class PDFOutput {
         document.close();
 	}
 
-    /* 
+    public static void addTextDashboard(final HashBasedTable<String, String, Double> dashboardData, final Config config) {
+        try {
+            document.add(new Phrase("")); // spacer
+
+            List<Integer> colWidths = new ArrayList<>(); 
+            PdfPTable table = new PdfPTable(config.getMetrics().length + 1);
+            table.setHorizontalAlignment(table.ALIGN_LEFT);
+            table.setWidthPercentage(95);
+            table.setSpacingBefore(2);
+            table.setSpacingAfter(2);
+            Phrase pphrase = new Phrase("Project");
+            Font pfont = pphrase.getFont();
+            pfont.setSize(20);
+            PdfPCell cell = new PdfPCell(pphrase);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setPaddingBottom(cell.getPaddingBottom() + 3);
+            table.addCell(cell);
+            colWidths.add(2);
+            int col = 1;
+            for (SQMetrics m : config.getMetrics()) {
+                Phrase phrase = new Phrase(m.getTitle());
+                Font font = phrase.getFont();
+                font.setSize(20);
+                cell = new PdfPCell(phrase);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setBackgroundColor(Color.LIGHT_GRAY);
+                table.addCell(cell);
+                colWidths.add(getWidthOfString(m.getTitle()));
+                col++;
+            }
+            for (Application a : config.getApplications()) {
+                col = 0;
+                Phrase tphrase = new Phrase(a.getTitle());
+                Font tfont = tphrase.getFont();
+                tfont.setSize(20);
+                cell = new PdfPCell(tphrase);
+                cell.setPaddingLeft(cell.getPaddingLeft() + 2);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                cell.setPaddingBottom(cell.getPaddingBottom() + 3);
+                setMax(colWidths, col, a.getTitle(), 0);
+                table.addCell(cell);
+                for (SQMetrics m : config.getMetrics()) {
+                    String text = SqgraphApplication.standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
+                    Phrase phrase = new Phrase(text);
+                    Font font = phrase.getFont();
+                    font.setSize(20);
+                    cell = new PdfPCell(phrase);
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    cell.setPaddingLeft(cell.getPaddingLeft() + 2);
+                    cell.setPaddingRight(cell.getPaddingRight() + 5);
+                    SQMetrics metric = config.getMetrics()[col];
+                    String greenString = metric.getGreen();
+                    String yellowString = metric.getYellow();
+            		if ((greenString != null) && (yellowString != null)) {
+			            double green = Double.parseDouble(greenString);
+			            double yellow = Double.parseDouble(yellowString);
+			            boolean greenHigher = true;
+			            if (yellow > green) greenHigher = false;
+                        double cellValue = Double.parseDouble(text);
+                        if (greenHigher) {
+                            if (cellValue > green) {
+                                cell.setBackgroundColor(Color.GREEN);
+                            } else {
+                                if (cellValue > yellow) {
+                                    cell.setBackgroundColor(Color.YELLOW);
+                                } else {
+                                    cell.setBackgroundColor(Color.PINK);
+                                }
+                            }
+                        } else {
+                            if (cellValue < green) {
+                                cell.setBackgroundColor(Color.GREEN);
+                            } else {
+                                if (cellValue < yellow) {
+                                    cell.setBackgroundColor(Color.YELLOW);
+                                } else {
+                                    cell.setBackgroundColor(Color.PINK);
+                                }
+                            }
+                        }
+                    }
+                    table.addCell(cell);
+                    col++;
+                    setMax(colWidths, col, text, 4);
+                }
+            }
+
+            int[] w = new int[colWidths.size()];
+            int colWidthsSize = colWidths.size();
+            for (int loop = 0; loop < colWidthsSize; loop++) {
+                w[loop] = colWidths.get(loop);
+            }
+
+            table.setWidths(w);
+            document.add(table);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private static int getWidthOfString(final String s) {
         int width = 2;
 
@@ -106,67 +210,4 @@ public class PDFOutput {
             widths.set (col, width);
         }
     }
-
-    public static void addTextDashboard(final HashBasedTable<String, String, Double> dashboardData, final Config config) {
-        document.add(new Phrase ("")); // spacer
-//        Phrase p = new Phrase ("blah");
-//        Font f = p.getFont();
-//        System.out.println ("Font " + f.getFamilyname() + " size " + f.getSize());
-
-        List<Integer> colWidths = new ArrayList<>(); 
-        
-        PdfPTable table = new PdfPTable(config.getMetrics().length + 1);
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(1);
-        table.setSpacingAfter(2);
-        PdfPCell cell = new PdfPCell(new Phrase ("Text"));
-        table.addCell(cell);
-        colWidths.add (2);
-        int col = 1;
-        for (SQMetrics m : config.getMetrics()) {
-            cell = new PdfPCell(new Phrase (m.getTitle()));
-
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
-            colWidths.add(getWidthOfString (m.getTitle()));
-            col++;
-        }
-        for (Application a : config.getApplications()) {
-            col = 0;
-            cell = new PdfPCell(new Phrase (a.getTitle()));
-            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell.setVerticalAlignment(Element.ALIGN_CENTER);
-            setMax(colWidths, col, a.getTitle(), 0);
-            table.addCell(cell);
-            for (SQMetrics m : config.getMetrics()) {
-                col++;
-                String text = SqgraphApplication.standardDecimalFormatter.format (dashboardData.get(m.getTitle(),a.getTitle()));
-                cell = new PdfPCell(new Phrase (text));
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                cell.setVerticalAlignment(Element.ALIGN_CENTER);
-                cell.setPaddingLeft(cell.getPaddingLeft() + 2);
-                cell.setPaddingRight(cell.getPaddingRight() + 2);
-                table.addCell(cell);
-                setMax(colWidths, col, text, 4);
-            }
-        }
-
-        int [] w = new int [colWidths.size()];
-        int sum = 0;
-        int colWidthsSize = colWidths.size();
-        for (int loop = 0; loop < colWidthsSize; loop++) {
-//            System.out.println ("width " + loop + " = " + colWidths.get(loop));
-            w [loop] = colWidths.get(loop);
-            sum += w [loop];
-        }
-        System.out.println ("Sum = " + sum);
-
-        
-
-        table.setWidths(w);
-
-        document.add (table);
-    }
-
-    /* */
 }

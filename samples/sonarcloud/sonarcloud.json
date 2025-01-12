@@ -9,7 +9,7 @@
         {"title":"OWASP ZAP Proxy", "key": "zaproxy_zaproxy"}
     ],
     "metrics": [
-        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"1","description":"Code Coverage: More is better: What percentage of the code is covered by unit tests."}, 
+        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"20","description":"Code Coverage: More is better: What percentage of the code is covered by unit tests."}, 
         {"metric":"CognitiveComplexityPerKLines","filename":"Complexity.png","title":"Complexity Per Thousand Lines","description":"Cognitive Complexity: Less is better: How testable and maintainable are the methods in this application?"},
         {"metric":"bugs","title":"Bugs","description":"Bugs: Less is better: How many Sonarqube bug code violations were found in this application?"},
         {"metric":"vulnerabilities","filename":"Vulnerabilities.png","title":"Vulnerabilities","description":"Vulnerabilities: Less is better: How many Sonarqube security vulnerabilities were found in this application?"},

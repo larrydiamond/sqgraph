@@ -178,9 +178,9 @@ public class SqgraphApplication {
 
 		if (config.getPdf() != null) {
 			PDFOutput.createPDF (config);
-// not ready for prime time..... yet			PDFOutput.addTextDashboard (dashboardData, config);
-			if (bi != null)
-				PDFOutput.addDashboard (bi);
+			PDFOutput.addTextDashboard (dashboardData, config);
+//			if (bi != null)
+//				PDFOutput.addDashboard (bi);
 			PDFOutput.addGraphs(config);
 			PDFOutput.closePDF();
 		}
@@ -333,6 +333,5 @@ public class SqgraphApplication {
     	LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC).withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
     	return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
 	}
-
 }
 
