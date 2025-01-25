@@ -1,6 +1,5 @@
 # Management Code Metrics
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=bugs)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=larrydiamond_sqgraph&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=larrydiamond_sqgraph)
