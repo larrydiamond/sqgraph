@@ -8,9 +8,11 @@ plugins {
 }
 
 group = 'com.ldiamond'
-version = '7.0.0-SNAPSHOT'
-sourceCompatibility = '11'
-targetCompatibility = '11'
+version = '7.0.1-SNAPSHOT'
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 configurations {
 	compileOnly {
@@ -25,6 +27,8 @@ repositories {
 }
 
 dependencies {
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
