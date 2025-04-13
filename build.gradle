@@ -40,7 +40,7 @@ dependencies {
 	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.8'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.3'
-	implementation("com.google.guava:guava:33.3.0-jre")
+	implementation("com.google.guava:guava:33.4.7-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
 	testImplementation 'com.ldiamond:architectureunittests:2.0.0'
