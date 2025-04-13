@@ -5,6 +5,7 @@ plugins {
 	id 'jacoco'
     id "org.sonarqube" version "6.1.0.5360"
 	id "org.owasp.dependencycheck" version "12.1.1"
+	id("org.openrewrite.rewrite") version("7.4.1")
 }
 
 group = 'com.ldiamond'
@@ -28,6 +29,8 @@ repositories {
 
 dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:3.6.1")
+	rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.7.1")
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
@@ -81,4 +84,25 @@ dependencyCheck {
         apiKey = System.getenv('NVD_KEY')
 		delay = 16000
     }
+}
+
+rewrite {
+	activeRecipe("org.openrewrite.java.testing.archunit.ArchUnit0to1Migration")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertEqualsBooleanToAssertBoolean")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertEqualsNullToAssertNull")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertFalseEqualsToAssertNotEquals")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertFalseNegationToAssertTrue")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertFalseNullToAssertNotNull")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertLiteralBooleanToFailRecipe")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertNotEqualsBooleanToAssertBoolean")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertTrueComparisonToAssertEquals")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertTrueNegationToAssertFalse")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertTrueNullToAssertNull")
+	activeRecipe("org.openrewrite.java.testing.junit5.CleanupAssertions")
+	activeRecipe("org.openrewrite.java.testing.junit5.RemoveTryCatchFailBlocks")
+	
+	activeRecipe("org.openrewrite.staticanalysis.BooleanChecksNotInverted")
+	activeRecipe("org.openrewrite.staticanalysis.BufferedWriterCreationRecipes")
+	setExportDatatables(true)
 }

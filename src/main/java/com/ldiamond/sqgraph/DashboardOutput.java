@@ -18,9 +18,9 @@ import java.awt.Graphics;
 import java.awt.FontMetrics;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -118,7 +118,7 @@ public class DashboardOutput {
                 if (!config.getCsv().endsWith(".csv"))
                     config.setCsv(config.getCsv() + ".csv");
 
-                bw = new BufferedWriter(new FileWriter(config.getCsv()));
+                bw = Files.newBufferedWriter(new File(config.getCsv()).toPath());
                 for (String column : dashboardColumns) {
                     bw.write(column + ",");
                 }
