@@ -42,7 +42,7 @@ dependencies {
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.3'
 	implementation("com.google.guava:guava:33.4.7-jre")
 
-	testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
+	testImplementation 'org.mockito:mockito-junit-jupiter:5.17.0'
 	testImplementation 'com.ldiamond:architectureunittests:2.0.0'
 }
 
