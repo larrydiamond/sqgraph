@@ -34,10 +34,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
 
 import com.google.common.collect.HashBasedTable;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DashboardOutput {
-
-    private DashboardOutput () {}
     
     public static BufferedImage outputDashboard (HashBasedTable<String, String, Double> dashboardData, Config config) {
         try {

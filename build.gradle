@@ -31,6 +31,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:3.6.1")
 	rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.7.1")
+	rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.7.0")
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
@@ -102,7 +103,31 @@ rewrite {
 	activeRecipe("org.openrewrite.java.testing.junit5.CleanupAssertions")
 	activeRecipe("org.openrewrite.java.testing.junit5.RemoveTryCatchFailBlocks")
 	
+	activeRecipe("org.openrewrite.staticanalysis.AtomicPrimitiveEqualsUsesGet")
 	activeRecipe("org.openrewrite.staticanalysis.BooleanChecksNotInverted")
 	activeRecipe("org.openrewrite.staticanalysis.BufferedWriterCreationRecipes")
+	activeRecipe("org.openrewrite.staticanalysis.CaseInsensitiveComparisonsDoNotChangeCase")
+	activeRecipe("org.openrewrite.staticanalysis.CatchClauseOnlyRethrows")
+	activeRecipe("org.openrewrite.staticanalysis.NoEmptyCollectionWithRawType")
+	activeRecipe("org.openrewrite.staticanalysis.ReplaceThreadRunWithThreadStart")
+	activeRecipe("org.openrewrite.staticanalysis.ReplaceWeekYearWithYear")
+	activeRecipe("org.openrewrite.staticanalysis.StringLiteralEquality")
+	activeRecipe("org.openrewrite.staticanalysis.UnnecessaryPrimitiveAnnotations")
+	activeRecipe("org.openrewrite.staticanalysis.WriteOctalValuesAsDecimal")
+
+	activeRecipe("org.openrewrite.java.migrate.CastArraysAsListToList")
+	activeRecipe("org.openrewrite.java.migrate.guava.NoGuavaJava11")
+	activeRecipe("org.openrewrite.java.migrate.guava.NoGuavaDirectExecutor")
+	activeRecipe("org.openrewrite.java.migrate.guava.NoGuavaListsNewArrayList")
+	activeRecipe("org.openrewrite.java.migrate.guava.NoGuavaMapsNewHashMap")
+	activeRecipe("org.openrewrite.java.migrate.guava.PreferJavaUtilCollectionsSynchronizedNavigableMap")
+	activeRecipe("org.openrewrite.java.migrate.guava.PreferJavaUtilOptional")
+	activeRecipe("org.openrewrite.java.migrate.jacoco.UpgradeJaCoCo")
+	activeRecipe("org.openrewrite.java.migrate.lang.StringRulesRecipes")
+	activeRecipe("org.openrewrite.java.migrate.lang.UseStringIsEmptyRecipe")
+	activeRecipe("org.openrewrite.java.migrate.lombok.LombokValToFinalVar")
+	activeRecipe("org.openrewrite.java.migrate.lombok.UseLombokGetter")
+	activeRecipe("org.openrewrite.java.migrate.lombok.UseLombokSetter")
+	activeRecipe("org.openrewrite.java.migrate.lombok.UseNoArgsConstructor")
 	setExportDatatables(true)
 }

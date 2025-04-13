@@ -18,6 +18,8 @@ import java.util.Map;
 
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.style.Styler;
@@ -25,9 +27,8 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 
 import com.google.common.collect.HashBasedTable;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GraphOutput {
-    
-    private GraphOutput () {}
 
     public static void outputGraphs (final Config config, final Map<String, AssembledSearchHistory> rawMetrics, 
                               final HashBasedTable<String,String,Double> dashboardData, final Map<String, String> titleLookup, 
