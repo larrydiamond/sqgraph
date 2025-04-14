@@ -87,6 +87,7 @@ dependencyCheck {
     }
 }
 
+// gradle rewriteRun
 rewrite {
 	activeRecipe("org.openrewrite.java.testing.archunit.ArchUnit0to1Migration")
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertEqualsBooleanToAssertBoolean")
