@@ -5,7 +5,7 @@ plugins {
 	id 'jacoco'
     id "org.sonarqube" version "6.1.0.5360"
 	id "org.owasp.dependencycheck" version "12.1.1"
-	id("org.openrewrite.rewrite") version("7.4.1")
+	id("org.openrewrite.rewrite") version("7.5.0")
 }
 
 group = 'com.ldiamond'
@@ -29,9 +29,9 @@ repositories {
 
 dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:3.6.1")
-	rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.7.1")
-	rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.7.0")
+	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:3.7.0")
+	rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.8.0")
+	rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.8.0")
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
@@ -44,10 +44,10 @@ dependencies {
 	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.8'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.3'
-	implementation("com.google.guava:guava:33.4.7-jre")
+	implementation("com.google.guava:guava:33.4.8-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.17.0'
-	testImplementation 'com.ldiamond:architectureunittests:2.0.0'
+	testImplementation 'com.ldiamond:architectureunittests:3.0.0'
 }
 
 tasks.named('test') {
