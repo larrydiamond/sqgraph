@@ -29,10 +29,10 @@ repositories {
 
 dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:3.7.0")
-	rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.8.0")
-	rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.8.0")
-	rewrite("org.openrewrite.recipe:rewrite-spring:6.7.0")
+	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:latest.release")
+	rewrite("org.openrewrite.recipe:rewrite-static-analysis:latest.release")
+	rewrite("org.openrewrite.recipe:rewrite-migrate-java:latest.release")
+	rewrite("org.openrewrite.recipe:rewrite-spring:latest.release")
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
@@ -42,13 +42,13 @@ dependencies {
 	implementation 'org.springframework:spring-web'
 	implementation group: 'commons-codec', name: 'commons-codec'
 
-	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.8'
-	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
-	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.3'
+	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.+'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.+'
+	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.+'
 	implementation("com.google.guava:guava:33.4.8-jre")
 
-	testImplementation 'org.mockito:mockito-junit-jupiter:5.17.0'
-	testImplementation 'com.ldiamond:architectureunittests:3.0.0'
+	testImplementation 'org.mockito:mockito-junit-jupiter:5.17.+'
+	testImplementation 'com.ldiamond:architectureunittests:latest.release'
 }
 
 tasks.named('test') {
