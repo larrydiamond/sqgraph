@@ -32,6 +32,7 @@ dependencies {
 	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:3.7.0")
 	rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.8.0")
 	rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.8.0")
+	rewrite("org.openrewrite.recipe:rewrite-spring:6.7.0")
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
@@ -143,6 +144,23 @@ rewrite {
 	activeRecipe("org.openrewrite.java.migrate.util.UseEnumSetOf")
 	activeRecipe("org.openrewrite.java.migrate.util.UseLocaleOf")
 	activeRecipe("org.openrewrite.java.migrate.util.UseMapOf")
+
+	activeRecipe("org.openrewrite.java.spring.boot2.MigrateLoggingSystemPropertyConstants")
+	activeRecipe("org.openrewrite.java.spring.boot2.MigrateMultipartConfigFactory")
+	activeRecipe("org.openrewrite.java.spring.boot2.MigrateRestTemplateBuilderTimeoutByInt")
+	activeRecipe("org.openrewrite.java.spring.boot2.MoveAutoConfigurationToImportsFile")
+	activeRecipe("org.openrewrite.java.spring.boot2.ReplaceDeprecatedEnvironmentTestUtils")
+	activeRecipe("org.openrewrite.java.spring.boot2.ReplaceExtendWithAndContextConfiguration")
+	activeRecipe("org.openrewrite.java.spring.boot2.RestTemplateBuilderRequestFactory")
+	activeRecipe("org.openrewrite.java.spring.boot2.SpringBootMavenPluginMigrateAgentToAgents")
+	activeRecipe("org.openrewrite.java.spring.boot2.UnnecessarySpringExtension")
+
+	activeRecipe("org.openrewrite.java.spring.framework.MigrateWebMvcConfigurerAdapter")
+
+	activeRecipe("org.openrewrite.java.spring.http.ReplaceStringLiteralsWithHttpHeadersConstants")
+	activeRecipe("org.openrewrite.java.spring.http.ReplaceStringLiteralsWithMediaTypeConstants")
+
+	activeRecipe("org.openrewrite.java.spring.test.SpringRulesToJUnitExtension")
 
 	setExportDatatables(true)
 }
