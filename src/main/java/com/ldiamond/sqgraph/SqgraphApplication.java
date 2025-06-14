@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -127,7 +129,7 @@ public class SqgraphApplication {
 		}
 
 		Map<String, String> titleLookup = new HashMap<>();
-		final SimpleDateFormat sdfsq = new SimpleDateFormat("yyyy-MM-dd");
+		final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
 		for (Application app : config.getExpandedApplications()) {
@@ -139,8 +141,8 @@ public class SqgraphApplication {
 				
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
-				Date sqDate = getUTCDate (startDate);
-				final String sdfsqString = sdfsq.format (sqDate);
+				LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+				final String sdfsqString = sdfsq.format (localDate);
 
 				AssembledSearchHistory history = getHistory (config, sdfsqString, key, metrics, headers, restTemplate);
 				rawMetrics.put (key, history);
