@@ -14,9 +14,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.HashBasedTable;
@@ -44,8 +44,8 @@ public class PDFOutput {
             PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
             document.open();
             document.addTitle ("Management Code Metrics");
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm aa");
-            final Paragraph paragraph = new Paragraph("Created by Management Code Metrics - CodeQualityGraph.com - " + sdf.format(new Date()));
+            final DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm:ss a");
+            final Paragraph paragraph = new Paragraph("Created by Management Code Metrics - CodeQualityGraph.com - " + sdf.format(LocalDateTime.now()));
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph);
         } catch (IOException ioe) {
