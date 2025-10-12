@@ -50,6 +50,7 @@ dependencies {
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.17.+'
 	testImplementation 'com.ldiamond:architectureunittests:latest.release'
+	testImplementation 'com.tngtech.archunit:archunit-junit5:latest.release'
 }
 
 tasks.named('test') {
@@ -97,7 +98,7 @@ rewrite {
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertFalseEqualsToAssertNotEquals")
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertFalseNegationToAssertTrue")
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertFalseNullToAssertNotNull")
-	activeRecipe("org.openrewrite.java.testing.cleanup.AssertLiteralBooleanToFailRecipe")
+	activeRecipe("org.openrewrite.java.testing.cleanup.AssertLiteralBooleanToFailRecipes")
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertNotEqualsBooleanToAssertBoolean")
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertTrueComparisonToAssertEquals")
 	activeRecipe("org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals")
