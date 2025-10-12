@@ -5,7 +5,7 @@ plugins {
 	id 'jacoco'
     id "org.sonarqube" version "6.1.0.5360"
 	id "org.owasp.dependencycheck" version "12.1.1"
-	id("org.openrewrite.rewrite") version("7.6.1")
+    id("org.openrewrite.rewrite") version("latest.release")
 }
 
 group = 'com.ldiamond'
@@ -166,7 +166,7 @@ rewrite {
 
 	activeRecipe("org.openrewrite.java.spring.test.SpringRulesToJUnitExtension")
 	    
-	activeRecipe("org.openrewrite.java.testing.junit5.JUnit4to5Migration")
+	activeRecipe("org.openrewrite.java.testing.junit6.JUnit5to6Migration")
 
 	setExportDatatables(true)
 }
