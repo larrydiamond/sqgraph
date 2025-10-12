@@ -187,7 +187,15 @@ public class SqgraphApplication {
 		}
 
 		System.out.println ("Successful completion.");
-		return null;
+		for (Map.Entry<String, CommandLineRunner> entry : ctx.getBeansOfType(CommandLineRunner.class).entrySet()) {
+			return entry.getValue();
+		}
+		return new CommandLineRunner() {
+			@Override
+			public void run(String... args) throws Exception {
+				// nothing to do
+			}
+		};
 	}
 
 	public static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, 

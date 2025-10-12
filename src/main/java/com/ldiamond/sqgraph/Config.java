@@ -10,6 +10,7 @@
  **/
 package com.ldiamond.sqgraph;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,7 +18,8 @@ import lombok.Data;
 
 @Data
 public class Config implements Serializable {
-    private static final long serialVersionUID = 2405172041950251807L;
+	@Serial
+	private static final long serialVersionUID = 2405172041950251807L;
     String url;
     Application[] applications;
     SQMetrics[] metrics;
@@ -30,7 +32,8 @@ public class Config implements Serializable {
 
 @Data
 class SQMetrics implements Serializable {
-    private static final long serialVersionUID = 2405111141950251807L;
+	@Serial
+	private static final long serialVersionUID = 2405111141950251807L;
     String metric;
     String filename;
     String title;
@@ -41,7 +44,8 @@ class SQMetrics implements Serializable {
 
 @Data
 class Application implements Serializable {
-    private static final long serialVersionUID = 2422222041950251807L;
+	@Serial
+	private static final long serialVersionUID = 2422222041950251807L;
     String key;
     String title;
     String query;
