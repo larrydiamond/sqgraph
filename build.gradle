@@ -29,10 +29,10 @@ repositories {
 
 dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:latest.release")
-	rewrite("org.openrewrite.recipe:rewrite-static-analysis:latest.release")
 	rewrite("org.openrewrite.recipe:rewrite-migrate-java:latest.release")
+	rewrite("org.openrewrite.recipe:rewrite-rewrite:latest.release")
 	rewrite("org.openrewrite.recipe:rewrite-spring:latest.release")
+	rewrite("org.openrewrite.recipe:rewrite-static-analysis:latest.release")
 	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:latest.release")
 
 	implementation 'org.springframework.boot:spring-boot-starter'
@@ -146,6 +146,8 @@ rewrite {
 	activeRecipe("org.openrewrite.java.migrate.util.UseEnumSetOf")
 	activeRecipe("org.openrewrite.java.migrate.util.UseLocaleOf")
 	activeRecipe("org.openrewrite.java.migrate.util.UseMapOf")
+
+    activeRecipe("org.openrewrite.java.recipes.UpgradeTestsToJava21")
 
 	activeRecipe("org.openrewrite.java.spring.NoAutowiredOnConstructor")
 

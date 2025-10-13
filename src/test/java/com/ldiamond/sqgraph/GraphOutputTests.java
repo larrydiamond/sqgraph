@@ -43,10 +43,10 @@ class GraphOutputTests {
         Double lastPoint = GraphOutput.addSeriesForNativeMetric("unittest", history, dates, doubles);
         assertEquals (200.0, lastPoint);
 		assertEquals (2, dates.size());
-		assertEquals ("Sat Aug 12 20:00:00 EDT 1995", dates.get(0).toString());
+		assertEquals ("Sat Aug 12 20:00:00 EDT 1995", dates.getFirst().toString());
 		assertEquals ("Sat Aug 19 20:00:00 EDT 1995", dates.get(1).toString());
 		assertEquals (2, doubles.size());
-        assertEquals (100.0, doubles.get(0));
+        assertEquals (100.0, doubles.getFirst());
         assertEquals (200.0, doubles.get(1));
 	}
 
@@ -87,10 +87,10 @@ class GraphOutputTests {
         Double lastPoint = GraphOutput.addSeriesForSyntheticMetric(unitTestSyntheticMetric, history, dates, doubles);
         assertEquals(400.0, lastPoint);
 		assertEquals (2, dates.size());
-		assertEquals ("Sat Aug 12 20:00:00 EDT 1995", dates.get(0).toString());
+		assertEquals ("Sat Aug 12 20:00:00 EDT 1995", dates.getFirst().toString());
 		assertEquals ("Sat Aug 19 20:00:00 EDT 1995", dates.get(1).toString());
 		assertEquals (2, doubles.size());
-        assertEquals (100.0, doubles.get(0));
+        assertEquals (100.0, doubles.getFirst());
         assertEquals (400.0, doubles.get(1));
 
     }

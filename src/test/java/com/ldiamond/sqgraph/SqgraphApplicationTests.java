@@ -202,7 +202,7 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
 		assertNotNull(synths.get("something__PER__otherthing"));
-		assertEquals("something", synths.get("something__PER__otherthing").getRealMetrics().get(0));
+		assertEquals("something", synths.get("something__PER__otherthing").getRealMetrics().getFirst());
 		assertEquals("otherthing", synths.get("something__PER__otherthing").getRealMetrics().get(1));
 		assertEquals(2.0, synths.get("something__PER__otherthing").calculate(metrics), 0);
 	}
@@ -227,7 +227,7 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
 		assertNotNull(synths.get("something__PER_K_otherthing"));
-		assertEquals("something", synths.get("something__PER_K_otherthing").getRealMetrics().get(0));
+		assertEquals("something", synths.get("something__PER_K_otherthing").getRealMetrics().getFirst());
 		assertEquals("otherthing", synths.get("something__PER_K_otherthing").getRealMetrics().get(1));
 		assertEquals(2000.0, synths.get("something__PER_K_otherthing").calculate(metrics), 0);
 	}
@@ -252,7 +252,7 @@ class SqgraphApplicationTests {
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
 		assertNotNull(synths.get("something__PER_H_otherthing"));
-		assertEquals("something", synths.get("something__PER_H_otherthing").getRealMetrics().get(0));
+		assertEquals("something", synths.get("something__PER_H_otherthing").getRealMetrics().getFirst());
 		assertEquals("otherthing", synths.get("something__PER_H_otherthing").getRealMetrics().get(1));
 		assertEquals(200.0, synths.get("something__PER_H_otherthing").calculate(metrics), 0);
 	}
@@ -294,11 +294,11 @@ class SqgraphApplicationTests {
 		AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
 
 		assertEquals(4, ash.getMeasures().size());
-		assertEquals("first", ash.getMeasures().get(0).getMetric());
+		assertEquals("first", ash.getMeasures().getFirst().getMetric());
 		assertEquals("second", ash.getMeasures().get(1).getMetric());
 		assertEquals("first", ash.getMeasures().get(2).getMetric());
 		assertEquals("second", ash.getMeasures().get(3).getMetric());
-		assertEquals(1, ash.getMeasures().get(0).history.length);
+		assertEquals(1, ash.getMeasures().getFirst().history.length);
 		assertEquals(1, ash.getMeasures().get(1).history.length);
 		assertEquals(1, ash.getMeasures().get(2).history.length);
 		assertEquals(1, ash.getMeasures().get(3).history.length);
