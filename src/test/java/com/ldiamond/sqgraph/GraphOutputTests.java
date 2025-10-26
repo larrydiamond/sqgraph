@@ -11,18 +11,19 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class GraphOutputTests {
 
 	@Test
-	void testAddSeriesForNativeMetric() {
+	void testAddSeriesForNativeMetric() throws ParseException {
         List<Date> dates = new ArrayList<>();
         List<Double> doubles = new ArrayList<>();
         AssembledSearchHistory history = new AssembledSearchHistory();
@@ -35,11 +36,11 @@ class GraphOutputTests {
         m.setHistory(historyArray);
         History h0 = new History();
         historyArray[0] = h0;
-        h0.setDate(new Date("Sat, 12 Aug 1995 03:30:00 GMT"));
+        h0.setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
         h0.setValue(100.0);
         History h1 = new History();
         historyArray[1] = h1;
-        h1.setDate(new Date("Sat, 19 Aug 1995 03:30:00 GMT"));
+        h1.setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
         h1.setValue(200.0);
         Double lastPoint = GraphOutput.addSeriesForNativeMetric("unittest", history, dates, doubles);
         assertEquals (200.0, lastPoint);
@@ -60,27 +61,33 @@ class GraphOutputTests {
 			if (lineInput != null) lines = lineInput;
 			return lines * 2.0;
 		}
-	};
-
-	@Test
-	void testAddSeriesForSyntheticMetric() {
+    };
+    
+    private static Date parseRfc822(String s) throws ParseException {
+        return new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", java.util.Locale.ENGLISH).parse(s);
+    }
+    
+    @Test
+    void testAddSeriesForSyntheticMetric() throws ParseException {
         List<Date> dates = new ArrayList<>();
         List<Double> doubles = new ArrayList<>();
+
         AssembledSearchHistory history = new AssembledSearchHistory();
         List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);
         Measures m = new Measures();
         measureList.add(m);
+
         m.setMetric("unittest");
         History[] historyArray = new History[2];
         m.setHistory(historyArray);
         History h0 = new History();
         historyArray[0] = h0;
-        h0.setDate(new Date("Sat, 12 Aug 1995 03:30:00 GMT"));
+        h0.setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
         h0.setValue(50.0);
         History h1 = new History();
         historyArray[1] = h1;
-        h1.setDate(new Date("Sat, 19 Aug 1995 03:30:00 GMT"));
+        h1.setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
         h1.setValue(200.0);
 
         Double lastPoint = GraphOutput.addSeriesForSyntheticMetric(unitTestSyntheticMetric, history, dates, doubles);

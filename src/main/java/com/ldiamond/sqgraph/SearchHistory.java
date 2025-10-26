@@ -27,12 +27,6 @@ class Paging {
     int total;
 }
 
-@Data
-class Measures {
-    String metric;
-    History [] history;
-}
-
 @Data 
 class History {
     Date date;
