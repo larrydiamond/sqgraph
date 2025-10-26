@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 
 class GraphOutputTests {
 
-    @Disabled("Disabled until we can determine difference with github build and local build")
 	@Test
 	void testAddSeriesForNativeMetric() {
         List<Date> dates = new ArrayList<>();
@@ -36,11 +35,11 @@ class GraphOutputTests {
         m.setHistory(historyArray);
         History h0 = new History();
         historyArray[0] = h0;
-        h0.setDate(new Date("Sat, 12 Aug 1995 13:30:00 GMT"));
+        h0.setDate(new Date("Sat, 12 Aug 1995 03:30:00 GMT"));
         h0.setValue(100.0);
         History h1 = new History();
         historyArray[1] = h1;
-        h1.setDate(new Date("Sat, 19 Aug 1995 13:30:00 GMT"));
+        h1.setDate(new Date("Sat, 19 Aug 1995 03:30:00 GMT"));
         h1.setValue(200.0);
         Double lastPoint = GraphOutput.addSeriesForNativeMetric("unittest", history, dates, doubles);
         assertEquals (200.0, lastPoint);
@@ -63,7 +62,6 @@ class GraphOutputTests {
 		}
 	};
 
-    @Disabled("Disabled until we can determine difference with github build and local build")
 	@Test
 	void testAddSeriesForSyntheticMetric() {
         List<Date> dates = new ArrayList<>();
@@ -78,11 +76,11 @@ class GraphOutputTests {
         m.setHistory(historyArray);
         History h0 = new History();
         historyArray[0] = h0;
-        h0.setDate(new Date("Sat, 12 Aug 1995 13:30:00 GMT"));
+        h0.setDate(new Date("Sat, 12 Aug 1995 03:30:00 GMT"));
         h0.setValue(50.0);
         History h1 = new History();
         historyArray[1] = h1;
-        h1.setDate(new Date("Sat, 19 Aug 1995 13:30:00 GMT"));
+        h1.setDate(new Date("Sat, 19 Aug 1995 03:30:00 GMT"));
         h1.setValue(200.0);
 
         Double lastPoint = GraphOutput.addSeriesForSyntheticMetric(unitTestSyntheticMetric, history, dates, doubles);
