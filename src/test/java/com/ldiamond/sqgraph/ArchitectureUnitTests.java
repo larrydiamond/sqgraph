@@ -19,15 +19,15 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+//import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noFields;
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noMethods;
+//import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noMethods;
 
 @AnalyzeClasses(packages = "com.ldiamond.sqgraph")
-public class ArchitectureUnitTests {
+class ArchitectureUnitTests {
        
     @Test
-    public void runArchitectureTests() {
+    void runArchitectureTests() {
         ArchitectureUnitTest.testArchitecture(
             Arrays.asList(ArchitectureRule.ARCHUNIT_DEPRECATED_API_SHOULD_NOT_BE_USED, ArchitectureRule.ARCHUNIT_NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS),
             "com.ldiamond.sqgraph");
