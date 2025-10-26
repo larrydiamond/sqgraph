@@ -145,7 +145,8 @@ public class PDFOutput {
 			            double green = Double.parseDouble(greenString);
 			            double yellow = Double.parseDouble(yellowString);
 			            boolean greenHigher = true;
-			            if (yellow > green) greenHigher = false;
+			            if (yellow > green) 
+                            greenHigher = false;
                         double cellValue = Double.parseDouble(text);
                         if (greenHigher) {
                             if (cellValue > green) {
