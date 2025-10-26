@@ -36,9 +36,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PDFOutput {
 
-    static Document document = null;
-
-    public static void createPDF (final Config config) {
+    public static Document createPDF (final Config config) {
+        Document document = null;
         try {
             document = new Document(new Rectangle(1800, (1400 * config.getMetrics().length)));
             PdfWriter.getInstance(document, new FileOutputStream(config.getPdf()));
@@ -51,18 +50,20 @@ public class PDFOutput {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        return document;
     }
 
-    public static void addDashboard(final BufferedImage bi) {
+    public static Document addDashboard(final Document document, final BufferedImage bi) {
         try {
             Image png = Image.getInstance(bi, null);
             document.add(png);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        return document;
     }
 
-	public static void addGraphs(final Config config) {
+	public static Document addGraphs(final Document document, final Config config) {
         try {
             for (SQMetrics sqm : config.getMetrics()) {
                 final Image png = Image.getInstance(sqm.getFilename());
@@ -76,13 +77,15 @@ public class PDFOutput {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        return document;
 	}
 
-	public static void closePDF() {
+	public static Document closePDF(final Document document) {
         document.close();
+        return document;
 	}
 
-    public static void addTextDashboard(final HashBasedTable<String, String, Double> dashboardData, final Config config) {
+    public static Document addTextDashboard(final Document document, final HashBasedTable<String, String, Double> dashboardData, final Config config) {
         try {
             document.add(new Phrase("")); // spacer
 
@@ -183,6 +186,7 @@ public class PDFOutput {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return document;
     }
 
     private static int getWidthOfString(final String s) {

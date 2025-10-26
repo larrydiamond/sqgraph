@@ -42,6 +42,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.HashBasedTable;
 
+import com.lowagie.text.Document;
+
 @SpringBootApplication
 public class SqgraphApplication {
 	static String login = null;
@@ -178,12 +180,12 @@ public class SqgraphApplication {
 		BufferedImage bi = DashboardOutput.outputDashboard(dashboardData, config);
 
 		if (config.getPdf() != null) {
-			PDFOutput.createPDF (config);
-			PDFOutput.addTextDashboard (dashboardData, config);
+			Document document = PDFOutput.createPDF (config);
+			PDFOutput.addTextDashboard (document, dashboardData, config);
 //			if (bi != null)
-//				PDFOutput.addDashboard (bi);
-			PDFOutput.addGraphs(config);
-			PDFOutput.closePDF();
+//				PDFOutput.addDashboard (document, bi);
+			PDFOutput.addGraphs(document, config);
+			PDFOutput.closePDF(document);
 		}
 
 		System.out.println ("Successful completion.");
