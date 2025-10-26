@@ -26,4 +26,10 @@ class PDFOutputTests {
         Document resultDocument = PDFOutput.addGraphs(document, config);
         assertEquals (document, resultDocument);
     }
+
+    @Test
+    void testGetWidthOfStringForBlah() {
+        int width = PDFOutput.getWidthOfString("Blah");
+        assertEquals (10, width);
+    }
 }

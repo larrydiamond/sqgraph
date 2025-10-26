@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -190,7 +191,8 @@ public class PDFOutput {
         return document;
     }
 
-    private static int getWidthOfString(final String s) {
+    @VisibleForTesting
+    static int getWidthOfString(final String s) {
         int width = 2;
 
         for (int offset = 0; offset < s.length(); offset++) {
