@@ -266,11 +266,11 @@ public class SqgraphApplication {
 		return output.toString();
 	}
 
-	final static SyntheticMetric ViolationsPerKLines = getMetric ("ViolationsPerKLines", "violations", "ncloc", 1000.0);
+	static final SyntheticMetric ViolationsPerKLines = getMetric ("ViolationsPerKLines", "violations", "ncloc", 1000.0);
 	
-	final static SyntheticMetric CognitiveComplexityPerKLines = getMetric ("CognitiveComplexityPerKLines", "cognitive_complexity", "ncloc", 1000.0);
+	static final SyntheticMetric CognitiveComplexityPerKLines = getMetric ("CognitiveComplexityPerKLines", "cognitive_complexity", "ncloc", 1000.0);
 
-	final static SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
+	static final SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "BugsPlusSecurity";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {

@@ -50,7 +50,7 @@ class GraphOutputTests {
         assertEquals (200.0, doubles.get(1));
 	}
 
-	final static SyntheticMetric unitTestSyntheticMetric = new SyntheticMetric() {
+	static final SyntheticMetric unitTestSyntheticMetric = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "unitTestSyntheticMetric";}
 		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("unittest");  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
