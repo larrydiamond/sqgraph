@@ -57,6 +57,13 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+sonar {
+  properties {
+    property "sonar.projectKey", "larrydiamond_sqgraph"
+    property "sonar.organization", "larrydiamond-github"
+  }
+}
+
 sonarqube {
     properties {
 		property "sonar.host.url", "https://sonarcloud.io"
@@ -68,7 +75,6 @@ sonarqube {
 		property "sonar.coverage.exclusions", 
 			"src/main/java/com/ldiamond/sqgraph/Config.java,src/main/java/com/ldiamond/sqgraph/SearchHistory.java,src/main/java/com/ldiamond/sqgraph/ValidationResult.java,src/main/java/com/ldiamond/sqgraph/MetricsResults.java"
 		property "sonar.coverage.jacoco.xmlReportPaths","build/reports/jacoco/test/jacocoTestReport.xml"
-		property "sonar.jacoco.reportPaths","build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 
@@ -174,9 +180,3 @@ rewrite {
 	setExportDatatables(true)
 }
 
-sonar {
-  properties {
-    property "sonar.projectKey", "larrydiamond_sqgraph"
-    property "sonar.organization", "larrydiamond-github"
-  }
-}
