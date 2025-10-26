@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -261,7 +262,7 @@ class SqgraphApplicationTests {
 	RestTemplate restTemplate;
 
 	@Test
-	void getHistory() {
+	void getHistory() throws ParseException {
 		final Config config = new Config();
 		config.setUrl("prefix");
 
@@ -274,14 +275,14 @@ class SqgraphApplicationTests {
 		measuresArray [0].setMetric("first");
 		measuresArray [0].setHistory(new History[1]);
 		measuresArray [0].history[0] = new History();
-		measuresArray [0].history[0].setDate(new Date("Tue, 1 Aug 1995 13:30:00 GMT"));
+		measuresArray [0].history[0].setDate(parseRfc822("Tue, 1 Aug 1995 13:30:00 GMT"));
 		measuresArray [0].history[0].setValue(1.0);
 		
 		measuresArray [1] = new Measures();
 		measuresArray [1].setMetric("second");
 		measuresArray [1].setHistory(new History[1]);
 		measuresArray [1].history[0] = new History();
-		measuresArray [1].history[0].setDate(new Date("Wed, 2 Aug 1995 13:30:00 GMT"));
+		measuresArray [1].history[0].setDate(parseRfc822("Wed, 2 Aug 1995 13:30:00 GMT"));
 		measuresArray [1].history[0].setValue(2.0);
 		
 		sh.setPaging(paging);
@@ -325,4 +326,8 @@ class SqgraphApplicationTests {
 
 		assertEquals(0, ash.getMeasures().size());
 	}
+
+    private static Date parseRfc822(String s) throws ParseException {
+        return new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", java.util.Locale.ENGLISH).parse(s);
+    }
 }

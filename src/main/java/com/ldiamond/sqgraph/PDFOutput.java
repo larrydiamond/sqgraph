@@ -91,7 +91,7 @@ public class PDFOutput {
 
             List<Integer> colWidths = new ArrayList<>(); 
             PdfPTable table = new PdfPTable(config.getMetrics().length + 1);
-            table.setHorizontalAlignment(table.ALIGN_LEFT);
+            table.setHorizontalAlignment(Element.ALIGN_LEFT);
             table.setWidthPercentage(95);
             table.setSpacingBefore(2);
             table.setSpacingAfter(2);
