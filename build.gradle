@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'com.ldiamond'
-version = '7.0.1-SNAPSHOT'
+version = '8.0.0-SNAPSHOT'
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
