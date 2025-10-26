@@ -177,7 +177,7 @@ public class SqgraphApplication {
 
 		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
-		BufferedImage bi = DashboardOutput.outputDashboard(dashboardData, config);
+		// BufferedImage bi = DashboardOutput.outputDashboard(dashboardData, config);
 
 		if (config.getPdf() != null) {
 			Document document = PDFOutput.createPDF (config);
