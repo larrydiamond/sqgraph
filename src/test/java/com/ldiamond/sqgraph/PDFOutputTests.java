@@ -12,6 +12,7 @@ package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfPCell;
 
 class PDFOutputTests {
 
@@ -46,5 +48,23 @@ class PDFOutputTests {
         PDFOutput.setMax(widths, 1, "Blah", 10);
         assertEquals (20, widths.get(0));
         assertEquals (7000, widths.get(1));
+    }
+
+    @Test
+    void TestSetBackgroundColorForCellNoColor() {
+        PdfPCell cell = new PdfPCell();
+        SQMetrics metrics = new SQMetrics();
+        PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
+        assertEquals (null, cell.getBackgroundColor());
+    }
+
+    @Test
+    void TestSetBackgroundColorForCellHigherGreen() {
+        PdfPCell cell = new PdfPCell();
+        SQMetrics metrics = new SQMetrics();
+        metrics.setGreen("70.0");
+        metrics.setYellow("50.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, "80.0");
+        assertEquals (Color.GREEN, cell.getBackgroundColor());
     }
 }

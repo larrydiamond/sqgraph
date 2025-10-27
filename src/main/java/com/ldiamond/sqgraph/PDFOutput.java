@@ -140,37 +140,9 @@ public class PDFOutput {
                     cell.setPaddingLeft(cell.getPaddingLeft() + 2);
                     cell.setPaddingRight(cell.getPaddingRight() + 5);
                     SQMetrics metric = config.getMetrics()[col];
-                    String greenString = metric.getGreen();
-                    String yellowString = metric.getYellow();
-            		if ((greenString != null) && (yellowString != null)) {
-			            double green = Double.parseDouble(greenString);
-			            double yellow = Double.parseDouble(yellowString);
-			            boolean greenHigher = true;
-			            if (yellow > green) 
-                            greenHigher = false;
-                        double cellValue = Double.parseDouble(text);
-                        if (greenHigher) {
-                            if (cellValue > green) {
-                                cell.setBackgroundColor(Color.GREEN);
-                            } else {
-                                if (cellValue > yellow) {
-                                    cell.setBackgroundColor(Color.YELLOW);
-                                } else {
-                                    cell.setBackgroundColor(Color.PINK);
-                                }
-                            }
-                        } else {
-                            if (cellValue < green) {
-                                cell.setBackgroundColor(Color.GREEN);
-                            } else {
-                                if (cellValue < yellow) {
-                                    cell.setBackgroundColor(Color.YELLOW);
-                                } else {
-                                    cell.setBackgroundColor(Color.PINK);
-                                }
-                            }
-                        }
-                    }
+
+                    setBackgroundColorForCell(cell, metric, text);
+
                     table.addCell(cell);
                     col++;
                     setMax(colWidths, col, text, 4);
@@ -189,6 +161,42 @@ public class PDFOutput {
             e.printStackTrace();
         }
         return document;
+    }
+
+    @VisibleForTesting
+    static void setBackgroundColorForCell (final PdfPCell cell, final SQMetrics metric, final String text) {
+        String greenString = metric.getGreen();
+        String yellowString = metric.getYellow();
+        if ((greenString != null) && (yellowString != null)) {
+            double green = Double.parseDouble(greenString);
+            double yellow = Double.parseDouble(yellowString);
+            boolean greenHigher = true;
+            if (yellow > green) 
+                greenHigher = false;
+            double cellValue = Double.parseDouble(text);
+            if (greenHigher) {
+                if (cellValue > green) {
+                    cell.setBackgroundColor(Color.GREEN);
+                } else {
+                    if (cellValue > yellow) {
+                        cell.setBackgroundColor(Color.YELLOW);
+                    } else {
+                        cell.setBackgroundColor(Color.PINK);
+                    }
+                }
+            } else {
+                if (cellValue < green) {
+                    cell.setBackgroundColor(Color.GREEN);
+                } else {
+                    if (cellValue < yellow) {
+                        cell.setBackgroundColor(Color.YELLOW);
+                    } else {
+                        cell.setBackgroundColor(Color.PINK);
+                    }
+                }
+            }
+        }
+        return;
     }
 
     @VisibleForTesting
