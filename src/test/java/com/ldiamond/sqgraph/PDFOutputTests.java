@@ -11,6 +11,10 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import com.lowagie.text.Document;
@@ -31,5 +35,16 @@ class PDFOutputTests {
     void testGetWidthOfStringForBlah() {
         int width = PDFOutput.getWidthOfString("Blah");
         assertEquals (10, width);
+    }
+
+    @Test 
+    void testSetMax() {
+        List<Integer> widths = new ArrayList<>();
+        widths.add(5);
+        widths.add(7000);
+        PDFOutput.setMax(widths, 0, "Blah", 10);
+        PDFOutput.setMax(widths, 1, "Blah", 10);
+        assertEquals (20, widths.get(0));
+        assertEquals (7000, widths.get(1));
     }
 }

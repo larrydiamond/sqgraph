@@ -211,7 +211,8 @@ public class PDFOutput {
         return width;
     }
 
-    private static void setMax (List<Integer> widths, int col, String s, int plus) {
+    @VisibleForTesting
+    static void setMax (List<Integer> widths, int col, String s, int plus) {
         int width = getWidthOfString(s) + plus;
         int curMax = widths.get (col);
         if (width > curMax) {
