@@ -21,6 +21,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -39,6 +40,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DashboardOutput {
+	private static final String standardDecimalFormat = "###,###,###.###";
+	private static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
     
     public static BufferedImage outputDashboard (HashBasedTable<String, String, Double> dashboardData, Config config) {
         try {
@@ -59,7 +62,7 @@ public class DashboardOutput {
                 int colLoop = 1;
                 for (String dcCol : dashboardData.rowKeySet()) {
                     try {
-                        dRow [colLoop] = SqgraphApplication.standardDecimalFormatter.format (rowMap.get(dcCol)) + " ";
+                        dRow [colLoop] = standardDecimalFormatter.format (rowMap.get(dcCol)) + " ";
                     } catch (Exception e) {
                         dRow [colLoop] = "0.0";
                     }

@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PDFOutput {
+	private static final String standardDecimalFormat = "###,###,###.###";
+	private static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
 
     public static Document createPDF (final Config config) {
         Document document = null;
@@ -130,7 +133,7 @@ public class PDFOutput {
                 setMax(colWidths, col, a.getTitle(), 0);
                 table.addCell(cell);
                 for (SQMetrics m : config.getMetrics()) {
-                    String text = SqgraphApplication.standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
+                    String text = standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
                     Phrase phrase = new Phrase(text);
                     Font font = phrase.getFont();
                     font.setSize(20);

@@ -12,7 +12,6 @@ package com.ldiamond.sqgraph;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,8 +47,6 @@ import com.lowagie.text.Document;
 public class SqgraphApplication {
 	static String login = null;
 	static String filename = null;
-	public static final String standardDecimalFormat = "###,###,###.###";
-	public static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
 
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
