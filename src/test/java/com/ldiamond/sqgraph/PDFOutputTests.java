@@ -51,7 +51,7 @@ class PDFOutputTests {
     }
 
     @Test
-    void TestSetBackgroundColorForCellNoColor() {
+    void testSetBackgroundColorForCellNoColor() {
         PdfPCell cell = new PdfPCell();
         SQMetrics metrics = new SQMetrics();
         PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
@@ -59,7 +59,7 @@ class PDFOutputTests {
     }
 
     @Test
-    void TestSetBackgroundColorForCellHigherGreen() {
+    void testSetBackgroundColorForCellHigherGreen() {
         PdfPCell cell = new PdfPCell();
         SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");

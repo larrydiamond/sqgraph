@@ -196,7 +196,6 @@ public class PDFOutput {
                 }
             }
         }
-        return;
     }
 
     @VisibleForTesting
