@@ -217,7 +217,6 @@ public class PDFOutput {
                 }
             }
         }
-
         return width;
     }
 

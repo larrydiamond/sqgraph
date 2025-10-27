@@ -87,4 +87,14 @@ class PDFOutputTests {
         PDFOutput.setBackgroundColorForCell(cell, metrics, "40.0");
         assertEquals (Color.PINK, cell.getBackgroundColor());
     }
+    
+    @Test
+    void testSetBackgroundColorForCellLowerGreen() {
+        PdfPCell cell = new PdfPCell();
+        SQMetrics metrics = new SQMetrics();
+        metrics.setGreen("50.0");
+        metrics.setYellow("70.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, "40.0");
+        assertEquals (Color.GREEN, cell.getBackgroundColor());
+    }
 }
