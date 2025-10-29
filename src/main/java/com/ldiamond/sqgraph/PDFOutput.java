@@ -102,6 +102,40 @@ public class PDFOutput {
         }
     }
 
+    private static void addTextDashboardBody(final Config config, final PdfPTable table, final HashBasedTable<String, String, Double> dashboardData, final List<Integer> colWidths) {
+        for (Application a : config.getApplications()) {
+            int col = 0;
+            Phrase tphrase = new Phrase(a.getTitle());
+            Font tfont = tphrase.getFont();
+            tfont.setSize(20);
+            PdfPCell cell = new PdfPCell(tphrase);
+            cell.setPaddingLeft(cell.getPaddingLeft() + 2);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell.setVerticalAlignment(Element.ALIGN_CENTER);
+            cell.setPaddingBottom(cell.getPaddingBottom() + 3);
+            setMax(colWidths, col, a.getTitle(), 0);
+            table.addCell(cell);
+            for (SQMetrics m : config.getMetrics()) {
+                String text = standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
+                Phrase phrase = new Phrase(text);
+                Font font = phrase.getFont();
+                font.setSize(20);
+                cell = new PdfPCell(phrase);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                cell.setPaddingLeft(cell.getPaddingLeft() + 2);
+                cell.setPaddingRight(cell.getPaddingRight() + 5);
+                SQMetrics metric = config.getMetrics()[col];
+
+                setBackgroundColorForCell(cell, metric, text);
+
+                table.addCell(cell);
+                col++;
+                setMax(colWidths, col, text, 4);
+            }
+        }
+    }
+
     public static Document addTextDashboard(final Document document, final HashBasedTable<String, String, Double> dashboardData, final Config config) {
         try {
             document.add(new Phrase("")); // spacer
@@ -122,37 +156,7 @@ public class PDFOutput {
             table.addCell(cell);
             colWidths.add(2);
             addHeader(config, table, colWidths);
-            for (Application a : config.getApplications()) {
-                int col = 0;
-                Phrase tphrase = new Phrase(a.getTitle());
-                Font tfont = tphrase.getFont();
-                tfont.setSize(20);
-                cell = new PdfPCell(tphrase);
-                cell.setPaddingLeft(cell.getPaddingLeft() + 2);
-                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                cell.setVerticalAlignment(Element.ALIGN_CENTER);
-                cell.setPaddingBottom(cell.getPaddingBottom() + 3);
-                setMax(colWidths, col, a.getTitle(), 0);
-                table.addCell(cell);
-                for (SQMetrics m : config.getMetrics()) {
-                    String text = standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
-                    Phrase phrase = new Phrase(text);
-                    Font font = phrase.getFont();
-                    font.setSize(20);
-                    cell = new PdfPCell(phrase);
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    cell.setVerticalAlignment(Element.ALIGN_CENTER);
-                    cell.setPaddingLeft(cell.getPaddingLeft() + 2);
-                    cell.setPaddingRight(cell.getPaddingRight() + 5);
-                    SQMetrics metric = config.getMetrics()[col];
-
-                    setBackgroundColorForCell(cell, metric, text);
-
-                    table.addCell(cell);
-                    col++;
-                    setMax(colWidths, col, text, 4);
-                }
-            }
+            addTextDashboardBody(config, table, dashboardData, colWidths);
 
             int[] w = new int[colWidths.size()];
             int colWidthsSize = colWidths.size();
