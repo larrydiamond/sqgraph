@@ -89,6 +89,19 @@ public class PDFOutput {
         return document;
 	}
 
+    private static void addHeader(final Document document, final Config config, final PdfPTable table, final List<Integer> colWidths) {
+        for (SQMetrics m : config.getMetrics()) {
+            Phrase phrase = new Phrase(m.getTitle());
+            Font font = phrase.getFont();
+            font.setSize(20);
+            PdfPCell cell = new PdfPCell(phrase);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            table.addCell(cell);
+            colWidths.add(getWidthOfString(m.getTitle()));
+        }
+    }
+
     public static Document addTextDashboard(final Document document, final HashBasedTable<String, String, Double> dashboardData, final Config config) {
         try {
             document.add(new Phrase("")); // spacer
@@ -108,20 +121,9 @@ public class PDFOutput {
             cell.setPaddingBottom(cell.getPaddingBottom() + 3);
             table.addCell(cell);
             colWidths.add(2);
-            int col = 1;
-            for (SQMetrics m : config.getMetrics()) {
-                Phrase phrase = new Phrase(m.getTitle());
-                Font font = phrase.getFont();
-                font.setSize(20);
-                cell = new PdfPCell(phrase);
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                cell.setBackgroundColor(Color.LIGHT_GRAY);
-                table.addCell(cell);
-                colWidths.add(getWidthOfString(m.getTitle()));
-                col++;
-            }
+            addHeader(document, config, table, colWidths);
             for (Application a : config.getApplications()) {
-                col = 0;
+                int col = 0;
                 Phrase tphrase = new Phrase(a.getTitle());
                 Font tfont = tphrase.getFont();
                 tfont.setSize(20);
