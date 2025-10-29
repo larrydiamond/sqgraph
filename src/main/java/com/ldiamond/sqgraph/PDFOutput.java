@@ -89,7 +89,7 @@ public class PDFOutput {
         return document;
 	}
 
-    private static void addHeader(final Document document, final Config config, final PdfPTable table, final List<Integer> colWidths) {
+    private static void addHeader(final Config config, final PdfPTable table, final List<Integer> colWidths) {
         for (SQMetrics m : config.getMetrics()) {
             Phrase phrase = new Phrase(m.getTitle());
             Font font = phrase.getFont();
@@ -121,7 +121,7 @@ public class PDFOutput {
             cell.setPaddingBottom(cell.getPaddingBottom() + 3);
             table.addCell(cell);
             colWidths.add(2);
-            addHeader(document, config, table, colWidths);
+            addHeader(config, table, colWidths);
             for (Application a : config.getApplications()) {
                 int col = 0;
                 Phrase tphrase = new Phrase(a.getTitle());
