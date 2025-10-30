@@ -24,8 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// import java.awt.image.BufferedImage;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -146,49 +144,25 @@ public class SqgraphApplication {
 				rawMetrics.put (key, history);
 
 				Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
-/*
-				ResponseEntity<String> responseString = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
-				String resultString = responseString.getBody();
-				System.out.println ("Resultstring for " + metrics + " = " + resultString);
-/* */
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
 		}
 
-
-		/*
-	
-		final String uri = config.getUrl() + "/api/metrics/search?ps=499";
-		ResponseEntity<MetricsResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), MetricsResults.class);
-		MetricsResults metricsResults = response.getBody();
-		System.out.println ("Metrics = " + metricsResults.toString());
-		for (Metric m : metricsResults.metrics) {
-			System.out.println (m.toString());
-		}
-
-		/* */
-
 		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
 
 		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
-		// BufferedImage bi = DashboardOutput.outputDashboard(dashboardData, config);
-
 		if (config.getPdf() != null) {
 			Document document = PDFOutput.createPDF (config);
 			PDFOutput.addTextDashboard (document, dashboardData, config);
-//			if (bi != null)
-//				PDFOutput.addDashboard (document, bi);
 			PDFOutput.addGraphs(document, config);
 			PDFOutput.closePDF(document);
 		}
 
 		System.out.println ("Successful completion.");
-		for (Map.Entry<String, CommandLineRunner> entry : ctx.getBeansOfType(CommandLineRunner.class).entrySet()) {
-			return entry.getValue();
-		}
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
