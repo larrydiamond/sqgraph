@@ -90,11 +90,20 @@ public class PDFOutput {
 	}
 
     private static void addHeader(final Config config, final PdfPTable table, final List<Integer> colWidths) {
+        Phrase pphrase = new Phrase("Project");
+        Font pfont = pphrase.getFont();
+        pfont.setSize(20);
+        PdfPCell cell = new PdfPCell(pphrase);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBackgroundColor(Color.LIGHT_GRAY);
+        cell.setPaddingBottom(cell.getPaddingBottom() + 3);
+        table.addCell(cell);
+        colWidths.add(2);
         for (SQMetrics m : config.getMetrics()) {
             Phrase phrase = new Phrase(m.getTitle());
             Font font = phrase.getFont();
             font.setSize(20);
-            PdfPCell cell = new PdfPCell(phrase);
+            cell = new PdfPCell(phrase);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setBackgroundColor(Color.LIGHT_GRAY);
             table.addCell(cell);
@@ -146,15 +155,6 @@ public class PDFOutput {
             table.setWidthPercentage(95);
             table.setSpacingBefore(2);
             table.setSpacingAfter(2);
-            Phrase pphrase = new Phrase("Project");
-            Font pfont = pphrase.getFont();
-            pfont.setSize(20);
-            PdfPCell cell = new PdfPCell(pphrase);
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
-            cell.setPaddingBottom(cell.getPaddingBottom() + 3);
-            table.addCell(cell);
-            colWidths.add(2);
             addHeader(config, table, colWidths);
             addTextDashboardBody(config, table, dashboardData, colWidths);
 
