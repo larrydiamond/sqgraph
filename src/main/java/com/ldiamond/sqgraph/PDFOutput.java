@@ -89,7 +89,8 @@ public class PDFOutput {
         return document;
 	}
 
-    private static void addHeader(final Config config, final PdfPTable table, final List<Integer> colWidths) {
+    @VisibleForTesting
+    static void addHeader(final Config config, final PdfPTable table, final List<Integer> colWidths) {
         Phrase pphrase = new Phrase("Project");
         Font pfont = pphrase.getFont();
         pfont.setSize(20);

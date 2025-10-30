@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import com.lowagie.text.Document;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
 
 class PDFOutputTests {
 
@@ -116,5 +117,22 @@ class PDFOutputTests {
         metrics.setYellow("70.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "80.0");
         assertEquals (Color.PINK, cell.getBackgroundColor());
+    }
+
+    @Test
+    void testAddHeader() {
+        List<Integer> colWidths = new ArrayList<>();
+        PdfPTable table = new PdfPTable(3);
+        Config config = new Config();
+        SQMetrics metric1 = new SQMetrics();
+        metric1.setTitle("Metric1");
+        SQMetrics metric2 = new SQMetrics();
+        metric2.setTitle("Metric2");
+        config.setMetrics(new SQMetrics[] {metric1, metric2});
+        PDFOutput.addHeader(config,  table, colWidths);
+        assertEquals (3, colWidths.size());
+        assertEquals (2, colWidths.get(0));
+        assertEquals (15, colWidths.get(1));
+        assertEquals (15, colWidths.get(2));
     }
 }
