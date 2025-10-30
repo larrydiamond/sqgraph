@@ -49,8 +49,17 @@ public class SqgraphApplication {
 	public static void main(String[] args) {
 		login = System.getenv("SONARLOGIN");
 		if (login == null) {
-			System.out.println ("Please create a user token in your SonarQube server and set that token in your environment as SONARLOGIN");
-			System.exit (1);
+			login = System.getenv("SONAR_LOGIN");
+			if (login == null) {
+				login = System.getenv("SONAR_TOKEN");
+				if (login == null) {
+					login = System.getenv("SONARTOKEN");
+					if (login == null) {
+						System.out.println ("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
+						System.exit (1);
+					}
+				}
+			}
 		}
 
 		if (args.length < 1) {
