@@ -10,6 +10,8 @@
  **/
 package com.ldiamond.sqgraph;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -88,7 +90,7 @@ public class GraphOutput {
 		for (Measures m : history.getMeasures()) {
 			if (m.getMetric().equals(metricName)) {
 				for (History h : m.getHistory()) {
-					dates.add (SqgraphApplication.getUTCDate(h.getDate()));
+					dates.add (getUTCDate(h.getDate()));
 					doubles.add (h.getValue());
 					lastDataPoint = h.getValue();
 				}
@@ -112,7 +114,7 @@ public class GraphOutput {
 				notFound = false;
 				for (History h : m.getHistory()) {
 					Date dataPoint = h.getDate();
-					dates.add (SqgraphApplication.getUTCDate(dataPoint));
+					dates.add (getUTCDate(dataPoint));
 
 					Map<String,Double> values = new HashMap<>();
 					values.put(m.getMetric(), h.getValue());
@@ -153,4 +155,10 @@ public class GraphOutput {
 
 		dashboardData.put (metricTitle, application, lastDataPoint);
 	}
+
+	private static Date getUTCDate (final Date date) {
+    	LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC).withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
+    	return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
+	}
+
 }
