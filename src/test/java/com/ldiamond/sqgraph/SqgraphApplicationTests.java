@@ -169,6 +169,30 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
+	void testBugsPlusSecurity() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [1];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+
+		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		SyntheticMetric sm = synths.get ("BugsPlusSecurity");
+		Map<String,Double> metrics = new HashMap<>();
+		metrics.put("nothingofuse", 999.9);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put("bugs", 2.0);
+		assertEquals(2.0, sm.calculate(metrics));
+
+		metrics.put ("vulnerabilities", 5.0);
+		assertEquals(7.0, sm.calculate(metrics));
+
+		metrics.put ("security_hotspots", 8.0);
+		assertEquals(15.0, sm.calculate(metrics));
+	}
+
+	@Test
 	void populateMetricsNoSynthetics() {
 		Config config = new Config();
 		SQMetrics [] metricsArray = new SQMetrics [1];
