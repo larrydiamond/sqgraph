@@ -354,4 +354,55 @@ class SqgraphApplicationTests {
     private static Date parseRfc822(String s) throws ParseException {
         return new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", java.util.Locale.ENGLISH).parse(s);
     }
+
+	@Test
+	void testGetCommaSeparatedListOfApplications() {
+		String output = SqgraphApplication.getCommaSeparatedListOfMetrics(List.of("AppOne","AppTwo","AppThree"));
+		assertEquals("AppOne,AppTwo,AppThree", output);
+	}
+
+	@Test 
+	void testGetMetricsListNeededEmpty() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [0];
+		config.setMetrics(metricsArray);
+
+		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
+
+		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		assertEquals (0, results.size(), results.toString());
+	}
+
+	@Test 
+	void testGetMetricsListNeededNoSynthetics() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [2];
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("alpha");
+		metricsArray [1] = new SQMetrics();
+		metricsArray[1].setMetric("beta");
+		config.setMetrics(metricsArray);
+
+		Map<String,SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
+
+		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		assertEquals (2, results.size(), results.toString());
+	}
+
+	@Test 
+	void testGetMetricsListNeededWithSynthetics() {
+		Config config = new Config();
+		SQMetrics [] metricsArray = new SQMetrics [2];
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("ViolationsPerKLines");
+		metricsArray [1] = new SQMetrics();
+		metricsArray[1].setMetric("CognitiveComplexityPerKLines");
+		config.setMetrics(metricsArray);
+
+		Map<String,SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
+
+		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		assertEquals (3, results.size(), results.toString());
+	}
+
 }

@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,19 +46,10 @@ public class SqgraphApplication {
 	static String filename = null;
 
 	public static void main(String[] args) {
-		login = System.getenv("SONARLOGIN");
+		login = getSonarQubeToken();
 		if (login == null) {
-			login = System.getenv("SONAR_LOGIN");
-			if (login == null) {
-				login = System.getenv("SONAR_TOKEN");
-				if (login == null) {
-					login = System.getenv("SONARTOKEN");
-					if (login == null) {
-						System.out.println ("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
-						System.exit (1);
-					}
-				}
-			}
+			System.out.println ("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
+			System.exit (1);
 		}
 
 		if (args.length < 1) {
@@ -74,6 +64,26 @@ public class SqgraphApplication {
 		filename = args [0];
 
 		SpringApplication.run(SqgraphApplication.class, args);
+	}
+
+	static String getSonarQubeToken() {
+		String login = System.getenv("SONARLOGIN");
+		if (login != null) 
+			return login;
+
+		login = System.getenv("SONAR_TOKEN");
+		if (login != null) 
+			return login;
+
+		login = System.getenv("SONAR_LOGIN");
+		if (login != null) 
+			return login;
+
+		login = System.getenv("SONARTOKEN");
+		if (login != null) 
+			return login;
+
+		return null;
 	}
 
 	@Bean
