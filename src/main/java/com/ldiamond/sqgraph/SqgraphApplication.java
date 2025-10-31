@@ -190,6 +190,17 @@ public class SqgraphApplication {
 		};
 	}
 
+	static void addMeasuresToHistory (final AssembledSearchHistory assembledSearchHistory, final SearchHistory result) {
+		if (result.getMeasures() != null) {
+			List<Measures> measures = assembledSearchHistory.getMeasures();
+			if (measures == null) {
+				measures = new ArrayList<>();
+				assembledSearchHistory.setMeasures(measures);
+			}
+			measures.addAll(Arrays.asList(result.getMeasures()));
+		}
+	}
+
 	public static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, 
 	final HttpHeaders headers, RestTemplate restTemplate) {
 		AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
@@ -206,16 +217,8 @@ public class SqgraphApplication {
 					try {
 						Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
 					} catch (InterruptedException ie) { }
-
 				}
-				if (result.getMeasures() != null) {
-					List<Measures> measures = assembledSearchHistory.getMeasures();
-					if (measures == null) {
-						measures = new ArrayList<>();
-						assembledSearchHistory.setMeasures(measures);
-					}
-					measures.addAll(Arrays.asList(result.getMeasures()));
-				}
+				addMeasuresToHistory(assembledSearchHistory, result);
 			}
 			page++;
 		} while (notYetLastPage);
