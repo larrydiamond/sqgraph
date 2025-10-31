@@ -173,6 +173,30 @@ public class PDFOutput {
         return document;
     }
 
+    static void setBackgroundColorForCellGreenHigher(final double cellValue, final double green, final double yellow, final PdfPCell cell) {
+        if (cellValue > green) {
+            cell.setBackgroundColor(Color.GREEN);
+        } else {
+            if (cellValue > yellow) {
+                cell.setBackgroundColor(Color.YELLOW);
+            } else {
+                cell.setBackgroundColor(Color.PINK);
+            }
+        }
+    }
+
+    static void setBackgroundColorForCellGreenLower(final double cellValue, final double green, final double yellow, final PdfPCell cell) {
+        if (cellValue < green) {
+            cell.setBackgroundColor(Color.GREEN);
+        } else {
+            if (cellValue < yellow) {
+                cell.setBackgroundColor(Color.YELLOW);
+            } else {
+                cell.setBackgroundColor(Color.PINK);
+            }
+        }
+    }
+
     @VisibleForTesting
     static void setBackgroundColorForCell (final PdfPCell cell, final SQMetrics metric, final String text) {
         String greenString = metric.getGreen();
@@ -185,25 +209,9 @@ public class PDFOutput {
                 greenHigher = false;
             double cellValue = Double.parseDouble(text);
             if (greenHigher) {
-                if (cellValue > green) {
-                    cell.setBackgroundColor(Color.GREEN);
-                } else {
-                    if (cellValue > yellow) {
-                        cell.setBackgroundColor(Color.YELLOW);
-                    } else {
-                        cell.setBackgroundColor(Color.PINK);
-                    }
-                }
+                setBackgroundColorForCellGreenHigher(cellValue, green, yellow, cell);
             } else {
-                if (cellValue < green) {
-                    cell.setBackgroundColor(Color.GREEN);
-                } else {
-                    if (cellValue < yellow) {
-                        cell.setBackgroundColor(Color.YELLOW);
-                    } else {
-                        cell.setBackgroundColor(Color.PINK);
-                    }
-                }
+                setBackgroundColorForCellGreenLower(cellValue, green, yellow, cell);
             }
         }
     }
