@@ -121,11 +121,13 @@ public class GraphOutput {
 					for (Measures measure : history.getMeasures()) {
 						if (realMetrics.contains(measure.getMetric())) {
 							History[] histArray = measure.getHistory();
-							for (History hist : histArray) {
-								if (hist.getDate().equals(dataPoint)) {
-									values.put (measure.getMetric(), hist.getValue());
-								}
-							}
+							String metric = measure.getMetric();
+							addHistoryToValues(histArray, values, dataPoint, metric);
+//							for (History hist : histArray) {
+//								if (hist.getDate().equals(dataPoint)) {
+//									values.put (measure.getMetric(), hist.getValue());
+//								}
+//							}
 						}
 					}
 
@@ -136,6 +138,14 @@ public class GraphOutput {
 			}
 		}
 		return lastDataPoint;
+	}
+
+	private static void addHistoryToValues(final History[] histArray, final Map<String, Double> values, final Date dataPoint, final String metric) {
+	    for (History hist : histArray) {
+	        if (hist.getDate().equals(dataPoint)) {
+				values.put (metric, hist.getValue());
+	        }
+	    }
 	}
 
 	public static void addSeriesForMetric (final String metricName, final AssembledSearchHistory history, final XYChart chart, final String application, 
