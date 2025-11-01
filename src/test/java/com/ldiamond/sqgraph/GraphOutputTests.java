@@ -112,6 +112,10 @@ class GraphOutputTests {
         linesOfCode.setMetric("linesOfCode");
         History[] historyArray = new History[0];
         linesOfCode.setHistory(historyArray);
+        Measures violations = new Measures();
+        measureList.add(violations);
+        violations.setMetric("violations");
+        violations.setHistory(historyArray);
         Double lastPoint = GraphOutput.addSeriesForNativeMetric("linesOfCode", history, dates, doubles);
         assertEquals (0.0, lastPoint, 0.1);
     }
