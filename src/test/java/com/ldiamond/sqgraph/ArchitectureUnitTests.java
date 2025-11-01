@@ -29,7 +29,7 @@ class ArchitectureUnitTests {
     @Test
     void runArchitectureTests() {
         ArchitectureUnitTest.testArchitecture(
-            Arrays.asList(ArchitectureRule.ARCHUNIT_DEPRECATED_API_SHOULD_NOT_BE_USED, ArchitectureRule.ARCHUNIT_NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS),
+            Arrays.asList(ArchitectureRule.ARCHUNIT_NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS),
             "com.ldiamond.sqgraph");
     }
 
