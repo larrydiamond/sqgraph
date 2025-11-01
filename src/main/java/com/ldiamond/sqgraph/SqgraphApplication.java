@@ -89,97 +89,33 @@ public class SqgraphApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 
-		Config config = null;
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		try {
-			config = objectMapper.readValue(new File(filename), Config.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}	
+		// load configuration
+		Config config = loadConfig(filename);
+		if (config == null) return null;
 
-		if (config == null) {
-			System.out.println ("Configuration required");
-			return null;
-		}
-
+		// build synthetics and HTTP helpers
 		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics(config);
-
 		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-		String base64 = "Basic " + Base64.getEncoder().encodeToString ((login + ":").getBytes());
-		headers.set ("Authorization", base64);
+		HttpHeaders headers = buildAuthHeaders(login);
 
-		try {
-			final String uri = config.getUrl() + "/api/authentication/validate";
-			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
-			ValidationResult result = response.getBody();
-			if ((result != null) && (!result.isValid())) {
-				System.out.println ("SonarQube login token was not valid");
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		// validate token
+		if (!validateSonarToken(config, headers, restTemplate)) return null;
 
-		// Copy the config applications to the expanded applications and perform any searches
-		config.setExpandedApplications(new ArrayList<>());
-		for (Application app : config.getApplications()) {
-			if (app.getKey() != null) {
-				config.getExpandedApplications().add(app);
-			} else {
-				if (app.getQuery() != null) {
-					final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
-					ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
-					ApiProjectsSearchResults result = response.getBody();
-					if ((result != null) && (result.getComponents() != null)) {
-						for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
-							config.getExpandedApplications().add(c.getApplication());
-						}
-					}
-				}
-			}
-		}
+		// expand applications (search queries -> concrete applications)
+		expandApplications(config, headers, restTemplate);
 
-		Map<String, String> titleLookup = new HashMap<>();
-		final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// build title map
+		Map<String, String> titleLookup = buildTitleLookup(config);
 
-		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
-		for (Application app : config.getExpandedApplications()) {
-			String key = app.getKey();
-			titleLookup.put(key, app.getTitle());
-			try {
-				List<String> metricsToQuery = getMetricsListNeeded(config,syntheticMetrics);
-				String metrics = getCommaSeparatedListOfMetrics (metricsToQuery);
-				
-				Date startDate = new Date();
-				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
-				LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
-				final String sdfsqString = sdfsq.format (localDate);
+		// fetch history for each expanded application
+		Map<String, AssembledSearchHistory> rawMetrics = fetchRawMetricsForApps(config, syntheticMetrics, headers, restTemplate);
 
-				AssembledSearchHistory history = getHistory (config, sdfsqString, key, metrics, headers, restTemplate);
-				rawMetrics.put (key, history);
-
-				Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-
+		// produce dashboard + graphs
 		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
-
 		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
-		if (config.getPdf() != null) {
-			Document document = PDFOutput.createPDF (config);
-			PDFOutput.addTextDashboard (document, dashboardData, config);
-			PDFOutput.addGraphs(document, config);
-			PDFOutput.closePDF(document);
-		}
+		// optional PDF
+		createPdfIfNeeded(config, dashboardData);
 
 		System.out.println ("Successful completion.");
 		return new CommandLineRunner() {
@@ -331,6 +267,106 @@ public class SqgraphApplication {
 				return (multiplier * numerator) / denominator;
 			}
 		};
+	}
+
+	// New helper methods to lower cognitive complexity of commandLineRunner
+
+	private Config loadConfig(String filename) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			return objectMapper.readValue(new File(filename), Config.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private HttpHeaders buildAuthHeaders(String loginToken) {
+		HttpHeaders headers = new HttpHeaders();
+		String base64 = "Basic " + Base64.getEncoder().encodeToString ((loginToken + ":").getBytes());
+		headers.set ("Authorization", base64);
+		return headers;
+	}
+
+	private boolean validateSonarToken(Config config, HttpHeaders headers, RestTemplate restTemplate) {
+		try {
+			final String uri = config.getUrl() + "/api/authentication/validate";
+			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
+			ValidationResult result = response.getBody();
+			if ((result != null) && (!result.isValid())) {
+				System.out.println ("SonarQube login token was not valid");
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	private void expandApplications(Config config, HttpHeaders headers, RestTemplate restTemplate) {
+		config.setExpandedApplications(new ArrayList<>());
+		for (Application app : config.getApplications()) {
+			if (app.getKey() != null) {
+				config.getExpandedApplications().add(app);
+			} else if (app.getQuery() != null) {
+				final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
+				ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
+				ApiProjectsSearchResults result = response.getBody();
+				if ((result != null) && (result.getComponents() != null)) {
+					for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
+						config.getExpandedApplications().add(c.getApplication());
+					}
+				}
+			}
+		}
+	}
+
+	private Map<String,String> buildTitleLookup(Config config) {
+		Map<String,String> titleLookup = new HashMap<>();
+		for (Application app : config.getExpandedApplications()) {
+			if (app.getKey() != null) {
+				titleLookup.put(app.getKey(), app.getTitle());
+			}
+		}
+		return titleLookup;
+	}
+
+	private Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String,SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
+		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
+		final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+		for (Application app : config.getExpandedApplications()) {
+			String key = app.getKey();
+			try {
+				List<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
+				String metrics = getCommaSeparatedListOfMetrics(metricsToQuery);
+
+				Date startDate = new Date();
+				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
+				LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+				final String sdfsqString = sdfsq.format(localDate);
+
+				AssembledSearchHistory history = getHistory(config, sdfsqString, key, metrics, headers, restTemplate);
+				rawMetrics.put(key, history);
+
+				Thread.sleep(1);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// preserve previous behavior of stopping on errors by returning partially filled map
+				return rawMetrics;
+			}
+		}
+		return rawMetrics;
+	}
+
+	private void createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
+		if (config.getPdf() != null) {
+			Document document = PDFOutput.createPDF (config);
+			PDFOutput.addTextDashboard (document, dashboardData, config);
+			PDFOutput.addGraphs(document, config);
+			PDFOutput.closePDF(document);
+		}
 	}
 }
 
