@@ -118,19 +118,8 @@ public class GraphOutput {
 
 					Map<String,Double> values = new HashMap<>();
 					values.put(m.getMetric(), h.getValue());
-					for (Measures measure : history.getMeasures()) {
-						if (realMetrics.contains(measure.getMetric())) {
-							History[] histArray = measure.getHistory();
-							String metric = measure.getMetric();
-							addHistoryToValues(histArray, values, dataPoint, metric);
-//							for (History hist : histArray) {
-//								if (hist.getDate().equals(dataPoint)) {
-//									values.put (measure.getMetric(), hist.getValue());
-//								}
-//							}
-						}
-					}
-
+					addMeasuresToValues(history.getMeasures(), realMetrics, dataPoint, values);
+					
 					double calculatedValue = sm.calculate(values);
 					doubles.add (calculatedValue);
 					lastDataPoint = calculatedValue;
@@ -138,6 +127,16 @@ public class GraphOutput {
 			}
 		}
 		return lastDataPoint;
+	}
+
+	private static void addMeasuresToValues(final List<Measures> measuresArray, final List<String> realMetrics, final Date dataPoint, final Map<String,Double> values) {
+		for (Measures measure : measuresArray) {
+			if (realMetrics.contains(measure.getMetric())) {
+				History[] histArray = measure.getHistory();
+				String metric = measure.getMetric();
+				addHistoryToValues(histArray, values, dataPoint, metric);
+			}
+		}
 	}
 
 	private static void addHistoryToValues(final History[] histArray, final Map<String, Double> values, final Date dataPoint, final String metric) {
