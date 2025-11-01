@@ -4,9 +4,9 @@
         {"title":"Apache Dolphin Scheduler", "key": "apache-dolphinscheduler"},
         {"title":"Apache PDFBox", "key": "pdfbox-reactor"},
         {"title":"Drools", "key": "apache_incubator-kie-drools"},
-        {"title":"SpotBugs", "key": "com.github.spotbugs.spotbugs"},
+        {"title":"Management Code Metrics", "key": "larrydiamond_sqgraph"},
         {"title":"Twilio", "key": "twilio_twilio-java"},
-        {"title":"OWASP ZAP Proxy", "key": "zaproxy_zaproxy"}
+        {"title":"Architecture Unit Tests", "key": "larrydiamond_ArchitectureUnitTests"}
     ],
     "metrics": [
         {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"20","description":"Code Coverage: More is better: What percentage of the code is covered by unit tests."}, 
