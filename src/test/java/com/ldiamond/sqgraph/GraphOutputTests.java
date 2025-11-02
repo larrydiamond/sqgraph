@@ -11,6 +11,13 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.knowm.xchart.XYChart;
+
+import com.google.common.collect.HashBasedTable;
 
 class GraphOutputTests {
 
@@ -141,4 +151,29 @@ class GraphOutputTests {
         Double lastPoint = GraphOutput.addSeriesForNativeMetric("linesOfCode", history, dates, doubles);
         assertEquals (1000.0, lastPoint, 0.1);
     }
+
+
+    @Test
+    void testAddSeriesForMetricNative() throws ParseException {
+        XYChart chart = mock(XYChart.class);
+//        doNothing().when(chart).addSeries(anyString(), any(List.class), any(List.class));
+        AssembledSearchHistory history = new AssembledSearchHistory();
+        List<Measures> measureList = new ArrayList<>();
+        history.setMeasures(measureList);
+        Measures linesOfCode = new Measures();
+        measureList.add(linesOfCode);
+        linesOfCode.setMetric("linesOfCode");
+        History[] historyArray = new History[2];
+        linesOfCode.setHistory(historyArray);
+        historyArray[0] = new History();
+        historyArray[0].setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
+        historyArray[0].setValue(500.0);
+        historyArray[1] = new History();
+        historyArray[1].setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
+        historyArray[1].setValue(1000.0);
+        GraphOutput.addSeriesForMetric("linesOfCode", history, chart, "MyApp", Map.of(), HashBasedTable.create(20, 100), "Lines of Code");
+        verify(chart, times(1)).addSeries(any(), any(List.class), any(List.class));
+    }
+
+
 }
