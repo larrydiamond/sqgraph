@@ -57,16 +57,6 @@ public class PDFOutput {
         return document;
     }
 
-    public static Document addDashboard(final Document document, final BufferedImage bi) {
-        try {
-            Image png = Image.getInstance(bi, null);
-            document.add(png);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return document;
-    }
-
 	public static Document addGraphs(final Document document, final Config config) {
         try {
             for (SQMetrics sqm : config.getMetrics()) {
