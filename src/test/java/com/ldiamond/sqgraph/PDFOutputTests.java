@@ -135,4 +135,11 @@ class PDFOutputTests {
         assertEquals (15, colWidths.get(1));
         assertEquals (15, colWidths.get(2));
     }
+
+    @Test
+    void testClosePDF() {
+        Document document = new Document();
+        PDFOutput.closePDF(document);
+        assertEquals (true, !document.isOpen());
+    }
 }
