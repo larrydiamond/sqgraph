@@ -36,6 +36,7 @@ import org.springframework.http.HttpEntity;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 
 import com.lowagie.text.Document;
@@ -288,7 +289,8 @@ public class SqgraphApplication {
 		return headers;
 	}
 
-	private boolean validateSonarToken(Config config, HttpHeaders headers, RestTemplate restTemplate) {
+	@VisibleForTesting
+	boolean validateSonarToken(Config config, HttpHeaders headers, RestTemplate restTemplate) {
 		try {
 			final String uri = config.getUrl() + "/api/authentication/validate";
 			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);

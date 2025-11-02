@@ -12,9 +12,6 @@ package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -156,7 +153,6 @@ class GraphOutputTests {
     @Test
     void testAddSeriesForMetricNative() throws ParseException {
         XYChart chart = mock(XYChart.class);
-//        doNothing().when(chart).addSeries(anyString(), any(List.class), any(List.class));
         AssembledSearchHistory history = new AssembledSearchHistory();
         List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);

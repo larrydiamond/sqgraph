@@ -12,6 +12,10 @@ package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
@@ -405,4 +409,29 @@ class SqgraphApplicationTests {
 		assertEquals (3, results.size(), results.toString());
 	}
 
+	@Test
+	void testValidateSonarTokenGood() {
+		Config config = new Config();
+		config.setUrl("someurl");
+		ValidationResult validationResult = new ValidationResult();
+		validationResult.setValid(true);
+		ResponseEntity<ValidationResult> response = new ResponseEntity<>(validationResult, HttpStatus.OK);
+		RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
+		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
+		assertEquals (true, b);
+	}
+
+	@Test
+	void testValidateSonarTokenBad() {
+		Config config = new Config();
+		config.setUrl("someurl");
+		ValidationResult validationResult = new ValidationResult();
+		validationResult.setValid(false);
+		ResponseEntity<ValidationResult> response = new ResponseEntity<>(validationResult, HttpStatus.OK);
+		RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
+		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
+		assertEquals (false, b);
+	}
 }
