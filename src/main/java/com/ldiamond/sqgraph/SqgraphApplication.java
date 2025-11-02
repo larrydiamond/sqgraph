@@ -295,11 +295,10 @@ public class SqgraphApplication {
 			final String uri = config.getUrl() + "/api/authentication/validate";
 			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
 			ValidationResult result = response.getBody();
-			if ((result != null) && (!result.isValid())) {
-				System.out.println ("SonarQube login token was not valid");
-				return false;
+			if (result != null) {
+				return result.isValid();
 			}
-			return true;
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

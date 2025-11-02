@@ -434,4 +434,15 @@ class SqgraphApplicationTests {
 		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
 		assertEquals (false, b);
 	}
+
+	@Test
+	void testValidateSonarTokenNull() {
+		Config config = new Config();
+		config.setUrl("someurl");
+		ResponseEntity<ValidationResult> response = new ResponseEntity<>(null, HttpStatus.OK);
+		RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
+		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
+		assertEquals (false, b);
+	}
 }
