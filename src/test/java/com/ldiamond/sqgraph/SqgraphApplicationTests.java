@@ -11,7 +11,9 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -419,7 +421,7 @@ class SqgraphApplicationTests {
 		RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
 		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
-		assertEquals (true, b);
+		assertTrue(b);
 	}
 
 	@Test
@@ -432,7 +434,7 @@ class SqgraphApplicationTests {
 		RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
 		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
-		assertEquals (false, b);
+		assertFalse(b);
 	}
 
 	@Test
@@ -443,6 +445,6 @@ class SqgraphApplicationTests {
 		RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
 		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
-		assertEquals (false, b);
+		assertFalse(b);
 	}
 }

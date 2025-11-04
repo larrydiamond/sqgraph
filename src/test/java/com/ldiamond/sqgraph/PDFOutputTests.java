@@ -11,6 +11,8 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ class PDFOutputTests {
         widths.add(7000);
         PDFOutput.setMax(widths, 0, "Blah", 10);
         PDFOutput.setMax(widths, 1, "Blah", 10);
-        assertEquals (20, widths.get(0));
+        assertEquals (20, widths.getFirst());
         assertEquals (7000, widths.get(1));
     }
 
@@ -56,7 +58,7 @@ class PDFOutputTests {
         PdfPCell cell = new PdfPCell();
         SQMetrics metrics = new SQMetrics();
         PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
-        assertEquals (null, cell.getBackgroundColor());
+		assertNull(cell.getBackgroundColor());
     }
 
     @Test
@@ -131,7 +133,7 @@ class PDFOutputTests {
         config.setMetrics(new SQMetrics[] {metric1, metric2});
         PDFOutput.addHeader(config,  table, colWidths);
         assertEquals (3, colWidths.size());
-        assertEquals (2, colWidths.get(0));
+        assertEquals (2, colWidths.getFirst());
         assertEquals (15, colWidths.get(1));
         assertEquals (15, colWidths.get(2));
     }
@@ -140,6 +142,6 @@ class PDFOutputTests {
     void testClosePDF() {
         Document document = new Document();
         PDFOutput.closePDF(document);
-        assertEquals (true, !document.isOpen());
+		assertFalse(document.isOpen());
     }
 }
