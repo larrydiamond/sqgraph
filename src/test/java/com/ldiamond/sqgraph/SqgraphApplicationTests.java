@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.lang.model.UnknownEntityException;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -464,51 +462,59 @@ class SqgraphApplicationTests {
 
     @Test
     void testGetCommaSeparatedListOfMetrics_removesDuplicates_preservesOrder() {
-        List<String> input = Arrays.asList("a", "b", "a", "c", "b");
-        String result = SqgraphApplication.getCommaSeparatedListOfMetrics(input);
+		final List<String> input = Arrays.asList("a", "b", "a", "c", "b");
+		final String result = SqgraphApplication.getCommaSeparatedListOfMetrics(input);
         assertEquals("a,b,c", result);
     }
 
     @Test
     void testViolationsPerKLines_calculation() {
-        Map<String, Double> metrics = new HashMap<>();
+		final Map<String, Double> metrics = new HashMap<>();
         metrics.put("violations", 5.0);
         metrics.put("ncloc", 2500.0);
-        double value = SqgraphApplication.ViolationsPerKLines.calculate(metrics);
+		final double value = SqgraphApplication.ViolationsPerKLines.calculate(metrics);
         assertEquals(2.0, value, 0.0001);
     }
 
     @Test
     void testBugsPlusSecurity_calculation_withMissingValues() {
-        Map<String, Double> metrics = new HashMap<>();
+		final Map<String, Double> metrics = new HashMap<>();
         metrics.put("bugs", 1.0);
         metrics.put("vulnerabilities", 2.0);
-        // security_hotspots absent
-        double value = SqgraphApplication.bugsPlusSecurity.calculate(metrics);
+		// security_hotspots absent
+		final double value = SqgraphApplication.bugsPlusSecurity.calculate(metrics);
         assertEquals(3.0, value, 0.0001);
     }
 
     @Test
     void testGetMetricsListNeeded_handlesSyntheticAndRealMetrics() {
-        // mock Config and SQMetrics
-        Config cfg = mock(Config.class);
-        SQMetrics sqm1 = mock(SQMetrics.class);
+		// mock Config and SQMetrics
+		final Config cfg = mock(Config.class);
+		final SQMetrics sqm1 = mock(SQMetrics.class);
         when(sqm1.getMetric()).thenReturn("metricA");
-        SQMetrics sqm2 = mock(SQMetrics.class);
+		final SQMetrics sqm2 = mock(SQMetrics.class);
         when(sqm2.getMetric()).thenReturn("metricSynthetic");
 
         when(cfg.getMetrics()).thenReturn(new SQMetrics[] { sqm1, sqm2 });
 
-        SyntheticMetric sm = new SyntheticMetric() {
-            @Override public String getSyntheticName() { return "metricSynthetic"; }
-            @Override public List<String> getRealMetrics() { return Arrays.asList("real1", "real2"); }
-            @Override public double calculate(Map<String, Double> metrics) { return 0; }
-        };
+		final SyntheticMetric sm = new SyntheticMetric() {
+			@Override public String getSyntheticName() {
+				return "metricSynthetic";
+			}
 
-        Map<String, SyntheticMetric> synthetics = new HashMap<>();
+			@Override public List<String> getRealMetrics() {
+				return Arrays.asList("real1", "real2");
+			}
+
+			@Override public double calculate(Map<String, Double> metrics) {
+				return 0;
+			}
+		};
+
+		final Map<String, SyntheticMetric> synthetics = new HashMap<>();
         synthetics.put("metricSynthetic", sm);
 
-        List<String> needed = SqgraphApplication.getMetricsListNeeded(cfg, synthetics);
+		final List<String> needed = SqgraphApplication.getMetricsListNeeded(cfg, synthetics);
         assertTrue(needed.contains("metricA"));
         assertTrue(needed.contains("real1"));
         assertTrue(needed.contains("real2"));
@@ -518,14 +524,14 @@ class SqgraphApplicationTests {
 
     @Test
     void testPopulateSynthetics_createsSynthetic_for_Per_K_and_builtinsPresent() {
-        Config cfg = mock(Config.class);
+		final Config cfg = mock(Config.class);
 
-        SQMetrics sqmA = mock(SQMetrics.class);
+		final SQMetrics sqmA = mock(SQMetrics.class);
         when(sqmA.getMetric()).thenReturn("a__PER_K_b"); // should create synthetic with multiplier 1000
 
         when(cfg.getMetrics()).thenReturn(new SQMetrics[] { sqmA });
 
-        Map<String, SyntheticMetric> synthetics = SqgraphApplication.populateSynthetics(cfg);
+		final Map<String, SyntheticMetric> synthetics = SqgraphApplication.populateSynthetics(cfg);
         assertNotNull(synthetics);
         // builtin synthetic metrics should be present
         assertTrue(synthetics.containsKey("ViolationsPerKLines"));
@@ -533,25 +539,25 @@ class SqgraphApplicationTests {
         assertTrue(synthetics.containsKey("BugsPlusSecurity"));
         // our generated synthetic
         assertTrue(synthetics.containsKey("a__PER_K_b"));
-        SyntheticMetric generated = synthetics.get("a__PER_K_b");
-        Map<String, Double> metrics = new HashMap<>();
+		final SyntheticMetric generated = synthetics.get("a__PER_K_b");
+		final Map<String, Double> metrics = new HashMap<>();
         metrics.put("a", 2.0);
         metrics.put("b", 4.0);
-        double v = generated.calculate(metrics); // (1000 * 2) / 4 = 500
+		final double v = generated.calculate(metrics); // (1000 * 2) / 4 = 500
         assertEquals(500.0, v, 0.0001);
     }
 
     @Test
     void testValidateSonarToken_returnsTrueWhenValid() {
-        // mocks
-        Config cfg = mock(Config.class);
+		// mocks
+		final Config cfg = mock(Config.class);
         when(cfg.getUrl()).thenReturn("http://sonar.example");
-        RestTemplate rest = mock(RestTemplate.class);
+		final RestTemplate rest = mock(RestTemplate.class);
 
-        ValidationResult vr = mock(ValidationResult.class);
+		final ValidationResult vr = mock(ValidationResult.class);
         when(vr.isValid()).thenReturn(true);
 
-        ResponseEntity<ValidationResult> resp = new ResponseEntity<>(vr, HttpStatus.OK);
+		final ResponseEntity<ValidationResult> resp = new ResponseEntity<>(vr, HttpStatus.OK);
         when(rest.exchange(
                 anyString(),
                 eq(HttpMethod.GET),
@@ -559,16 +565,16 @@ class SqgraphApplicationTests {
                 eq(ValidationResult.class)))
             .thenReturn(resp);
 
-        SqgraphApplication app = new SqgraphApplication();
-        boolean ok = app.validateSonarToken(cfg, new HttpHeaders(), rest);
+		final SqgraphApplication app = new SqgraphApplication();
+		final boolean ok = app.validateSonarToken(cfg, new HttpHeaders(), rest);
         assertTrue(ok);
     }
 
     @Test
     void testValidateSonarToken_returnsFalseOnException() {
-        Config cfg = mock(Config.class);
+		final Config cfg = mock(Config.class);
         when(cfg.getUrl()).thenReturn("http://sonar.example");
-        RestTemplate rest = mock(RestTemplate.class);
+		final RestTemplate rest = mock(RestTemplate.class);
 
         when(rest.exchange(
                 anyString(),
@@ -577,8 +583,8 @@ class SqgraphApplicationTests {
                 eq(ValidationResult.class)))
             .thenThrow(new FileSystemAlreadyExistsException("boom"));
 
-        SqgraphApplication app = new SqgraphApplication();
-        boolean ok = app.validateSonarToken(cfg, new HttpHeaders(), rest);
+		final SqgraphApplication app = new SqgraphApplication();
+		final boolean ok = app.validateSonarToken(cfg, new HttpHeaders(), rest);
         assertFalse(ok);
     }
 
