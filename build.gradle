@@ -125,6 +125,7 @@ rewrite {
 	activeRecipe("org.openrewrite.staticanalysis.InstanceOfPatternMatch")
 	activeRecipe("org.openrewrite.staticanalysis.IsEmptyCallOnCollections")
 	activeRecipe("org.openrewrite.staticanalysis.MissingOverrideAnnotation")
+	activeRecipe("org.openrewrite.staticanalysis.NewStringBuilderBufferWithCharArgument")
 	activeRecipe("org.openrewrite.staticanalysis.ReplaceThreadRunWithThreadStart")
 	activeRecipe("org.openrewrite.staticanalysis.ReplaceWeekYearWithYear")
     activeRecipe("org.openrewrite.staticanalysis.StaticMethodNotFinal")
