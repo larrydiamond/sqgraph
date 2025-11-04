@@ -128,6 +128,7 @@ rewrite {
 	activeRecipe("org.openrewrite.staticanalysis.NewStringBuilderBufferWithCharArgument")
   	activeRecipe("org.openrewrite.staticanalysis.NoEmptyCollectionWithRawType")
     activeRecipe("org.openrewrite.staticanalysis.NoRedundantJumpStatements")
+	activeRecipe("org.openrewrite.staticanalysis.RemoveRedundantNullCheckBeforeLiteralEquals")
 	activeRecipe("org.openrewrite.staticanalysis.RemoveHashCodeCallsFromArrayInstances")
 	activeRecipe("org.openrewrite.staticanalysis.ReplaceThreadRunWithThreadStart")
 	activeRecipe("org.openrewrite.staticanalysis.ReplaceWeekYearWithYear")
