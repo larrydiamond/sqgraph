@@ -253,7 +253,8 @@ public class SqgraphApplication {
 		return syntheticMetrics;
 	}
 
-	private static SyntheticMetric getMetric (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
+	@VisibleForTesting
+	static SyntheticMetric getMetric (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
 		return new SyntheticMetric() {
 			@Override public String getSyntheticName() { return metricName;}
 			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (numeratorMetric);  list.add(denominatorMetric);  return list;}
