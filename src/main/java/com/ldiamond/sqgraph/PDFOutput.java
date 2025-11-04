@@ -81,8 +81,8 @@ public class PDFOutput {
 
     @VisibleForTesting
     static void addHeader(final Config config, final PdfPTable table, final List<Integer> colWidths) {
-        Phrase pphrase = new Phrase("Project");
-        Font pfont = pphrase.getFont();
+		final Phrase pphrase = new Phrase("Project");
+		final Font pfont = pphrase.getFont();
         pfont.setSize(20);
         PdfPCell cell = new PdfPCell(pphrase);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -91,8 +91,8 @@ public class PDFOutput {
         table.addCell(cell);
         colWidths.add(2);
         for (SQMetrics m : config.getMetrics()) {
-            Phrase phrase = new Phrase(m.getTitle());
-            Font font = phrase.getFont();
+			final Phrase phrase = new Phrase(m.getTitle());
+			final Font font = phrase.getFont();
             font.setSize(20);
             cell = new PdfPCell(phrase);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -105,8 +105,8 @@ public class PDFOutput {
     private static void addTextDashboardBody(final Config config, final PdfPTable table, final HashBasedTable<String, String, Double> dashboardData, final List<Integer> colWidths) {
         for (Application a : config.getApplications()) {
             int col = 0;
-            Phrase tphrase = new Phrase(a.getTitle());
-            Font tfont = tphrase.getFont();
+			final Phrase tphrase = new Phrase(a.getTitle());
+			final Font tfont = tphrase.getFont();
             tfont.setSize(20);
             PdfPCell cell = new PdfPCell(tphrase);
             cell.setPaddingLeft(cell.getPaddingLeft() + 2);
@@ -116,16 +116,16 @@ public class PDFOutput {
             setMax(colWidths, col, a.getTitle(), 0);
             table.addCell(cell);
             for (SQMetrics m : config.getMetrics()) {
-                String text = standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
-                Phrase phrase = new Phrase(text);
-                Font font = phrase.getFont();
+				final String text = standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
+				final Phrase phrase = new Phrase(text);
+				final Font font = phrase.getFont();
                 font.setSize(20);
                 cell = new PdfPCell(phrase);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 cell.setVerticalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingLeft(cell.getPaddingLeft() + 2);
                 cell.setPaddingRight(cell.getPaddingRight() + 5);
-                SQMetrics metric = config.getMetrics()[col];
+				final SQMetrics metric = config.getMetrics()[col];
 
                 setBackgroundColorForCell(cell, metric, text);
 
@@ -140,8 +140,8 @@ public class PDFOutput {
         try {
             document.add(new Phrase("")); // spacer
 
-            List<Integer> colWidths = new ArrayList<>(); 
-            PdfPTable table = new PdfPTable(config.getMetrics().length + 1);
+			final List<Integer> colWidths = new ArrayList<>();
+			final PdfPTable table = new PdfPTable(config.getMetrics().length + 1);
             table.setHorizontalAlignment(Element.ALIGN_LEFT);
             table.setWidthPercentage(95);
             table.setSpacingBefore(2);
@@ -149,8 +149,8 @@ public class PDFOutput {
             addHeader(config, table, colWidths);
             addTextDashboardBody(config, table, dashboardData, colWidths);
 
-            int[] w = new int[colWidths.size()];
-            int colWidthsSize = colWidths.size();
+			final int[] w = new int[colWidths.size()];
+			final int colWidthsSize = colWidths.size();
             for (int loop = 0; loop < colWidthsSize; loop++) {
                 w[loop] = colWidths.get(loop);
             }
@@ -189,15 +189,15 @@ public class PDFOutput {
 
     @VisibleForTesting
     static void setBackgroundColorForCell (final PdfPCell cell, final SQMetrics metric, final String text) {
-        String greenString = metric.getGreen();
-        String yellowString = metric.getYellow();
+		final String greenString = metric.getGreen();
+		final String yellowString = metric.getYellow();
         if ((greenString != null) && (yellowString != null)) {
-            double green = Double.parseDouble(greenString);
-            double yellow = Double.parseDouble(yellowString);
+			final double green = Double.parseDouble(greenString);
+			final double yellow = Double.parseDouble(yellowString);
             boolean greenHigher = true;
             if (yellow > green) 
                 greenHigher = false;
-            double cellValue = Double.parseDouble(text);
+			final double cellValue = Double.parseDouble(text);
             if (greenHigher) {
                 setBackgroundColorForCellGreenHigher(cellValue, green, yellow, cell);
             } else {
@@ -211,7 +211,7 @@ public class PDFOutput {
         int width = 2;
 
         for (int offset = 0; offset < s.length(); offset++) {
-            char c = s.charAt(offset);
+			final char c = s.charAt(offset);
             if ((c == 'i') || (c == 'l') || (c == 't') || (c == '.') || (c == ',')) {
                 width++;
             } else {
@@ -227,8 +227,8 @@ public class PDFOutput {
 
     @VisibleForTesting
     static void setMax (List<Integer> widths, int col, String s, int plus) {
-        int width = getWidthOfString(s) + plus;
-        int curMax = widths.get (col);
+		final int width = getWidthOfString(s) + plus;
+		final int curMax = widths.get(col);
         if (width > curMax) {
             widths.set (col, width);
         }

@@ -48,8 +48,8 @@ class SqgraphApplicationTests {
 
 	@Test
 	void testGetMetricsListNeeded() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [15];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [15];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
@@ -82,11 +82,20 @@ class SqgraphApplicationTests {
 		metricsArray [14] = new SQMetrics();
 		metricsArray[14].setMetric("gamma");
 
-		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
-		SyntheticMetric unitTestSynthetic = new SyntheticMetric() {
-			@Override public String getSyntheticName() { return "UnitTest";}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("violations");  list.add("lines");  return list;}
-			@Override public double calculate(Map<String,Double> metrics) {
+		final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
+		final SyntheticMetric unitTestSynthetic = new SyntheticMetric() {
+			@Override public String getSyntheticName() {
+				return "UnitTest";
+			}
+
+			@Override public List<String> getRealMetrics() {
+				List<String> list = new ArrayList<>();
+				list.add("violations");
+				list.add("lines");
+				return list;
+			}
+
+			@Override public double calculate(Map<String, Double> metrics) {
 				double lines = 0;
 				Double lineInput = metrics.get("lines");
 				if (lineInput != null) lines = lineInput;
@@ -100,43 +109,43 @@ class SqgraphApplicationTests {
 
 		syntheticMetrics.put(unitTestSynthetic.getSyntheticName(), unitTestSynthetic);
 
-		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (5, results.size(), results.toString());
 	}
 
 	@Test
 	void GetCommaSeparatedListOfMetrics() {
-		List<String> metrics = new ArrayList<>();
+		final List<String> metrics = new ArrayList<>();
 		metrics.add ("alpha");
 		metrics.add("beta");
 		metrics.add("alpha");
-		String output = SqgraphApplication.getCommaSeparatedListOfMetrics (metrics);
+		final String output = SqgraphApplication.getCommaSeparatedListOfMetrics(metrics);
 		assertEquals("alpha,beta", output);
 	}
 
 	@Test
 	void testPopulatingSynthetics() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [1];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [1];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(3, synths.size());
 	}
 
 	@Test
 	void testViolationsPerKLines() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [1];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [1];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		SyntheticMetric sm = synths.get ("ViolationsPerKLines");
-		Map<String,Double> metrics = new HashMap<>();
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final SyntheticMetric sm = synths.get("ViolationsPerKLines");
+		final Map<String, Double> metrics = new HashMap<>();
 		metrics.put("nothingofuse", 999.9);
 		assertEquals(0.0, sm.calculate(metrics));
 
@@ -152,15 +161,15 @@ class SqgraphApplicationTests {
 
 	@Test
 	void testCognitiveComplexityPerKLines() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [1];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [1];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		SyntheticMetric sm = synths.get ("CognitiveComplexityPerKLines");
-		Map<String,Double> metrics = new HashMap<>();
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final SyntheticMetric sm = synths.get("CognitiveComplexityPerKLines");
+		final Map<String, Double> metrics = new HashMap<>();
 		metrics.put("nothingofuse", 999.9);
 		assertEquals(0.0, sm.calculate(metrics));
 
@@ -176,15 +185,15 @@ class SqgraphApplicationTests {
 
 	@Test
 	void testBugsPlusSecurity() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [1];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [1];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		SyntheticMetric sm = synths.get ("BugsPlusSecurity");
-		Map<String,Double> metrics = new HashMap<>();
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final SyntheticMetric sm = synths.get("BugsPlusSecurity");
+		final Map<String, Double> metrics = new HashMap<>();
 		metrics.put("nothingofuse", 999.9);
 		assertEquals(0.0, sm.calculate(metrics));
 
@@ -200,13 +209,13 @@ class SqgraphApplicationTests {
 
 	@Test
 	void populateMetricsNoSynthetics() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [1];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [1];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(3, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
@@ -215,19 +224,19 @@ class SqgraphApplicationTests {
 
 	@Test
 	void populateMetricsHasSyntheticPer() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [2];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [2];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER__otherthing");
 
-		Map<String,Double> metrics = new HashMap<>();
+		final Map<String, Double> metrics = new HashMap<>();
 		metrics.put("something", 50.0);
 		metrics.put("otherthing", 25.0);
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
@@ -240,19 +249,19 @@ class SqgraphApplicationTests {
 
 	@Test
 	void populateMetricsHasSyntheticPerK() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [2];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [2];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER_K_otherthing");
 
-		Map<String,Double> metrics = new HashMap<>();
+		final Map<String, Double> metrics = new HashMap<>();
 		metrics.put("something", 50.0);
 		metrics.put("otherthing", 25.0);
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
@@ -265,19 +274,19 @@ class SqgraphApplicationTests {
 
 	@Test
 	void populateMetricsHasSyntheticPerH() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [2];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [2];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER_H_otherthing");
 
-		Map<String,Double> metrics = new HashMap<>();
+		final Map<String, Double> metrics = new HashMap<>();
 		metrics.put("something", 50.0);
 		metrics.put("otherthing", 25.0);
 
-		Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
@@ -296,10 +305,10 @@ class SqgraphApplicationTests {
 		final Config config = new Config();
 		config.setUrl("prefix");
 
-		SearchHistory sh = new SearchHistory();
-		Paging paging = new Paging();
+		final SearchHistory sh = new SearchHistory();
+		final Paging paging = new Paging();
 		paging.setTotal(2);
-		Measures[] measuresArray = new Measures[2];
+		final Measures[] measuresArray = new Measures[2];
 		sh.setMeasures(measuresArray);
 		measuresArray [0] = new Measures();
 		measuresArray [0].setMetric("first");
@@ -317,12 +326,12 @@ class SqgraphApplicationTests {
 		
 		sh.setPaging(paging);
 
-		ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
+		final ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		final HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
 		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=1&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
 		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=2&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
-		AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
+		final AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
 
 		assertEquals(4, ash.getMeasures().size());
 		assertEquals("first", ash.getMeasures().getFirst().getMetric());
@@ -341,18 +350,18 @@ class SqgraphApplicationTests {
 		final Config config = new Config();
 		config.setUrl("prefix");
 
-		SearchHistory sh = new SearchHistory();
-		Paging paging = new Paging();
+		final SearchHistory sh = new SearchHistory();
+		final Paging paging = new Paging();
 		paging.setTotal(0);
 		sh.setPaging(paging);
-		Measures[] measuresArray = new Measures[0];
+		final Measures[] measuresArray = new Measures[0];
 		sh.setMeasures(measuresArray);
 
-		ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
+		final ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		final HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
 		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=1&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
-		AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
+		final AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "blah", "blah", "blah", httpHeaders, restTemplate);
 
 		assertEquals(0, ash.getMeasures().size());
 	}
@@ -363,88 +372,88 @@ class SqgraphApplicationTests {
 
 	@Test
 	void testGetCommaSeparatedListOfApplications() {
-		String output = SqgraphApplication.getCommaSeparatedListOfMetrics(List.of("AppOne","AppTwo","AppThree"));
+		final String output = SqgraphApplication.getCommaSeparatedListOfMetrics(List.of("AppOne", "AppTwo", "AppThree"));
 		assertEquals("AppOne,AppTwo,AppThree", output);
 	}
 
 	@Test 
 	void testGetMetricsListNeededEmpty() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [0];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [0];
 		config.setMetrics(metricsArray);
 
-		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
+		final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
 
-		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (0, results.size(), results.toString());
 	}
 
 	@Test 
 	void testGetMetricsListNeededNoSynthetics() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [2];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [2];
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("alpha");
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("beta");
 		config.setMetrics(metricsArray);
 
-		Map<String,SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
 
-		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (2, results.size(), results.toString());
 	}
 
 	@Test 
 	void testGetMetricsListNeededWithSynthetics() {
-		Config config = new Config();
-		SQMetrics [] metricsArray = new SQMetrics [2];
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [2];
 		metricsArray [0] = new SQMetrics();
 		metricsArray[0].setMetric("ViolationsPerKLines");
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("CognitiveComplexityPerKLines");
 		config.setMetrics(metricsArray);
 
-		Map<String,SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
+		final Map<String, SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
 
-		List<String> results = SqgraphApplication.getMetricsListNeeded(config,syntheticMetrics);
+		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (3, results.size(), results.toString());
 	}
 
 	@Test
 	void testValidateSonarTokenGood() {
-		Config config = new Config();
+		final Config config = new Config();
 		config.setUrl("someurl");
-		ValidationResult validationResult = new ValidationResult();
+		final ValidationResult validationResult = new ValidationResult();
 		validationResult.setValid(true);
-		ResponseEntity<ValidationResult> response = new ResponseEntity<>(validationResult, HttpStatus.OK);
-		RestTemplate localRestTemplate = mock(RestTemplate.class);
+		final ResponseEntity<ValidationResult> response = new ResponseEntity<>(validationResult, HttpStatus.OK);
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
-		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
+		final boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
 		assertTrue(b);
 	}
 
 	@Test
 	void testValidateSonarTokenBad() {
-		Config config = new Config();
+		final Config config = new Config();
 		config.setUrl("someurl");
-		ValidationResult validationResult = new ValidationResult();
+		final ValidationResult validationResult = new ValidationResult();
 		validationResult.setValid(false);
-		ResponseEntity<ValidationResult> response = new ResponseEntity<>(validationResult, HttpStatus.OK);
-		RestTemplate localRestTemplate = mock(RestTemplate.class);
+		final ResponseEntity<ValidationResult> response = new ResponseEntity<>(validationResult, HttpStatus.OK);
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
-		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
+		final boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
 		assertFalse(b);
 	}
 
 	@Test
 	void testValidateSonarTokenNull() {
-		Config config = new Config();
+		final Config config = new Config();
 		config.setUrl("someurl");
-		ResponseEntity<ValidationResult> response = new ResponseEntity<>(null, HttpStatus.OK);
-		RestTemplate localRestTemplate = mock(RestTemplate.class);
+		final ResponseEntity<ValidationResult> response = new ResponseEntity<>(null, HttpStatus.OK);
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
-		boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
+		final boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
 		assertFalse(b);
 	}
 }

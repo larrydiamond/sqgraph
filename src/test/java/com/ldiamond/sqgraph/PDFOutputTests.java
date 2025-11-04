@@ -29,22 +29,22 @@ class PDFOutputTests {
 
     @Test
     void testAddNoGraphsReturnsSameDocument() {
-        Document document = new Document(new Rectangle(1800, (1400 * 10)));
-        Config config = new Config();
+		final Document document = new Document(new Rectangle(1800, (1400 * 10)));
+		final Config config = new Config();
         config.setMetrics(new SQMetrics[0]);
-        Document resultDocument = PDFOutput.addGraphs(document, config);
+		final Document resultDocument = PDFOutput.addGraphs(document, config);
         assertEquals (document, resultDocument);
     }
 
     @Test
     void testGetWidthOfStringForBlah() {
-        int width = PDFOutput.getWidthOfString("Blah");
+		final int width = PDFOutput.getWidthOfString("Blah");
         assertEquals (10, width);
     }
 
     @Test 
     void testSetMax() {
-        List<Integer> widths = new ArrayList<>();
+		final List<Integer> widths = new ArrayList<>();
         widths.add(5);
         widths.add(7000);
         PDFOutput.setMax(widths, 0, "Blah", 10);
@@ -55,16 +55,16 @@ class PDFOutputTests {
 
     @Test
     void testSetBackgroundColorForCellNoColor() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
 		assertNull(cell.getBackgroundColor());
     }
 
     @Test
     void testSetBackgroundColorForCellHigherGreen() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");
         metrics.setYellow("50.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "80.0");
@@ -73,8 +73,8 @@ class PDFOutputTests {
 
     @Test
     void testSetBackgroundColorForCellHigherYellow() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");
         metrics.setYellow("50.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
@@ -83,8 +83,8 @@ class PDFOutputTests {
 
     @Test
     void testSetBackgroundColorForCellHigherRed() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");
         metrics.setYellow("50.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "40.0");
@@ -93,8 +93,8 @@ class PDFOutputTests {
     
     @Test
     void testSetBackgroundColorForCellLowerGreen() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("50.0");
         metrics.setYellow("70.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "40.0");
@@ -103,8 +103,8 @@ class PDFOutputTests {
     
     @Test
     void testSetBackgroundColorForCellLowerYellow() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("50.0");
         metrics.setYellow("70.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
@@ -113,8 +113,8 @@ class PDFOutputTests {
 
     @Test
     void testSetBackgroundColorForCellLowedRed() {
-        PdfPCell cell = new PdfPCell();
-        SQMetrics metrics = new SQMetrics();
+		final PdfPCell cell = new PdfPCell();
+		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("50.0");
         metrics.setYellow("70.0");
         PDFOutput.setBackgroundColorForCell(cell, metrics, "80.0");
@@ -123,12 +123,12 @@ class PDFOutputTests {
 
     @Test
     void testAddHeader() {
-        List<Integer> colWidths = new ArrayList<>();
-        PdfPTable table = new PdfPTable(3);
-        Config config = new Config();
-        SQMetrics metric1 = new SQMetrics();
+		final List<Integer> colWidths = new ArrayList<>();
+		final PdfPTable table = new PdfPTable(3);
+		final Config config = new Config();
+		final SQMetrics metric1 = new SQMetrics();
         metric1.setTitle("Metric1");
-        SQMetrics metric2 = new SQMetrics();
+		final SQMetrics metric2 = new SQMetrics();
         metric2.setTitle("Metric2");
         config.setMetrics(new SQMetrics[] {metric1, metric2});
         PDFOutput.addHeader(config,  table, colWidths);
@@ -140,7 +140,7 @@ class PDFOutputTests {
 
     @Test
     void testClosePDF() {
-        Document document = new Document();
+		final Document document = new Document();
         PDFOutput.closePDF(document);
 		assertFalse(document.isOpen());
     }

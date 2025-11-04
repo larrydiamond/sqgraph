@@ -23,7 +23,7 @@ class ApiProjectsSearchResultsComponents {
     String name;
 
     public Application getApplication () {
-        Application application = new Application();
+		final Application application = new Application();
         application.setKey (key);
         application.setTitle (name);
         return application;

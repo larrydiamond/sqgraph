@@ -105,22 +105,22 @@ public class GraphOutput {
 		// find the first real measure needed by the synthetic metric
 		// for each of the dates in its history, look for the other metrics on the same dates 
 		// populate the String, Double map and invoke the calculate method for each and add that double
-		List<String> realMetrics = sm.getRealMetrics();
+		final List<String> realMetrics = sm.getRealMetrics();
 
 		boolean notFound = true;
 		for (int loop = 0; ((loop < history.getMeasures().size()) && (notFound)); loop++) {
-			Measures m = history.getMeasures().get(loop);
+			final Measures m = history.getMeasures().get(loop);
 			if (realMetrics.contains(m.getMetric())) {
 				notFound = false;
 				for (History h : m.getHistory()) {
-					Date dataPoint = h.getDate();
+					final Date dataPoint = h.getDate();
 					dates.add (getUTCDate(dataPoint));
 
-					Map<String,Double> values = new HashMap<>();
+					final Map<String, Double> values = new HashMap<>();
 					values.put(m.getMetric(), h.getValue());
 					addMeasuresToValues(history.getMeasures(), realMetrics, dataPoint, values);
-					
-					double calculatedValue = sm.calculate(values);
+
+					final double calculatedValue = sm.calculate(values);
 					doubles.add (calculatedValue);
 					lastDataPoint = calculatedValue;
 				}
@@ -132,8 +132,8 @@ public class GraphOutput {
 	private static void addMeasuresToValues(final List<Measures> measuresArray, final List<String> realMetrics, final Date dataPoint, final Map<String,Double> values) {
 		for (Measures measure : measuresArray) {
 			if (realMetrics.contains(measure.getMetric())) {
-				History[] histArray = measure.getHistory();
-				String metric = measure.getMetric();
+				final History[] histArray = measure.getHistory();
+				final String metric = measure.getMetric();
 				addHistoryToValues(histArray, values, dataPoint, metric);
 			}
 		}
@@ -149,10 +149,10 @@ public class GraphOutput {
 
 	public static void addSeriesForMetric (final String metricName, final AssembledSearchHistory history, final XYChart chart, final String application, 
 	final Map<String,SyntheticMetric> syntheticMetrics, HashBasedTable<String, String, Double> dashboardData, String metricTitle) {
-		List<Date> dates = new ArrayList<>();
-		List<Double> doubles = new ArrayList<>();
+		final List<Date> dates = new ArrayList<>();
+		final List<Double> doubles = new ArrayList<>();
 		Double lastDataPoint = null;
-		SyntheticMetric sm = syntheticMetrics.get(metricName);
+		final SyntheticMetric sm = syntheticMetrics.get(metricName);
 		if (sm == null) {
 			lastDataPoint = addSeriesForNativeMetric (metricName, history, dates, doubles);
 		} else {
@@ -166,7 +166,7 @@ public class GraphOutput {
 	}
 
 	private static Date getUTCDate (final Date date) {
-    	LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC).withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
+		final LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC).withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
     	return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
 	}
 

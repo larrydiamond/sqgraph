@@ -31,25 +31,25 @@ class GraphOutputTests {
 
 	@Test
 	void testAddSeriesForNativeMetric() throws ParseException {
-        List<Date> dates = new ArrayList<>();
-        List<Double> doubles = new ArrayList<>();
-        AssembledSearchHistory history = new AssembledSearchHistory();
-        List<Measures> measureList = new ArrayList<>();
+		final List<Date> dates = new ArrayList<>();
+		final List<Double> doubles = new ArrayList<>();
+		final AssembledSearchHistory history = new AssembledSearchHistory();
+		final List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);
-        Measures m = new Measures();
+		final Measures m = new Measures();
         measureList.add(m);
         m.setMetric("unittest");
-        History[] historyArray = new History[2];
+		final History[] historyArray = new History[2];
         m.setHistory(historyArray);
-        History h0 = new History();
+		final History h0 = new History();
         historyArray[0] = h0;
         h0.setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
         h0.setValue(100.0);
-        History h1 = new History();
+		final History h1 = new History();
         historyArray[1] = h1;
         h1.setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
         h1.setValue(200.0);
-        Double lastPoint = GraphOutput.addSeriesForNativeMetric("unittest", history, dates, doubles);
+		final Double lastPoint = GraphOutput.addSeriesForNativeMetric("unittest", history, dates, doubles);
         assertEquals (200.0, lastPoint);
 		assertEquals (2, dates.size());
 //		assertEquals ("Sat Aug 12 20:00:00 EDT 1995", dates.getFirst().toString());
@@ -76,28 +76,28 @@ class GraphOutputTests {
     
     @Test
     void testAddSeriesForSyntheticMetric() throws ParseException {
-        List<Date> dates = new ArrayList<>();
-        List<Double> doubles = new ArrayList<>();
+		final List<Date> dates = new ArrayList<>();
+		final List<Double> doubles = new ArrayList<>();
 
-        AssembledSearchHistory history = new AssembledSearchHistory();
-        List<Measures> measureList = new ArrayList<>();
+		final AssembledSearchHistory history = new AssembledSearchHistory();
+		final List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);
-        Measures m = new Measures();
+		final Measures m = new Measures();
         measureList.add(m);
 
         m.setMetric("unittest");
-        History[] historyArray = new History[2];
+		final History[] historyArray = new History[2];
         m.setHistory(historyArray);
-        History h0 = new History();
+		final History h0 = new History();
         historyArray[0] = h0;
         h0.setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
         h0.setValue(50.0);
-        History h1 = new History();
+		final History h1 = new History();
         historyArray[1] = h1;
         h1.setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
         h1.setValue(200.0);
 
-        Double lastPoint = GraphOutput.addSeriesForSyntheticMetric(unitTestSyntheticMetric, history, dates, doubles);
+		final Double lastPoint = GraphOutput.addSeriesForSyntheticMetric(unitTestSyntheticMetric, history, dates, doubles);
         assertEquals(400.0, lastPoint);
 		assertEquals (2, dates.size());
 //		assertEquals ("Sat Aug 12 20:00:00 EDT 1995", dates.getFirst().toString());
@@ -109,35 +109,35 @@ class GraphOutputTests {
 
     @Test
     void testAddSeriesForNativeMetricNoData() {
-        List<Date> dates = new ArrayList<>();
-        List<Double> doubles = new ArrayList<>();
-        AssembledSearchHistory history = new AssembledSearchHistory();
-        List<Measures> measureList = new ArrayList<>();
+		final List<Date> dates = new ArrayList<>();
+		final List<Double> doubles = new ArrayList<>();
+		final AssembledSearchHistory history = new AssembledSearchHistory();
+		final List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);
-        Measures linesOfCode = new Measures();
+		final Measures linesOfCode = new Measures();
         measureList.add(linesOfCode);
         linesOfCode.setMetric("linesOfCode");
-        History[] historyArray = new History[0];
+		final History[] historyArray = new History[0];
         linesOfCode.setHistory(historyArray);
-        Measures violations = new Measures();
+		final Measures violations = new Measures();
         measureList.add(violations);
         violations.setMetric("violations");
         violations.setHistory(historyArray);
-        Double lastPoint = GraphOutput.addSeriesForNativeMetric("linesOfCode", history, dates, doubles);
+		final Double lastPoint = GraphOutput.addSeriesForNativeMetric("linesOfCode", history, dates, doubles);
         assertEquals (0.0, lastPoint, 0.1);
     }
 
     @Test
     void testAddSeriesForNativeMetricWithData() throws ParseException {
-        List<Date> dates = new ArrayList<>();
-        List<Double> doubles = new ArrayList<>();
-        AssembledSearchHistory history = new AssembledSearchHistory();
-        List<Measures> measureList = new ArrayList<>();
+		final List<Date> dates = new ArrayList<>();
+		final List<Double> doubles = new ArrayList<>();
+		final AssembledSearchHistory history = new AssembledSearchHistory();
+		final List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);
-        Measures linesOfCode = new Measures();
+		final Measures linesOfCode = new Measures();
         measureList.add(linesOfCode);
         linesOfCode.setMetric("linesOfCode");
-        History[] historyArray = new History[2];
+		final History[] historyArray = new History[2];
         linesOfCode.setHistory(historyArray);
         historyArray[0] = new History();
         historyArray[0].setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
@@ -145,21 +145,21 @@ class GraphOutputTests {
         historyArray[1] = new History();
         historyArray[1].setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
         historyArray[1].setValue(1000.0);
-        Double lastPoint = GraphOutput.addSeriesForNativeMetric("linesOfCode", history, dates, doubles);
+		final Double lastPoint = GraphOutput.addSeriesForNativeMetric("linesOfCode", history, dates, doubles);
         assertEquals (1000.0, lastPoint, 0.1);
     }
 
 
     @Test
     void testAddSeriesForMetricNative() throws ParseException {
-        XYChart chart = mock(XYChart.class);
-        AssembledSearchHistory history = new AssembledSearchHistory();
-        List<Measures> measureList = new ArrayList<>();
+		final XYChart chart = mock(XYChart.class);
+		final AssembledSearchHistory history = new AssembledSearchHistory();
+		final List<Measures> measureList = new ArrayList<>();
         history.setMeasures(measureList);
-        Measures linesOfCode = new Measures();
+		final Measures linesOfCode = new Measures();
         measureList.add(linesOfCode);
         linesOfCode.setMetric("linesOfCode");
-        History[] historyArray = new History[2];
+		final History[] historyArray = new History[2];
         linesOfCode.setHistory(historyArray);
         historyArray[0] = new History();
         historyArray[0].setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));

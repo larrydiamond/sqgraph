@@ -91,13 +91,13 @@ public class SqgraphApplication {
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 
 		// load configuration
-		Config config = loadConfig(filename);
+		final Config config = loadConfig(filename);
 		if (config == null) return null;
 
 		// build synthetics and HTTP helpers
-		Map<String,SyntheticMetric> syntheticMetrics = populateSynthetics(config);
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = buildAuthHeaders(login);
+		final Map<String, SyntheticMetric> syntheticMetrics = populateSynthetics(config);
+		final RestTemplate restTemplate = new RestTemplate();
+		final HttpHeaders headers = buildAuthHeaders(login);
 
 		// validate token
 		if (!validateSonarToken(config, headers, restTemplate)) return null;
@@ -106,13 +106,13 @@ public class SqgraphApplication {
 		expandApplications(config, headers, restTemplate);
 
 		// build title map
-		Map<String, String> titleLookup = buildTitleLookup(config);
+		final Map<String, String> titleLookup = buildTitleLookup(config);
 
 		// fetch history for each expanded application
-		Map<String, AssembledSearchHistory> rawMetrics = fetchRawMetricsForApps(config, syntheticMetrics, headers, restTemplate);
+		final Map<String, AssembledSearchHistory> rawMetrics = fetchRawMetricsForApps(config, syntheticMetrics, headers, restTemplate);
 
 		// produce dashboard + graphs
-		HashBasedTable<String,String,Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
+		final HashBasedTable<String, String, Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
 		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
 		// optional PDF
@@ -140,14 +140,14 @@ public class SqgraphApplication {
 
 	public static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, 
 	final HttpHeaders headers, RestTemplate restTemplate) {
-		AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
+		final AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
 		int page = 1;
 		boolean notYetLastPage = true;
 		do {
 			final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&p="+page+"&ps=999&component=" + key + "&metrics=" + metrics;
 			System.out.println (uri);
-			ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
-			SearchHistory result = response.getBody();
+			final ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
+			final SearchHistory result = response.getBody();
 			if (result != null) {
 				if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
 					notYetLastPage = false;
@@ -163,10 +163,10 @@ public class SqgraphApplication {
 	}
 
 	public static List<String> getMetricsListNeeded (final Config config, final Map<String,SyntheticMetric> synthetics) {
-		List<String> results = new ArrayList<>();
+		final List<String> results = new ArrayList<>();
 		for (SQMetrics sqm : config.getMetrics()) {
-			String metric = sqm.getMetric();
-			SyntheticMetric sm = synthetics.get(metric);
+			final String metric = sqm.getMetric();
+			final SyntheticMetric sm = synthetics.get(metric);
 			if (sm == null) {
 				if (!results.contains(metric)) results.add(metric);
 			} else {
@@ -179,9 +179,9 @@ public class SqgraphApplication {
 	}
 
 	public static String getCommaSeparatedListOfMetrics (final List<String> metrics) {
-		StringBuilder output = new StringBuilder();
+		final StringBuilder output = new StringBuilder();
 		boolean comma = false;
-		List<String> alreadyAdded = new ArrayList<>();
+		final List<String> alreadyAdded = new ArrayList<>();
 		for (String metric : metrics) {
 			if (!alreadyAdded.contains(metric)) {
 				alreadyAdded.add(metric);
@@ -221,27 +221,27 @@ public class SqgraphApplication {
 	};
 
 	public static Map<String,SyntheticMetric> populateSynthetics (final Config config) {
-		Map<String,SyntheticMetric> syntheticMetrics = new HashMap<>();
+		final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
 
 		for (SQMetrics sqm : config.getMetrics()) {
 			int offset = sqm.getMetric().indexOf("__PER__");
 			if (offset != -1) {
-				String prefix = sqm.getMetric().substring(0, offset);
-				String suffix = sqm.getMetric().substring(offset + 7);
+				final String prefix = sqm.getMetric().substring(0, offset);
+				final String suffix = sqm.getMetric().substring(offset + 7);
 				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 1.0));
 			}
 
 			offset = sqm.getMetric().indexOf("__PER_K_");
 			if (offset != -1) {
-				String prefix = sqm.getMetric().substring(0, offset);
-				String suffix = sqm.getMetric().substring(offset + 8);
+				final String prefix = sqm.getMetric().substring(0, offset);
+				final String suffix = sqm.getMetric().substring(offset + 8);
 				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 1000.0));
 			}
 
 			offset = sqm.getMetric().indexOf("__PER_H_");
 			if (offset != -1) {
-				String prefix = sqm.getMetric().substring(0, offset);
-				String suffix = sqm.getMetric().substring(offset + 8);
+				final String prefix = sqm.getMetric().substring(0, offset);
+				final String suffix = sqm.getMetric().substring(offset + 8);
 				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 100.0));
 			}
 		}
@@ -273,7 +273,7 @@ public class SqgraphApplication {
 	// New helper methods to lower cognitive complexity of commandLineRunner
 
 	private Config loadConfig(String filename) {
-		ObjectMapper objectMapper = new ObjectMapper();
+		final ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			return objectMapper.readValue(new File(filename), Config.class);
 		} catch (IOException e) {
@@ -283,8 +283,8 @@ public class SqgraphApplication {
 	}
 
 	private HttpHeaders buildAuthHeaders(String loginToken) {
-		HttpHeaders headers = new HttpHeaders();
-		String base64 = "Basic " + Base64.getEncoder().encodeToString ((loginToken + ":").getBytes());
+		final HttpHeaders headers = new HttpHeaders();
+		final String base64 = "Basic " + Base64.getEncoder().encodeToString((loginToken + ":").getBytes());
 		headers.set ("Authorization", base64);
 		return headers;
 	}
@@ -293,8 +293,8 @@ public class SqgraphApplication {
 	boolean validateSonarToken(Config config, HttpHeaders headers, RestTemplate restTemplate) {
 		try {
 			final String uri = config.getUrl() + "/api/authentication/validate";
-			ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
-			ValidationResult result = response.getBody();
+			final ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
+			final ValidationResult result = response.getBody();
 			if (result != null) {
 				return result.isValid();
 			}
@@ -312,8 +312,8 @@ public class SqgraphApplication {
 				config.getExpandedApplications().add(app);
 			} else if (app.getQuery() != null) {
 				final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
-				ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
-				ApiProjectsSearchResults result = response.getBody();
+				final ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
+				final ApiProjectsSearchResults result = response.getBody();
 				if ((result != null) && (result.getComponents() != null)) {
 					for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
 						config.getExpandedApplications().add(c.getApplication());
@@ -324,7 +324,7 @@ public class SqgraphApplication {
 	}
 
 	private Map<String,String> buildTitleLookup(Config config) {
-		Map<String,String> titleLookup = new HashMap<>();
+		final Map<String, String> titleLookup = new HashMap<>();
 		for (Application app : config.getExpandedApplications()) {
 			if (app.getKey() != null) {
 				titleLookup.put(app.getKey(), app.getTitle());
@@ -334,21 +334,21 @@ public class SqgraphApplication {
 	}
 
 	private Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String,SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
-		Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
+		final Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
 		final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		for (Application app : config.getExpandedApplications()) {
-			String key = app.getKey();
+			final String key = app.getKey();
 			try {
-				List<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
-				String metrics = getCommaSeparatedListOfMetrics(metricsToQuery);
+				final List<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
+				final String metrics = getCommaSeparatedListOfMetrics(metricsToQuery);
 
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
-				LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+				final LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
 				final String sdfsqString = sdfsq.format(localDate);
 
-				AssembledSearchHistory history = getHistory(config, sdfsqString, key, metrics, headers, restTemplate);
+				final AssembledSearchHistory history = getHistory(config, sdfsqString, key, metrics, headers, restTemplate);
 				rawMetrics.put(key, history);
 
 				Thread.sleep(1);
@@ -363,7 +363,7 @@ public class SqgraphApplication {
 
 	private void createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
 		if (config.getPdf() != null) {
-			Document document = PDFOutput.createPDF (config);
+			final Document document = PDFOutput.createPDF(config);
 			PDFOutput.addTextDashboard (document, dashboardData, config);
 			PDFOutput.addGraphs(document, config);
 			PDFOutput.closePDF(document);
