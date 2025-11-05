@@ -588,5 +588,24 @@ class SqgraphApplicationTests {
         assertFalse(ok);
     }
 
+	@Test
+	void testBuildTitleLookup() {
+		Config config = new Config();
+		List<Application> apps = new ArrayList<>();
+		Application app1 = new Application();
+		app1.setKey("appKey1");
+		app1.setTitle("Application One");
+		apps.add(app1);
+		Application app2 = new Application();
+		app2.setKey("appKey2");
+		app2.setTitle("Application Two");
+		apps.add(app2);
+		config.setExpandedApplications(apps);
+		Map<String, String> titleLookup = SqgraphApplication.buildTitleLookup(config);
+		assertEquals(2, titleLookup.size());
+		assertEquals("Application One", titleLookup.get("appKey1"));
+		assertEquals("Application Two", titleLookup.get("appKey2"));
+	}
+
 
 }

@@ -324,7 +324,8 @@ public class SqgraphApplication {
 		}
 	}
 
-	private Map<String,String> buildTitleLookup(Config config) {
+	@VisibleForTesting
+	static Map<String,String> buildTitleLookup(final Config config) {
 		final Map<String, String> titleLookup = new HashMap<>();
 		for (Application app : config.getExpandedApplications()) {
 			if (app.getKey() != null) {
