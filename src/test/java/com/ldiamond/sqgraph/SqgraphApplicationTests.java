@@ -134,7 +134,7 @@ class SqgraphApplicationTests {
 		metricsArray[0].setMetric("alpha");
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(3, synths.size());
+		assertEquals(4, synths.size());
 	}
 
 	@Test
@@ -218,7 +218,7 @@ class SqgraphApplicationTests {
 		metricsArray[0].setMetric("alpha");
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(3, synths.size());
+		assertEquals(4, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
@@ -239,7 +239,7 @@ class SqgraphApplicationTests {
 		metrics.put("otherthing", 25.0);
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(4, synths.size());
+		assertEquals(5, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
@@ -264,7 +264,7 @@ class SqgraphApplicationTests {
 		metrics.put("otherthing", 25.0);
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(4, synths.size());
+		assertEquals(5, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
@@ -289,7 +289,7 @@ class SqgraphApplicationTests {
 		metrics.put("otherthing", 25.0);
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
-		assertEquals(4, synths.size());
+		assertEquals(5, synths.size());
 		assertNotNull(synths.get("ViolationsPerKLines"));
 		assertNotNull(synths.get("CognitiveComplexityPerKLines"));
 		assertNotNull(synths.get("BugsPlusSecurity"));
@@ -607,5 +607,11 @@ class SqgraphApplicationTests {
 		assertEquals("Application Two", titleLookup.get("appKey2"));
 	}
 
-
+	@Test
+	void testBuildAuthHeaders() {
+		HttpHeaders headers = SqgraphApplication.buildAuthHeaders("myToken");
+		assertNotNull(headers);
+		assertTrue(headers.containsKey("Authorization"));
+		assertEquals("Basic bXlUb2tlbjo=", headers.getFirst("Authorization"));
+	}
 }

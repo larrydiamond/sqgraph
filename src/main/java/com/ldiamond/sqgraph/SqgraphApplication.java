@@ -220,6 +220,30 @@ public class SqgraphApplication {
 		}
 	};
 
+	static final SyntheticMetric bugsPlusSecurityPerKLines = new SyntheticMetric() {
+		@Override public String getSyntheticName() { return "BugsPlusSecurityPerKLines";}
+		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  list.add("ncloc");  return list;}
+		@Override public double calculate(Map<String,Double> metrics) {
+			double bugs = 0;
+			Double bugsInput = metrics.get("bugs");
+			if (bugsInput != null) bugs = bugsInput;
+			
+			double vulnerabilities = 0;
+			Double vulnInput = metrics.get("vulnerabilities");
+			if (vulnInput != null) vulnerabilities = vulnInput;
+			
+			double sech = 0;
+			Double sechInput = metrics.get("security_hotspots");
+			if (sechInput != null) sech = sechInput;
+
+			double ncloc = 0;
+			Double nclocInput = metrics.get("ncloc");
+			if (nclocInput != null) ncloc = nclocInput;
+			
+			return (1000.0 * (bugs + vulnerabilities + sech)) / ncloc;
+		}
+	};
+
 	public static Map<String,SyntheticMetric> populateSynthetics (final Config config) {
 		final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
 
@@ -249,6 +273,7 @@ public class SqgraphApplication {
 		syntheticMetrics.put(ViolationsPerKLines.getSyntheticName(), ViolationsPerKLines);
 		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheticName(), CognitiveComplexityPerKLines);
 		syntheticMetrics.put(bugsPlusSecurity.getSyntheticName(), bugsPlusSecurity);
+		syntheticMetrics.put(bugsPlusSecurityPerKLines.getSyntheticName(), bugsPlusSecurityPerKLines);
 
 		return syntheticMetrics;
 	}
@@ -283,7 +308,8 @@ public class SqgraphApplication {
 		}
 	}
 
-	private HttpHeaders buildAuthHeaders(String loginToken) {
+	@VisibleForTesting
+	static HttpHeaders buildAuthHeaders(String loginToken) {
 		final HttpHeaders headers = new HttpHeaders();
 		final String base64 = "Basic " + Base64.getEncoder().encodeToString((loginToken + ":").getBytes());
 		headers.set ("Authorization", base64);

@@ -11,7 +11,6 @@
 package com.ldiamond.sqgraph;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;

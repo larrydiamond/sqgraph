@@ -42,7 +42,7 @@ public class GraphOutput {
                 if (rawMetrics.size() > 7) {
                     chart = new XYChartBuilder()
                     .width(1650)
-                    .height(1200)
+                    .height(800)
                     .title(sqm.getTitle())
                     .xAxisTitle("X")
                     .yAxisTitle("Y")
@@ -53,7 +53,7 @@ public class GraphOutput {
                 } else {
                     chart = new XYChartBuilder()
                     .width(1650)
-                    .height(1200)
+                    .height(800)
                     .title(sqm.getTitle())
                     .xAxisTitle("X")
                     .yAxisTitle("Y")
