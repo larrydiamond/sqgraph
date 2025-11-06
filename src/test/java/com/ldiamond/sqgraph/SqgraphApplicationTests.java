@@ -191,7 +191,7 @@ class SqgraphApplicationTests {
 		final SQMetrics [] metricsArray = new SQMetrics [1];
 		config.setMetrics(metricsArray);
 		metricsArray [0] = new SQMetrics();
-		metricsArray[0].setMetric("alpha");
+		metricsArray[0].setMetric("BugsPlusSecurity");
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		final SyntheticMetric sm = synths.get("BugsPlusSecurity");
@@ -207,6 +207,37 @@ class SqgraphApplicationTests {
 
 		metrics.put ("security_hotspots", 8.0);
 		assertEquals(15.0, sm.calculate(metrics));
+
+		assertEquals(3, SqgraphApplication.getMetricsListNeeded(config, synths).size());
+	}
+
+	@Test
+	void testBugsPlusSecurityPerKLines() {
+		final Config config = new Config();
+		final SQMetrics [] metricsArray = new SQMetrics [1];
+		config.setMetrics(metricsArray);
+		metricsArray [0] = new SQMetrics();
+		metricsArray[0].setMetric("BugsPlusSecurityPerKLines");
+
+		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
+		final SyntheticMetric sm = synths.get("BugsPlusSecurityPerKLines");
+		final Map<String, Double> metrics = new HashMap<>();
+		metrics.put("nothingofuse", 999.9);
+		assertTrue(Double.isNaN(sm.calculate(metrics)));
+
+		metrics.put("ncloc", 10.0);
+		assertEquals(0.0, sm.calculate(metrics));
+
+		metrics.put("bugs", 2.0);
+		assertEquals(200.0, sm.calculate(metrics));
+
+		metrics.put ("vulnerabilities", 5.0);
+		assertEquals(700.0, sm.calculate(metrics));
+
+		metrics.put ("security_hotspots", 8.0);
+		assertEquals(1500.0, sm.calculate(metrics));
+
+		assertEquals(4, SqgraphApplication.getMetricsListNeeded(config, synths).size());
 	}
 
 	@Test
