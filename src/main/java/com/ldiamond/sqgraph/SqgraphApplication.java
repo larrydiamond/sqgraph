@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -335,13 +336,9 @@ public class SqgraphApplication {
 
 	@VisibleForTesting
 	static Map<String,String> buildTitleLookup(final Config config) {
-		final Map<String, String> titleLookup = new HashMap<>();
-		for (Application app : config.getExpandedApplications()) {
-			if (app.getKey() != null) {
-				titleLookup.put(app.getKey(), app.getTitle());
-			}
-		}
-		return titleLookup;
+		return config.getExpandedApplications().stream()
+            .filter(app -> app.getKey() != null)
+            .collect(Collectors.toMap(Application::getKey, Application::getTitle));
 	}
 
 	private Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String,SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
