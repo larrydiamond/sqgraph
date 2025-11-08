@@ -33,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -145,18 +146,18 @@ public class SqgraphApplication {
 		boolean notYetLastPage = true;
 		do {
 			final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&p="+page+"&ps=999&component=" + key + "&metrics=" + metrics;
-			System.out.println (uri);
 			final ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
 			final SearchHistory result = response.getBody();
-			if (result != null) {
-				if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
-					notYetLastPage = false;
-					try {
-						Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
-					} catch (InterruptedException ie) { }
-				}
-				addMeasuresToHistory(assembledSearchHistory, result);
+			if (result == null)
+				return assembledSearchHistory;
+
+			if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
+				notYetLastPage = false;
+				try {
+					Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
+				} catch (InterruptedException ie) { }
 			}
+			addMeasuresToHistory(assembledSearchHistory, result);
 			page++;
 		} while (notYetLastPage);
 		return assembledSearchHistory;
@@ -176,24 +177,6 @@ public class SqgraphApplication {
 			}
 		}
 		return results;
-	}
-
-	public static String getCommaSeparatedListOfMetrics (final List<String> metrics) {
-		final StringBuilder output = new StringBuilder();
-		boolean comma = false;
-		final List<String> alreadyAdded = new ArrayList<>();
-		for (String metric : metrics) {
-			if (!alreadyAdded.contains(metric)) {
-				alreadyAdded.add(metric);
-				if (!comma) {
-					comma = true;
-				} else {
-					output.append (",");
-				}
-				output.append (metric);
-			}
-		}
-		return output.toString();
 	}
 
 	static final SyntheticMetric ViolationsPerKLines = getMetric ("ViolationsPerKLines", "violations", "ncloc", 1000.0);
@@ -369,7 +352,7 @@ public class SqgraphApplication {
 			final String key = app.getKey();
 			try {
 				final List<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
-				final String metrics = getCommaSeparatedListOfMetrics(metricsToQuery);
+				final String metrics = StringUtils.join(metricsToQuery, ","); 
 
 				Date startDate = new Date();
 				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));

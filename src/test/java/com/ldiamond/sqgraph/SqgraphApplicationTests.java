@@ -116,16 +116,6 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
-	void GetCommaSeparatedListOfMetrics() {
-		final List<String> metrics = new ArrayList<>();
-		metrics.add ("alpha");
-		metrics.add("beta");
-		metrics.add("alpha");
-		final String output = SqgraphApplication.getCommaSeparatedListOfMetrics(metrics);
-		assertEquals("alpha,beta", output);
-	}
-
-	@Test
 	void testPopulatingSynthetics() {
 		final Config config = new Config();
 		final SQMetrics [] metricsArray = new SQMetrics [1];
@@ -403,12 +393,6 @@ class SqgraphApplicationTests {
         return new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", java.util.Locale.ENGLISH).parse(s);
     }
 
-	@Test
-	void testGetCommaSeparatedListOfApplications() {
-		final String output = SqgraphApplication.getCommaSeparatedListOfMetrics(List.of("AppOne", "AppTwo", "AppThree"));
-		assertEquals("AppOne,AppTwo,AppThree", output);
-	}
-
 	@Test 
 	void testGetMetricsListNeededEmpty() {
 		final Config config = new Config();
@@ -489,14 +473,6 @@ class SqgraphApplicationTests {
 		final boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
 		assertFalse(b);
 	}
-
-
-    @Test
-    void testGetCommaSeparatedListOfMetrics_removesDuplicates_preservesOrder() {
-		final List<String> input = Arrays.asList("a", "b", "a", "c", "b");
-		final String result = SqgraphApplication.getCommaSeparatedListOfMetrics(input);
-        assertEquals("a,b,c", result);
-    }
 
     @Test
     void testViolationsPerKLines_calculation() {

@@ -101,7 +101,8 @@ public class PDFOutput {
         }
     }
 
-    private static void addTextDashboardBody(final Config config, final PdfPTable table, final HashBasedTable<String, String, Double> dashboardData, final List<Integer> colWidths) {
+    @VisibleForTesting
+    static void addTextDashboardBody(final Config config, final PdfPTable table, final HashBasedTable<String, String, Double> dashboardData, final List<Integer> colWidths) {
         for (Application a : config.getApplications()) {
             int col = 0;
 			final Phrase tphrase = new Phrase(a.getTitle());
