@@ -20,8 +20,11 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
@@ -164,17 +167,21 @@ public class SqgraphApplication {
 		return assembledSearchHistory;
 	}
 
-	public static List<String> getMetricsListNeeded (final Config config, final Map<String,SyntheticMetric> synthetics) {
-		final List<String> results = new ArrayList<>();
+	public static Set<String> getMetricsListNeeded (final Config config, final Map<String,SyntheticMetric> synthetics) {
+		final Set<String> results = new HashSet<>();
 		for (SQMetrics sqm : config.getMetrics()) {
 			final String metric = sqm.getMetric();
 			final SyntheticMetric sm = synthetics.get(metric);
 			if (sm == null) {
-				if (!results.contains(metric)) results.add(metric);
+//				if (!results.contains(metric)) 
+				results.add(metric);
 			} else {
+				results.addAll(sm.getRealMetrics());
+				/* 
 				for (String real : sm.getRealMetrics()) {
 					if (!results.contains(real)) results.add(real);
 				}
+					*/
 			}
 		}
 		return results;
@@ -348,7 +355,7 @@ public class SqgraphApplication {
 		for (Application app : config.getExpandedApplications()) {
 			final String key = app.getKey();
 			try {
-				final List<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
+				final Set<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
 				final String metrics = StringUtils.join(metricsToQuery, ","); 
 
 				Date startDate = new Date();

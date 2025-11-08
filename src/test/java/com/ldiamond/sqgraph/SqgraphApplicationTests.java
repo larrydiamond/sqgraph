@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -111,7 +112,7 @@ class SqgraphApplicationTests {
 
 		syntheticMetrics.put(unitTestSynthetic.getSyntheticName(), unitTestSynthetic);
 
-		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
+		final Set<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (5, results.size(), results.toString());
 	}
 
@@ -401,7 +402,7 @@ class SqgraphApplicationTests {
 
 		final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
 
-		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
+		final Set<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (0, results.size(), results.toString());
 	}
 
@@ -417,7 +418,7 @@ class SqgraphApplicationTests {
 
 		final Map<String, SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
 
-		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
+		final Set<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (2, results.size(), results.toString());
 	}
 
@@ -433,7 +434,7 @@ class SqgraphApplicationTests {
 
 		final Map<String, SyntheticMetric> syntheticMetrics = SqgraphApplication.populateSynthetics(config);
 
-		final List<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
+		final Set<String> results = SqgraphApplication.getMetricsListNeeded(config, syntheticMetrics);
 		assertEquals (3, results.size(), results.toString());
 	}
 
@@ -521,7 +522,7 @@ class SqgraphApplicationTests {
 		final Map<String, SyntheticMetric> synthetics = new HashMap<>();
         synthetics.put("metricSynthetic", sm);
 
-		final List<String> needed = SqgraphApplication.getMetricsListNeeded(cfg, synthetics);
+		final Set<String> needed = SqgraphApplication.getMetricsListNeeded(cfg, synthetics);
         assertTrue(needed.contains("metricA"));
         assertTrue(needed.contains("real1"));
         assertTrue(needed.contains("real2"));
