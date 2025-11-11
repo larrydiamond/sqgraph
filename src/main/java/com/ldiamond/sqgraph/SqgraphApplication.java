@@ -45,6 +45,9 @@ import com.google.common.collect.HashBasedTable;
 
 import com.lowagie.text.Document;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SpringBootApplication
 public class SqgraphApplication {
 	static String login = null;
@@ -53,17 +56,17 @@ public class SqgraphApplication {
 	public static void main(String[] args) {
 		login = getSonarQubeToken();
 		if (login == null) {
-			System.out.println ("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
+			log.error ("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
 			System.exit (1);
 		}
 
 		if (args.length < 1) {
-			System.out.println ("Please specify the config file to use on the command line");
+			log.error ("Please specify the config file to use on the command line");
 			System.exit (1);		
 		} 
 
 		if (args [0] == null) {
-			System.out.println ("Please specify the config file to use on the command line");
+			log.error ("Please specify the config file to use on the command line");
 			System.exit (1);
 		}
 		filename = args [0];
@@ -122,7 +125,7 @@ public class SqgraphApplication {
 		// optional PDF
 		createPdfIfNeeded(config, dashboardData);
 
-		System.out.println ("Successful completion.");
+		log.error ("Successful completion.");
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
