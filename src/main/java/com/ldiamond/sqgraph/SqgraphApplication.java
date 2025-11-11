@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -47,341 +49,377 @@ import com.lowagie.text.Document;
 
 @SpringBootApplication
 public class SqgraphApplication {
-	static String login = null;
-	static String filename = null;
+    private static final Logger log = LoggerFactory.getLogger(SqgraphApplication.class);
 
-	public static void main(String[] args) {
-		login = getSonarQubeToken();
-		if (login == null) {
-			System.out.println ("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
-			System.exit (1);
-		}
+    static String login = null;
+    static String filename = null;
 
-		if (args.length < 1) {
-			System.out.println ("Please specify the config file to use on the command line");
-			System.exit (1);		
-		} 
+    public static void main(String[] args) {
+        login = getSonarQubeToken();
+        if (login == null) {
+            log.error("Please create a user token in your SonarQube server and set that token in your environment as SONAR_TOKEN");
+            System.exit(1);
+        }
 
-		if (args [0] == null) {
-			System.out.println ("Please specify the config file to use on the command line");
-			System.exit (1);
-		}
-		filename = args [0];
+        if (args.length < 1) {
+            log.error("Please specify the config file to use on the command line");
+            System.exit(1);
+        }
 
-		SpringApplication.run(SqgraphApplication.class, args);
-	}
+        if (args[0] == null) {
+            log.error("Please specify the config file to use on the command line");
+            System.exit(1);
+        }
+        filename = args[0];
 
-	static String getSonarQubeToken() {
-		String login = System.getenv("SONARLOGIN");
-		if (login != null) 
-			return login;
+        SpringApplication.run(SqgraphApplication.class, args);
+    }
 
-		login = System.getenv("SONAR_TOKEN");
-		if (login != null) 
-			return login;
+    static String getSonarQubeToken() {
+        String login = System.getenv("SONARLOGIN");
+        if (login != null)
+            return login;
 
-		login = System.getenv("SONAR_LOGIN");
-		if (login != null) 
-			return login;
+        login = System.getenv("SONAR_TOKEN");
+        if (login != null)
+            return login;
 
-		login = System.getenv("SONARTOKEN");
-		if (login != null) 
-			return login;
+        login = System.getenv("SONAR_LOGIN");
+        if (login != null)
+            return login;
 
-		return null;
-	}
+        login = System.getenv("SONARTOKEN");
+        if (login != null)
+            return login;
 
-	@Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return null;
+    }
 
-		// load configuration
-		final Config config = loadConfig(filename);
-		if (config == null) return null;
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 
-		// build synthetics and HTTP helpers
-		final Map<String, SyntheticMetric> syntheticMetrics = populateSynthetics(config);
-		final RestTemplate restTemplate = new RestTemplate();
-		final HttpHeaders headers = buildAuthHeaders(login);
+        // load configuration
+        final Config config = loadConfig(filename);
+        if (config == null) return null;
 
-		// validate token
-		if (!validateSonarToken(config, headers, restTemplate)) return null;
+        // build synthetics and HTTP helpers
+        final Map<String, SyntheticMetric> syntheticMetrics = populateSynthetics(config);
+        final RestTemplate restTemplate = new RestTemplate();
+        final HttpHeaders headers = buildAuthHeaders(login);
 
-		// expand applications (search queries -> concrete applications)
-		expandApplications(config, headers, restTemplate);
+        // validate token
+        if (!validateSonarToken(config, headers, restTemplate)) return null;
 
-		// build title map
-		final Map<String, String> titleLookup = buildTitleLookup(config);
+        // expand applications (search queries -> concrete applications)
+        expandApplications(config, headers, restTemplate);
 
-		// fetch history for each expanded application
-		final Map<String, AssembledSearchHistory> rawMetrics = fetchRawMetricsForApps(config, syntheticMetrics, headers, restTemplate);
+        // build title map
+        final Map<String, String> titleLookup = buildTitleLookup(config);
 
-		// produce dashboard + graphs
-		final HashBasedTable<String, String, Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
-		GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
+        // fetch history for each expanded application
+        final Map<String, AssembledSearchHistory> rawMetrics = fetchRawMetricsForApps(config, syntheticMetrics, headers, restTemplate);
 
-		// optional PDF
-		createPdfIfNeeded(config, dashboardData);
+        // produce dashboard + graphs
+        final HashBasedTable<String, String, Double> dashboardData = HashBasedTable.create(config.getMetrics().length, 100);
+        GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, syntheticMetrics);
 
-		System.out.println ("Successful completion.");
-		return new CommandLineRunner() {
-			@Override
-			public void run(String... args) throws Exception {
-				// nothing to do
-			}
-		};
-	}
+        // optional PDF
+        createPdfIfNeeded(config, dashboardData);
 
-	static void addMeasuresToHistory (final AssembledSearchHistory assembledSearchHistory, final SearchHistory result) {
-		if (result.getMeasures() != null) {
-			List<Measures> measures = assembledSearchHistory.getMeasures();
-			if (measures == null) {
-				measures = new ArrayList<>();
-				assembledSearchHistory.setMeasures(measures);
-			}
-			measures.addAll(Arrays.asList(result.getMeasures()));
-		}
-	}
+        log.info("Successful completion.");
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... args) throws Exception {
+                // nothing to do
+            }
+        };
+    }
 
-	public static AssembledSearchHistory getHistory (final Config config, final String sdfsqString, final String key, final String metrics, 
-	final HttpHeaders headers, RestTemplate restTemplate) {
-		final AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
-		int page = 1;
-		boolean notYetLastPage = true;
-		do {
-			final String uri = config.getUrl() + "/api/measures/search_history?from="+sdfsqString+"&p="+page+"&ps=999&component=" + key + "&metrics=" + metrics;
-			final ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
-			final SearchHistory result = response.getBody();
-			if (result == null)
-				return assembledSearchHistory;
+    static void addMeasuresToHistory(final AssembledSearchHistory assembledSearchHistory, final SearchHistory result) {
+        if (result.getMeasures() != null) {
+            List<Measures> measures = assembledSearchHistory.getMeasures();
+            if (measures == null) {
+                measures = new ArrayList<>();
+                assembledSearchHistory.setMeasures(measures);
+            }
+            measures.addAll(Arrays.asList(result.getMeasures()));
+        }
+    }
 
-			if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
-				notYetLastPage = false;
-				try {
-					Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
-				} catch (InterruptedException ie) { }
-			}
-			addMeasuresToHistory(assembledSearchHistory, result);
-			page++;
-		} while (notYetLastPage);
-		return assembledSearchHistory;
-	}
+    public static AssembledSearchHistory getHistory(final Config config, final String sdfsqString, final String key, final String metrics,
+            final HttpHeaders headers, RestTemplate restTemplate) {
+        final AssembledSearchHistory assembledSearchHistory = new AssembledSearchHistory();
+        int page = 1;
+        boolean notYetLastPage = true;
+        do {
+            final String uri = config.getUrl() + "/api/measures/search_history?from=" + sdfsqString + "&p=" + page + "&ps=999&component=" + key + "&metrics=" + metrics;
+            final ResponseEntity<SearchHistory> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), SearchHistory.class);
+            final SearchHistory result = response.getBody();
+            if (result == null)
+                return assembledSearchHistory;
 
-	public static Set<String> getMetricsListNeeded (final Config config, final Map<String,SyntheticMetric> synthetics) {
-		final Set<String> results = new HashSet<>();
-		for (SQMetrics sqm : config.getMetrics()) {
-			final String metric = sqm.getMetric();
-			final SyntheticMetric sm = synthetics.get(metric);
-			if (sm == null) {
-//				if (!results.contains(metric)) 
-				results.add(metric);
-			} else {
-				results.addAll(sm.getRealMetrics());
-				/* 
-				for (String real : sm.getRealMetrics()) {
-					if (!results.contains(real)) results.add(real);
-				}
-					*/
-			}
-		}
-		return results;
-	}
+            if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
+                notYetLastPage = false;
+                try {
+                    Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
+                } catch (InterruptedException ie) {
+                }
+            }
+            addMeasuresToHistory(assembledSearchHistory, result);
+            page++;
+        } while (notYetLastPage);
+        return assembledSearchHistory;
+    }
 
-	static final SyntheticMetric ViolationsPerKLines = getMetric ("ViolationsPerKLines", "violations", "ncloc", 1000.0);
-	
-	static final SyntheticMetric CognitiveComplexityPerKLines = getMetric ("CognitiveComplexityPerKLines", "cognitive_complexity", "ncloc", 1000.0);
+    public static Set<String> getMetricsListNeeded(final Config config, final Map<String, SyntheticMetric> synthetics) {
+        final Set<String> results = new HashSet<>();
+        for (SQMetrics sqm : config.getMetrics()) {
+            final String metric = sqm.getMetric();
+            final SyntheticMetric sm = synthetics.get(metric);
+            if (sm == null) {
+                results.add(metric);
+            } else {
+                results.addAll(sm.getRealMetrics());
+            }
+        }
+        return results;
+    }
 
-	static final SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
-		@Override public String getSyntheticName() { return "BugsPlusSecurity";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  return list;}
-		@Override public double calculate(Map<String,Double> metrics) {
-			double bugs = 0;
-			Double bugsInput = metrics.get("bugs");
-			if (bugsInput != null) bugs = bugsInput;
-			
-			double vulnerabilities = 0;
-			Double vulnInput = metrics.get("vulnerabilities");
-			if (vulnInput != null) vulnerabilities = vulnInput;
-			
-			double sech = 0;
-			Double sechInput = metrics.get("security_hotspots");
-			if (sechInput != null) sech = sechInput;
-			
-			return bugs + vulnerabilities + sech;
-		}
-	};
+    static final SyntheticMetric ViolationsPerKLines = getMetric("ViolationsPerKLines", "violations", "ncloc", 1000.0);
 
-	static final SyntheticMetric bugsPlusSecurityPerKLines = new SyntheticMetric() {
-		@Override public String getSyntheticName() { return "BugsPlusSecurityPerKLines";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  list.add("ncloc");  return list;}
-		@Override public double calculate(Map<String,Double> metrics) {
-			double bugs = 0;
-			Double bugsInput = metrics.get("bugs");
-			if (bugsInput != null) bugs = bugsInput;
-			
-			double vulnerabilities = 0;
-			Double vulnInput = metrics.get("vulnerabilities");
-			if (vulnInput != null) vulnerabilities = vulnInput;
-			
-			double sech = 0;
-			Double sechInput = metrics.get("security_hotspots");
-			if (sechInput != null) sech = sechInput;
+    static final SyntheticMetric CognitiveComplexityPerKLines = getMetric("CognitiveComplexityPerKLines", "cognitive_complexity", "ncloc", 1000.0);
 
-			double ncloc = 0;
-			Double nclocInput = metrics.get("ncloc");
-			if (nclocInput != null) ncloc = nclocInput;
-			
-			return (1000.0 * (bugs + vulnerabilities + sech)) / ncloc;
-		}
-	};
+    static final SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
+        @Override public String getSyntheticName() {
+            return "BugsPlusSecurity";
+        }
 
-	public static Map<String,SyntheticMetric> populateSynthetics (final Config config) {
-		final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
+        @Override public List<String> getRealMetrics() {
+            List<String> list = new ArrayList<>();
+            list.add("bugs");
+            list.add("vulnerabilities");
+            list.add("security_hotspots");
+            return list;
+        }
 
-		for (SQMetrics sqm : config.getMetrics()) {
-			int offset = sqm.getMetric().indexOf("__PER__");
-			if (offset != -1) {
-				final String prefix = sqm.getMetric().substring(0, offset);
-				final String suffix = sqm.getMetric().substring(offset + 7);
-				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 1.0));
-			}
+        @Override public double calculate(Map<String, Double> metrics) {
+            double bugs = 0;
+            Double bugsInput = metrics.get("bugs");
+            if (bugsInput != null)
+                bugs = bugsInput;
 
-			offset = sqm.getMetric().indexOf("__PER_K_");
-			if (offset != -1) {
-				final String prefix = sqm.getMetric().substring(0, offset);
-				final String suffix = sqm.getMetric().substring(offset + 8);
-				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 1000.0));
-			}
+            double vulnerabilities = 0;
+            Double vulnInput = metrics.get("vulnerabilities");
+            if (vulnInput != null)
+                vulnerabilities = vulnInput;
 
-			offset = sqm.getMetric().indexOf("__PER_H_");
-			if (offset != -1) {
-				final String prefix = sqm.getMetric().substring(0, offset);
-				final String suffix = sqm.getMetric().substring(offset + 8);
-				syntheticMetrics.put(sqm.getMetric(), getMetric (sqm.getMetric(), prefix, suffix, 100.0));
-			}
-		}
+            double sech = 0;
+            Double sechInput = metrics.get("security_hotspots");
+            if (sechInput != null)
+                sech = sechInput;
 
-		syntheticMetrics.put(ViolationsPerKLines.getSyntheticName(), ViolationsPerKLines);
-		syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheticName(), CognitiveComplexityPerKLines);
-		syntheticMetrics.put(bugsPlusSecurity.getSyntheticName(), bugsPlusSecurity);
-		syntheticMetrics.put(bugsPlusSecurityPerKLines.getSyntheticName(), bugsPlusSecurityPerKLines);
+            return bugs + vulnerabilities + sech;
+        }
+    };
 
-		return syntheticMetrics;
-	}
+    static final SyntheticMetric bugsPlusSecurityPerKLines = new SyntheticMetric() {
+        @Override public String getSyntheticName() {
+            return "BugsPlusSecurityPerKLines";
+        }
 
-	@VisibleForTesting
-	static SyntheticMetric getMetric (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
-		return new SyntheticMetric() {
-			@Override public String getSyntheticName() { return metricName;}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (numeratorMetric);  list.add(denominatorMetric);  return list;}
-			@Override public double calculate(Map<String,Double> metrics) {
-				double denominator = 0;
-				Double denominatorInput = metrics.get(denominatorMetric);
-				if (denominatorInput != null) denominator = denominatorInput;
-				double numerator = 0;
-				Double numeratorInput = metrics.get(numeratorMetric);
-				if (numeratorInput != null) numerator = numeratorInput;
-				if ((denominator == 0) || (numerator == 0)) return 0.0;
-				return (multiplier * numerator) / denominator;
-			}
-		};
-	}
+        @Override public List<String> getRealMetrics() {
+            List<String> list = new ArrayList<>();
+            list.add("bugs");
+            list.add("vulnerabilities");
+            list.add("security_hotspots");
+            list.add("ncloc");
+            return list;
+        }
 
-	// New helper methods to lower cognitive complexity of commandLineRunner
+        @Override public double calculate(Map<String, Double> metrics) {
+            double bugs = 0;
+            Double bugsInput = metrics.get("bugs");
+            if (bugsInput != null)
+                bugs = bugsInput;
 
-	private Config loadConfig(String filename) {
-		final ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			return objectMapper.readValue(new File(filename), Config.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+            double vulnerabilities = 0;
+            Double vulnInput = metrics.get("vulnerabilities");
+            if (vulnInput != null)
+                vulnerabilities = vulnInput;
 
-	@VisibleForTesting
-	static HttpHeaders buildAuthHeaders(String loginToken) {
-		final HttpHeaders headers = new HttpHeaders();
-		final String base64 = "Basic " + Base64.getEncoder().encodeToString((loginToken + ":").getBytes());
-		headers.set ("Authorization", base64);
-		return headers;
-	}
+            double sech = 0;
+            Double sechInput = metrics.get("security_hotspots");
+            if (sechInput != null)
+                sech = sechInput;
 
-	@VisibleForTesting
-	boolean validateSonarToken(Config config, HttpHeaders headers, RestTemplate restTemplate) {
-		try {
-			final String uri = config.getUrl() + "/api/authentication/validate";
-			final ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
-			final ValidationResult result = response.getBody();
-			if (result != null) {
-				return result.isValid();
-			}
-			return false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+            double ncloc = 0;
+            Double nclocInput = metrics.get("ncloc");
+            if (nclocInput != null)
+                ncloc = nclocInput;
 
-	private void expandApplications(Config config, HttpHeaders headers, RestTemplate restTemplate) {
-		config.setExpandedApplications(new ArrayList<>());
-		for (Application app : config.getApplications()) {
-			if (app.getKey() != null) {
-				config.getExpandedApplications().add(app);
-			} else if (app.getQuery() != null) {
-				final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
-				final ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
-				final ApiProjectsSearchResults result = response.getBody();
-				if ((result != null) && (result.getComponents() != null)) {
-					for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
-						config.getExpandedApplications().add(c.getApplication());
-					}
-				}
-			}
-		}
-	}
+            return (1000.0 * (bugs + vulnerabilities + sech)) / ncloc;
+        }
+    };
 
-	@VisibleForTesting
-	static Map<String,String> buildTitleLookup(final Config config) {
-		return config.getExpandedApplications().stream()
-            .filter(app -> app.getKey() != null)
-            .collect(Collectors.toMap(Application::getKey, Application::getTitle));
-	}
+    public static Map<String, SyntheticMetric> populateSynthetics(final Config config) {
+        final Map<String, SyntheticMetric> syntheticMetrics = new HashMap<>();
 
-	private Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String,SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
-		final Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
-		final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (SQMetrics sqm : config.getMetrics()) {
+            int offset = sqm.getMetric().indexOf("__PER__");
+            if (offset != -1) {
+                final String prefix = sqm.getMetric().substring(0, offset);
+                final String suffix = sqm.getMetric().substring(offset + 7);
+                syntheticMetrics.put(sqm.getMetric(), getMetric(sqm.getMetric(), prefix, suffix, 1.0));
+            }
 
-		for (Application app : config.getExpandedApplications()) {
-			final String key = app.getKey();
-			try {
-				final Set<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
-				final String metrics = StringUtils.join(metricsToQuery, ","); 
+            offset = sqm.getMetric().indexOf("__PER_K_");
+            if (offset != -1) {
+                final String prefix = sqm.getMetric().substring(0, offset);
+                final String suffix = sqm.getMetric().substring(offset + 8);
+                syntheticMetrics.put(sqm.getMetric(), getMetric(sqm.getMetric(), prefix, suffix, 1000.0));
+            }
 
-				Date startDate = new Date();
-				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
-				final LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
-				final String sdfsqString = sdfsq.format(localDate);
+            offset = sqm.getMetric().indexOf("__PER_H_");
+            if (offset != -1) {
+                final String prefix = sqm.getMetric().substring(0, offset);
+                final String suffix = sqm.getMetric().substring(offset + 8);
+                syntheticMetrics.put(sqm.getMetric(), getMetric(sqm.getMetric(), prefix, suffix, 100.0));
+            }
+        }
 
-				final AssembledSearchHistory history = getHistory(config, sdfsqString, key, metrics, headers, restTemplate);
-				rawMetrics.put(key, history);
+        syntheticMetrics.put(ViolationsPerKLines.getSyntheticName(), ViolationsPerKLines);
+        syntheticMetrics.put(CognitiveComplexityPerKLines.getSyntheticName(), CognitiveComplexityPerKLines);
+        syntheticMetrics.put(bugsPlusSecurity.getSyntheticName(), bugsPlusSecurity);
+        syntheticMetrics.put(bugsPlusSecurityPerKLines.getSyntheticName(), bugsPlusSecurityPerKLines);
 
-				Thread.sleep(1);
-			} catch (Exception e) {
-				e.printStackTrace();
-				// preserve previous behavior of stopping on errors by returning partially filled map
-				return rawMetrics;
-			}
-		}
-		return rawMetrics;
-	}
+        return syntheticMetrics;
+    }
 
-	private void createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
-		if (config.getPdf() != null) {
-			final Document document = PDFOutput.createPDF(config);
-			PDFOutput.addTextDashboard (document, dashboardData, config);
-			PDFOutput.addGraphs(document, config);
-			PDFOutput.closePDF(document);
-		}
-	}
+    @VisibleForTesting
+    static SyntheticMetric getMetric(final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
+        return new SyntheticMetric() {
+            @Override public String getSyntheticName() {
+                return metricName;
+            }
+
+            @Override public List<String> getRealMetrics() {
+                List<String> list = new ArrayList<>();
+                list.add(numeratorMetric);
+                list.add(denominatorMetric);
+                return list;
+            }
+
+            @Override public double calculate(Map<String, Double> metrics) {
+                double denominator = 0;
+                Double denominatorInput = metrics.get(denominatorMetric);
+                if (denominatorInput != null)
+                    denominator = denominatorInput;
+                double numerator = 0;
+                Double numeratorInput = metrics.get(numeratorMetric);
+                if (numeratorInput != null)
+                    numerator = numeratorInput;
+                if ((denominator == 0) || (numerator == 0))
+                    return 0.0;
+                return (multiplier * numerator) / denominator;
+            }
+        };
+    }
+
+    // New helper methods to lower cognitive complexity of commandLineRunner
+
+    private Config loadConfig(String filename) {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(new File(filename), Config.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @VisibleForTesting
+    static HttpHeaders buildAuthHeaders(String loginToken) {
+        final HttpHeaders headers = new HttpHeaders();
+        final String base64 = "Basic " + Base64.getEncoder().encodeToString((loginToken + ":").getBytes());
+        headers.set("Authorization", base64);
+        return headers;
+    }
+
+    @VisibleForTesting
+    boolean validateSonarToken(Config config, HttpHeaders headers, RestTemplate restTemplate) {
+        try {
+            final String uri = config.getUrl() + "/api/authentication/validate";
+            final ResponseEntity<ValidationResult> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ValidationResult.class);
+            final ValidationResult result = response.getBody();
+            if (result != null) {
+                return result.isValid();
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void expandApplications(Config config, HttpHeaders headers, RestTemplate restTemplate) {
+        config.setExpandedApplications(new ArrayList<>());
+        for (Application app : config.getApplications()) {
+            if (app.getKey() != null) {
+                config.getExpandedApplications().add(app);
+            } else if (app.getQuery() != null) {
+                final String uri = config.getUrl() + "/api/projects/search?qualifiers=TRK&q=" + app.getQuery();
+                final ResponseEntity<ApiProjectsSearchResults> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), ApiProjectsSearchResults.class);
+                final ApiProjectsSearchResults result = response.getBody();
+                if ((result != null) && (result.getComponents() != null)) {
+                    for (ApiProjectsSearchResultsComponents c : result.getComponents()) {
+                        config.getExpandedApplications().add(c.getApplication());
+                    }
+                }
+            }
+        }
+    }
+
+    @VisibleForTesting
+    static Map<String, String> buildTitleLookup(final Config config) {
+        return config.getExpandedApplications().stream()
+                .filter(app -> app.getKey() != null)
+                .collect(Collectors.toMap(Application::getKey, Application::getTitle));
+    }
+
+    private Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String, SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
+        final Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
+        final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Application app : config.getExpandedApplications()) {
+            final String key = app.getKey();
+            try {
+                final Set<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
+                final String metrics = StringUtils.join(metricsToQuery, ",");
+
+                Date startDate = new Date();
+                startDate = DateUtils.addDays(startDate, (-1 * config.getMaxReportHistory()));
+                final LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+                final String sdfsqString = sdfsq.format(localDate);
+
+                final AssembledSearchHistory history = getHistory(config, sdfsqString, key, metrics, headers, restTemplate);
+                rawMetrics.put(key, history);
+
+                Thread.sleep(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+                // preserve previous behavior of stopping on errors by returning partially filled map
+                return rawMetrics;
+            }
+        }
+        return rawMetrics;
+    }
+
+    private void createPdfIfNeeded(Config config, HashBasedTable<String, String, Double> dashboardData) {
+        if (config.getPdf() != null) {
+            final Document document = PDFOutput.createPDF(config);
+            PDFOutput.addTextDashboard(document, dashboardData, config);
+            PDFOutput.addGraphs(document, config);
+            PDFOutput.closePDF(document);
+        }
+    }
 }
-
