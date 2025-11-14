@@ -43,7 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 
-import com.lowagie.text.Document;
+import org.openpdf.text.Document;
 
 import lombok.extern.slf4j.Slf4j;
 

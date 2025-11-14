@@ -26,11 +26,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.HashBasedTable;
-import com.lowagie.text.Document;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPRow;
-import com.lowagie.text.pdf.PdfPTable;
+import org.openpdf.text.Document;
+import org.openpdf.text.Rectangle;
+import org.openpdf.text.pdf.PdfPCell;
+import org.openpdf.text.pdf.PdfPRow;
+import org.openpdf.text.pdf.PdfPTable;
 
 class PDFOutputTests {
 
