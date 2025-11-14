@@ -1,11 +1,13 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.7' 
+    id 'org.springframework.boot' version '3.5.7'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'jacoco'
     id "org.sonarqube" version "7.0.1.6134"
-	id "org.owasp.dependencycheck" version "12.1.8"
+	id "org.owasp.dependencycheck" version "12.1.9"
     id("org.openrewrite.rewrite") version("latest.release")
+	id 'se.patrikerdes.use-latest-versions' version '0.2.19'
+  	id 'com.github.ben-manes.versions' version '0.53.0'
 }
 
 group = 'com.ldiamond'
@@ -45,8 +47,8 @@ dependencies {
 
 	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.+'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.19.+'
-	implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.+'
-	implementation("com.google.guava:guava:33.4.8-jre")
+    implementation group: 'com.github.librepdf', name: 'openpdf', version: '2.0.+'
+	implementation("com.google.guava:guava:33.5.0-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:latest.release'
 	testImplementation 'com.ldiamond:architectureunittests:latest.release'
