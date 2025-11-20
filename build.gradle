@@ -25,8 +25,8 @@ configurations {
 
 repositories {
 	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url = 'https://repo.spring.io/milestone' }
+	maven { url = 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
@@ -43,11 +43,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.springframework:spring-web'
-	implementation group: 'commons-codec', name: 'commons-codec'
+	implementation 'commons-codec:commons-codec'
 
-	implementation group: 'org.knowm.xchart', name: 'xchart', version: '3.8.+'
-	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.19.+'
-    implementation group: 'com.github.librepdf', name: 'openpdf', version: '3.0.0'
+	implementation 'org.knowm.xchart:xchart:3.8.+'
+	implementation 'org.apache.commons:commons-lang3:3.19.+'
+    implementation 'com.github.librepdf:openpdf:3.0.0'
 	implementation("com.google.guava:guava:33.5.0-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:latest.release'
