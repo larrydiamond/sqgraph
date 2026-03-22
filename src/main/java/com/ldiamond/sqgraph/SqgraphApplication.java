@@ -387,12 +387,15 @@ public class SqgraphApplication {
 	}
 
 	@VisibleForTesting
-	void createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
+	boolean createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
 		if (config.getPdf() != null) {
 			final Document document = PDFOutput.createPDF(config);
 			PDFOutput.addTextDashboard (document, dashboardData, config);
 			PDFOutput.addGraphs(document, config);
 			PDFOutput.closePDF(document);
+			return true;
+		 } else {
+			 return false;
 		}
 	}
 }

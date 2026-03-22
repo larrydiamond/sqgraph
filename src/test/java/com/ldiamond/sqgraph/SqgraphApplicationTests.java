@@ -139,7 +139,7 @@ class SqgraphApplicationTests {
 		config.setPdf(null);
 		config.setMetrics(new SQMetrics[0]);
 		// should complete without error and not attempt to write any file
-		new SqgraphApplication().createPdfIfNeeded(config, HashBasedTable.create());
+		assertFalse (new SqgraphApplication().createPdfIfNeeded(config, HashBasedTable.create()));
 	}
 
 	@Test
