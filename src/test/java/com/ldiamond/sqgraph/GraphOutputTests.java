@@ -11,14 +11,18 @@
 package com.ldiamond.sqgraph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -149,6 +153,49 @@ class GraphOutputTests {
         assertEquals (1000.0, lastPoint, 0.1);
     }
 
+
+    @Test
+    void testOutputGraphs() throws IOException, ParseException {
+        final File tempFile = File.createTempFile("outputGraphsTest", ".png");
+        tempFile.deleteOnExit();
+        final String filename = tempFile.getAbsolutePath().replace(".png", "");
+
+        final Config config = new Config();
+        final SQMetrics sqm = new SQMetrics();
+        sqm.setMetric("linesOfCode");
+        sqm.setTitle("Lines of Code");
+        sqm.setFilename(filename);
+        config.setMetrics(new SQMetrics[] {sqm});
+
+        final AssembledSearchHistory history = new AssembledSearchHistory();
+        final List<Measures> measureList = new ArrayList<>();
+        history.setMeasures(measureList);
+        final Measures linesOfCode = new Measures();
+        measureList.add(linesOfCode);
+        linesOfCode.setMetric("linesOfCode");
+        final History[] historyArray = new History[2];
+        linesOfCode.setHistory(historyArray);
+        historyArray[0] = new History();
+        historyArray[0].setDate(parseRfc822("Sat, 12 Aug 1995 13:30:00 GMT"));
+        historyArray[0].setValue(500.0);
+        historyArray[1] = new History();
+        historyArray[1].setDate(parseRfc822("Sat, 19 Aug 1995 13:30:00 GMT"));
+        historyArray[1].setValue(1000.0);
+
+        final Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
+        rawMetrics.put("myApp", history);
+
+        final Map<String, String> titleLookup = new HashMap<>();
+        titleLookup.put("myApp", "My App");
+
+        final HashBasedTable<String, String, Double> dashboardData = HashBasedTable.create();
+
+        GraphOutput.outputGraphs(config, rawMetrics, dashboardData, titleLookup, Map.of());
+
+        assertTrue(tempFile.exists());
+        assertTrue(tempFile.length() > 0);
+        assertEquals(1000.0, dashboardData.get("Lines of Code", "My App"));
+    }
 
     @Test
     void testAddSeriesForMetricNative() throws ParseException {
