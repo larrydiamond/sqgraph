@@ -331,7 +331,8 @@ public class SqgraphApplication {
 		}
 	}
 
-	private void expandApplications(Config config, HttpHeaders headers, RestTemplate restTemplate) {
+	@VisibleForTesting
+	void expandApplications(Config config, HttpHeaders headers, RestTemplate restTemplate) {
 		config.setExpandedApplications(new ArrayList<>());
 		for (Application app : config.getApplications()) {
 			if (app.getKey() != null) {

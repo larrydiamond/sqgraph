@@ -634,6 +634,79 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
+	void testExpandApplications_appWithKey() {
+		final Config config = new Config();
+		final Application app = new Application();
+		app.setKey("myKey");
+		app.setTitle("My App");
+		config.setApplications(new Application[] {app});
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
+		assertEquals(1, config.getExpandedApplications().size());
+		assertEquals("myKey", config.getExpandedApplications().getFirst().getKey());
+		assertEquals("My App", config.getExpandedApplications().getFirst().getTitle());
+	}
+
+	@Test
+	void testExpandApplications_appWithQuery_returnsComponents() {
+		final Config config = new Config();
+		config.setUrl("http://sonar.example");
+		final Application app = new Application();
+		app.setQuery("myQuery");
+		config.setApplications(new Application[] {app});
+
+		final ApiProjectsSearchResultsComponents c1 = new ApiProjectsSearchResultsComponents();
+		c1.setKey("proj1");
+		c1.setName("Project One");
+		final ApiProjectsSearchResultsComponents c2 = new ApiProjectsSearchResultsComponents();
+		c2.setKey("proj2");
+		c2.setName("Project Two");
+		final ApiProjectsSearchResults results = new ApiProjectsSearchResults();
+		results.setComponents(new ApiProjectsSearchResultsComponents[] {c1, c2});
+
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(
+				eq("http://sonar.example/api/projects/search?qualifiers=TRK&q=myQuery"),
+				eq(HttpMethod.GET), any(HttpEntity.class), eq(ApiProjectsSearchResults.class)))
+				.thenReturn(new ResponseEntity<>(results, HttpStatus.OK));
+
+		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
+		assertEquals(2, config.getExpandedApplications().size());
+		assertEquals("proj1", config.getExpandedApplications().get(0).getKey());
+		assertEquals("Project One", config.getExpandedApplications().get(0).getTitle());
+		assertEquals("proj2", config.getExpandedApplications().get(1).getKey());
+		assertEquals("Project Two", config.getExpandedApplications().get(1).getTitle());
+	}
+
+	@Test
+	void testExpandApplications_appWithQuery_returnsNull() {
+		final Config config = new Config();
+		config.setUrl("http://sonar.example");
+		final Application app = new Application();
+		app.setQuery("myQuery");
+		config.setApplications(new Application[] {app});
+
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(
+				eq("http://sonar.example/api/projects/search?qualifiers=TRK&q=myQuery"),
+				eq(HttpMethod.GET), any(HttpEntity.class), eq(ApiProjectsSearchResults.class)))
+				.thenReturn(new ResponseEntity<>(null, HttpStatus.OK));
+
+		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
+		assertEquals(0, config.getExpandedApplications().size());
+	}
+
+	@Test
+	void testExpandApplications_appWithNoKeyOrQuery() {
+		final Config config = new Config();
+		final Application app = new Application();
+		config.setApplications(new Application[] {app});
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
+		assertEquals(0, config.getExpandedApplications().size());
+	}
+
+	@Test
 	void testBuildTitleLookup() {
 		final Config config = new Config();
 		final List<Application> apps = new ArrayList<>();
