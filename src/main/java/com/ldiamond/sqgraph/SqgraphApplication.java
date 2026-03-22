@@ -120,6 +120,14 @@ public class SqgraphApplication {
 			return args -> {};
 		}
 
+		loadDataAndGenerateReport(config, syntheticMetrics, headers, restTemplate);
+
+		log.info ("Successful completion.");
+		return args -> {};
+	}
+
+	@VisibleForTesting
+	void loadDataAndGenerateReport(final Config config, final Map<String,SyntheticMetric> syntheticMetrics, final HttpHeaders headers, final RestTemplate restTemplate) {
 		// expand applications (search queries -> concrete applications)
 		expandApplications(config, headers, restTemplate);
 
@@ -136,8 +144,6 @@ public class SqgraphApplication {
 		// optional PDF
 		createPdfIfNeeded(config, dashboardData);
 
-		log.error ("Successful completion.");
-		return args -> {};
 	}
 
 	static void addMeasuresToHistory (final AssembledSearchHistory assembledSearchHistory, final SearchHistory result) {

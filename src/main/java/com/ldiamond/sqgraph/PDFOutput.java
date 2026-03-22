@@ -59,6 +59,7 @@ public class PDFOutput {
 	public static Document addGraphs(final Document document, final Config config) {
         try {
             for (SQMetrics sqm : config.getMetrics()) {
+                if (sqm.getFilename() == null) continue;
                 final Image png = Image.getInstance(sqm.getFilename());
                 if (png != null) {
                     if (sqm.getDescription() != null)

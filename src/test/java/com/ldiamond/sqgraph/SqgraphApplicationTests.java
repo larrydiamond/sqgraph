@@ -843,4 +843,71 @@ class SqgraphApplicationTests {
 		assertTrue(headers.containsKey("Authorization"));
 		assertEquals("Basic bXlUb2tlbjo=", headers.getFirst("Authorization"));
 	}
+
+	private Config buildMinimalConfig(String baseUrl) {
+		final Config config = new Config();
+		config.setUrl(baseUrl);
+		config.setMaxReportHistory(30);
+		config.setPdf(null);
+		final SQMetrics sqm = new SQMetrics();
+		sqm.setMetric("violations");
+		config.setMetrics(new SQMetrics[] {sqm});
+		final Application app = new Application();
+		app.setKey("appKey");
+		app.setTitle("App Title");
+		config.setApplications(new Application[] {app});
+		return config;
+	}
+
+	private RestTemplate mockRestTemplateForHistory(SearchHistory sh) {
+		final RestTemplate rt = mock(RestTemplate.class);
+		when(rt.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
+				.thenReturn(new ResponseEntity<>(sh, HttpStatus.OK));
+		return rt;
+	}
+
+	private SearchHistory emptySearchHistory() {
+		final SearchHistory sh = new SearchHistory();
+		final Paging paging = new Paging();
+		paging.setTotal(0);
+		sh.setPaging(paging);
+		sh.setMeasures(new Measures[0]);
+		return sh;
+	}
+
+	@Test
+	void testLoadDataAndGenerateReport_noPdf() {
+		final Config config = buildMinimalConfig("http://sonar.example");
+		final Map<String, SyntheticMetric> synthetics = SqgraphApplication.populateSynthetics(config);
+		final RestTemplate rt = mockRestTemplateForHistory(emptySearchHistory());
+		new SqgraphApplication().loadDataAndGenerateReport(config, synthetics, new HttpHeaders(), rt);
+		// expanded applications should contain the single app with key
+		assertEquals(1, config.getExpandedApplications().size());
+		assertEquals("appKey", config.getExpandedApplications().getFirst().getKey());
+	}
+
+	@Test
+	void testLoadDataAndGenerateReport_withPdf() {
+		final File pdfFile = new File(tempDir, "report.pdf");
+		final Config config = buildMinimalConfig("http://sonar.example");
+		config.setPdf(pdfFile.getAbsolutePath());
+		final Map<String, SyntheticMetric> synthetics = SqgraphApplication.populateSynthetics(config);
+		final RestTemplate rt = mockRestTemplateForHistory(emptySearchHistory());
+		new SqgraphApplication().loadDataAndGenerateReport(config, synthetics, new HttpHeaders(), rt);
+		assertTrue(pdfFile.exists());
+		assertTrue(pdfFile.length() > 0);
+	}
+
+	@Test
+	void testLoadDataAndGenerateReport_multipleApps() {
+		final Config config = buildMinimalConfig("http://sonar.example");
+		final Application app2 = new Application();
+		app2.setKey("appKey2");
+		app2.setTitle("App Two");
+		config.setApplications(new Application[] {config.getApplications()[0], app2});
+		final Map<String, SyntheticMetric> synthetics = SqgraphApplication.populateSynthetics(config);
+		final RestTemplate rt = mockRestTemplateForHistory(emptySearchHistory());
+		new SqgraphApplication().loadDataAndGenerateReport(config, synthetics, new HttpHeaders(), rt);
+		assertEquals(2, config.getExpandedApplications().size());
+	}
 }
