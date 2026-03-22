@@ -3,7 +3,7 @@ Modified from the MongoDB SSPL, to remove references to Mongo and to explicitly 
 Management Code Metrics Public License
 VERSION 1, April 24, 2023
 
-Copyright © 2023 Larry Diamond 
+Copyright © 2023,2024,2025,2026 Larry Diamond 
 
 Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
