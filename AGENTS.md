@@ -1,14 +1,17 @@
 # AGENTS.md
  
 ## Setup commands
+
 - Compile application: `gradle build`
 - Run tests: `gradle test`
  
 ## Dev environment 
+
 - Java 21
 - Gradle
 
 ## Coding conventions
+
 - The use of Lombok is preferred over writing custom code
 - Existing classes and methods from Apache Commons or Spring is preferred over writing custom code
 - Variable names should be meaningful
@@ -20,7 +23,9 @@
 - No commit may create a SonarQube bug or a SonarQube security violation
 - Do not remove comments unless explicitly asked to
 - Do not remove commented out code unless explicitly asked to
+- Do not use the classes in the org.apache.commons.lang3.tuple package
 
 ## Pull requests
+
 - Pull requests must state the reason for the change, that the change was created by an AI, and the models used must be listed in the PR title.
 
