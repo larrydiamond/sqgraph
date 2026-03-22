@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.nio.file.FileSystemAlreadyExistsException;
+import org.springframework.web.client.RestClientException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -589,7 +589,7 @@ class SqgraphApplicationTests {
                 eq(HttpMethod.GET),
                 any(HttpEntity.class),
                 eq(ValidationResult.class)))
-            .thenThrow(new FileSystemAlreadyExistsException("boom"));
+            .thenThrow(new RestClientException("boom"));
 
 		final SqgraphApplication app = new SqgraphApplication();
 		final boolean ok = app.validateSonarToken(cfg, new HttpHeaders(), rest);
