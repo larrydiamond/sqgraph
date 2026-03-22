@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.springframework.web.client.RestClientException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
