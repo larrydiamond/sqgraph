@@ -37,16 +37,26 @@ dependencies {
 	rewrite("org.openrewrite.recipe:rewrite-static-analysis:latest.release")
 	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:latest.release")
 
-	implementation 'org.springframework.boot:spring-boot-starter'
-	compileOnly 'org.projectlombok:lombok'
+	implementation ('org.springframework.boot:spring-boot-starter') {
+		exclude group: 'commons-logging', module: 'commons-logging'
+	}
+ 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
-	implementation 'org.springframework:spring-web'
+	implementation ('com.fasterxml.jackson.core:jackson-databind') {
+		exclude group: 'commons-logging', module: 'commons-logging'
+	}
+	implementation ('org.springframework:spring-web') {
+		exclude group: 'commons-logging', module: 'commons-logging'
+	}
 	implementation 'commons-codec:commons-codec'
 
-	implementation 'org.knowm.xchart:xchart:3.8.+'
-	implementation 'org.apache.commons:commons-lang3:3.19.+'
+	implementation ('org.knowm.xchart:xchart:3.8.+') {
+		exclude group: 'commons-logging', module: 'commons-logging'
+	}
+	implementation ('org.apache.commons:commons-lang3:3.19.+') {
+		exclude group: 'commons-logging', module: 'commons-logging'
+	}
     implementation 'com.github.librepdf:openpdf:3.0.0'
 	implementation("com.google.guava:guava:33.5.0-jre")
 

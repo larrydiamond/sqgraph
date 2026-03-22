@@ -13,6 +13,7 @@ package com.ldiamond.sqgraph;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -598,6 +599,39 @@ class SqgraphApplicationTests {
     }
 
 /*  */
+
+	@Test
+	void testGetSonarQubeToken_viaSonarLogin() {
+		final Map<String, String> env = new HashMap<>();
+		env.put("SONARLOGIN", "token-sonarlogin");
+		assertEquals("token-sonarlogin", SqgraphApplication.getSonarQubeToken(env::get));
+	}
+
+	@Test
+	void testGetSonarQubeToken_viaSonarToken() {
+		final Map<String, String> env = new HashMap<>();
+		env.put("SONAR_TOKEN", "token-sonar-token");
+		assertEquals("token-sonar-token", SqgraphApplication.getSonarQubeToken(env::get));
+	}
+
+	@Test
+	void testGetSonarQubeToken_viaSonarLoginEnv() {
+		final Map<String, String> env = new HashMap<>();
+		env.put("SONAR_LOGIN", "token-sonar-login");
+		assertEquals("token-sonar-login", SqgraphApplication.getSonarQubeToken(env::get));
+	}
+
+	@Test
+	void testGetSonarQubeToken_viaSonarToken2() {
+		final Map<String, String> env = new HashMap<>();
+		env.put("SONARTOKEN", "token-sonartoken");
+		assertEquals("token-sonartoken", SqgraphApplication.getSonarQubeToken(env::get));
+	}
+
+	@Test
+	void testGetSonarQubeToken_returnsNullWhenNoneSet() {
+		assertNull(SqgraphApplication.getSonarQubeToken(key -> null));
+	}
 
 	@Test
 	void testBuildTitleLookup() {

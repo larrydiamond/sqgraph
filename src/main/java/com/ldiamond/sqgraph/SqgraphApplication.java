@@ -75,20 +75,24 @@ public class SqgraphApplication {
 	}
 
 	static String getSonarQubeToken() {
-		String login = System.getenv("SONARLOGIN");
-		if (login != null) 
+		return getSonarQubeToken(System::getenv);
+	}
+
+	static String getSonarQubeToken(final java.util.function.UnaryOperator<String> envLookup) {
+		String login = envLookup.apply("SONARLOGIN");
+		if (login != null)
 			return login;
 
-		login = System.getenv("SONAR_TOKEN");
-		if (login != null) 
+		login = envLookup.apply("SONAR_TOKEN");
+		if (login != null)
 			return login;
 
-		login = System.getenv("SONAR_LOGIN");
-		if (login != null) 
+		login = envLookup.apply("SONAR_LOGIN");
+		if (login != null)
 			return login;
 
-		login = System.getenv("SONARTOKEN");
-		if (login != null) 
+		login = envLookup.apply("SONARTOKEN");
+		if (login != null)
 			return login;
 
 		return null;
@@ -96,10 +100,14 @@ public class SqgraphApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+		log.info ("Starting sqgraph with config file: " + filename);
 
 		// load configuration
 		final Config config = loadConfig(filename);
-		if (config == null) return null;
+		if (config == null) {
+			log.error ("Unable to load config file: " + filename);
+			return args -> {};
+		}
 
 		// build synthetics and HTTP helpers
 		final Map<String, SyntheticMetric> syntheticMetrics = populateSynthetics(config);
@@ -107,7 +115,10 @@ public class SqgraphApplication {
 		final HttpHeaders headers = buildAuthHeaders(login);
 
 		// validate token
-		if (!validateSonarToken(config, headers, restTemplate)) return null;
+		if (!validateSonarToken(config, headers, restTemplate)) {
+			log.error("Invalid SonarQube token.");
+			return args -> {};
+		}
 
 		// expand applications (search queries -> concrete applications)
 		expandApplications(config, headers, restTemplate);
@@ -126,12 +137,7 @@ public class SqgraphApplication {
 		createPdfIfNeeded(config, dashboardData);
 
 		log.error ("Successful completion.");
-		return new CommandLineRunner() {
-			@Override
-			public void run(String... args) throws Exception {
-				// nothing to do
-			}
-		};
+		return args -> {};
 	}
 
 	static void addMeasuresToHistory (final AssembledSearchHistory assembledSearchHistory, final SearchHistory result) {
