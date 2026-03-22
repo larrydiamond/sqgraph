@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpEntity;
@@ -41,8 +43,117 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.common.collect.HashBasedTable;
+
 @ExtendWith(MockitoExtension.class)     
 class SqgraphApplicationTests {
+
+	@TempDir
+	File tempDir;
+
+	@Test
+	void testAddMeasuresToHistory_nullMeasuresOnResult() {
+		final AssembledSearchHistory ash = new AssembledSearchHistory();
+		final SearchHistory result = new SearchHistory();
+		result.setMeasures(null);
+		SqgraphApplication.addMeasuresToHistory(ash, result);
+		assertNull(ash.getMeasures());
+	}
+
+	@Test
+	void testAddMeasuresToHistory_existingMeasuresOnAssembled() {
+		final AssembledSearchHistory ash = new AssembledSearchHistory();
+		final List<Measures> existing = new ArrayList<>();
+		final Measures m0 = new Measures();
+		m0.setMetric("existing");
+		existing.add(m0);
+		ash.setMeasures(existing);
+		final SearchHistory result = new SearchHistory();
+		final Measures m1 = new Measures();
+		m1.setMetric("new");
+		result.setMeasures(new Measures[] {m1});
+		SqgraphApplication.addMeasuresToHistory(ash, result);
+		assertEquals(2, ash.getMeasures().size());
+		assertEquals("existing", ash.getMeasures().get(0).getMetric());
+		assertEquals("new", ash.getMeasures().get(1).getMetric());
+	}
+
+	@Test
+	void testGetHistory_nullBody() {
+		final Config config = new Config();
+		config.setUrl("prefix");
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
+				.thenReturn(new ResponseEntity<>(null, HttpStatus.OK));
+		final AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "from", "key", "metrics", new HttpHeaders(), localRestTemplate);
+		assertNotNull(ash);
+		assertNull(ash.getMeasures());
+	}
+
+	@Test
+	void testExpandApplications_appWithQuery_returnsResultWithNullComponents() {
+		final Config config = new Config();
+		config.setUrl("http://sonar.example");
+		final Application app = new Application();
+		app.setQuery("myQuery");
+		config.setApplications(new Application[] {app});
+		final ApiProjectsSearchResults results = new ApiProjectsSearchResults();
+		results.setComponents(null);
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(
+				anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(ApiProjectsSearchResults.class)))
+				.thenReturn(new ResponseEntity<>(results, HttpStatus.OK));
+		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
+		assertEquals(0, config.getExpandedApplications().size());
+	}
+
+	@Test
+	void testFetchRawMetricsForApps() {
+		final Config config = new Config();
+		config.setUrl("http://sonar.example");
+		config.setMaxReportHistory(30);
+		final SQMetrics sqm = new SQMetrics();
+		sqm.setMetric("violations");
+		config.setMetrics(new SQMetrics[] {sqm});
+		final Application app = new Application();
+		app.setKey("myApp");
+		app.setTitle("My App");
+		config.setExpandedApplications(List.of(app));
+		final SearchHistory sh = new SearchHistory();
+		final Paging paging = new Paging();
+		paging.setTotal(0);
+		sh.setPaging(paging);
+		sh.setMeasures(new Measures[0]);
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
+				.thenReturn(new ResponseEntity<>(sh, HttpStatus.OK));
+		final Map<String, AssembledSearchHistory> result = new SqgraphApplication()
+				.fetchRawMetricsForApps(config, SqgraphApplication.populateSynthetics(config), new HttpHeaders(), localRestTemplate);
+		assertEquals(1, result.size());
+		assertTrue(result.containsKey("myApp"));
+	}
+
+	@Test
+	void testCreatePdfIfNeeded_noPdf() {
+		final Config config = new Config();
+		config.setPdf(null);
+		config.setMetrics(new SQMetrics[0]);
+		// should complete without error and not attempt to write any file
+		new SqgraphApplication().createPdfIfNeeded(config, HashBasedTable.create());
+	}
+
+	@Test
+	void testCreatePdfIfNeeded_withPdf() {
+		final File pdfFile = new File(tempDir, "output.pdf");
+		final Config config = new Config();
+		config.setPdf(pdfFile.getAbsolutePath());
+		config.setMetrics(new SQMetrics[0]);
+		config.setApplications(new Application[0]);
+		config.setExpandedApplications(new ArrayList<>());
+		new SqgraphApplication().createPdfIfNeeded(config, HashBasedTable.create());
+		assertTrue(pdfFile.exists());
+		assertTrue(pdfFile.length() > 0);
+	}
 
 	@Test
 	void contextLoads() {

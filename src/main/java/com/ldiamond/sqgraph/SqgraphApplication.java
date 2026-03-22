@@ -357,7 +357,8 @@ public class SqgraphApplication {
             .collect(Collectors.toMap(Application::getKey, Application::getTitle));
 	}
 
-	private Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String,SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
+	@VisibleForTesting
+	Map<String, AssembledSearchHistory> fetchRawMetricsForApps(Config config, Map<String,SyntheticMetric> syntheticMetrics, HttpHeaders headers, RestTemplate restTemplate) {
 		final Map<String, AssembledSearchHistory> rawMetrics = new HashMap<>();
 		final DateTimeFormatter sdfsq = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -385,7 +386,8 @@ public class SqgraphApplication {
 		return rawMetrics;
 	}
 
-	private void createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
+	@VisibleForTesting
+	void createPdfIfNeeded(Config config, HashBasedTable<String,String,Double> dashboardData) {
 		if (config.getPdf() != null) {
 			final Document document = PDFOutput.createPDF(config);
 			PDFOutput.addTextDashboard (document, dashboardData, config);
