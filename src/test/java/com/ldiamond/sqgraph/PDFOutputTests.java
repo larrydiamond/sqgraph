@@ -234,42 +234,42 @@ class PDFOutputTests {
     void testSetBackgroundColorForCellGreenHigher_green() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenHigher(80.0, 70.0, 50.0, cell);
-        verify(cell, times(1)).setBackgroundColor(eq(Color.GREEN));
+        verify(cell, times(1)).setBackgroundColor(Color.GREEN);
     }
 
     @Test
     void testSetBackgroundColorForCellGreenHigher_yellow() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenHigher(60.0, 70.0, 50.0, cell);
-        verify(cell, times(1)).setBackgroundColor(eq(Color.YELLOW));
+        verify(cell, times(1)).setBackgroundColor(Color.YELLOW);
     }
 
     @Test
     void testSetBackgroundColorForCellGreenHigher_pink() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenHigher(40.0, 70.0, 50.0, cell);
-        verify(cell, times(1)).setBackgroundColor(eq(Color.PINK));
+        verify(cell, times(1)).setBackgroundColor(Color.PINK);
     }
 
     @Test
     void testSetBackgroundColorForCellGreenLower_green() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenLower(40.0, 50.0, 70.0, cell);
-        verify(cell, times(1)).setBackgroundColor(eq(Color.GREEN));
+        verify(cell, times(1)).setBackgroundColor(Color.GREEN);
     }
 
     @Test
     void testSetBackgroundColorForCellGreenLower_yellow() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenLower(60.0, 50.0, 70.0, cell);
-        verify(cell, times(1)).setBackgroundColor(eq(Color.YELLOW));
+        verify(cell, times(1)).setBackgroundColor(Color.YELLOW);
     }
 
     @Test
     void testSetBackgroundColorForCellGreenLower_pink() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenLower(80.0, 50.0, 70.0, cell);
-        verify(cell, times(1)).setBackgroundColor(eq(Color.PINK));
+        verify(cell, times(1)).setBackgroundColor(Color.PINK);
     }
 
     @Test
