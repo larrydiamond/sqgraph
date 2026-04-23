@@ -1,14 +1,15 @@
 # AGENTS.md
- 
+
 ## Setup commands
 
-- Compile application: `gradle build`
-- Run tests: `gradle test`
- 
-## Dev environment 
+- Compile application: `./gradlew build`
+- Run tests: `./gradlew test`
+- Run OpenRewrite codegen recipes: `./gradlew rewriteRun`
+
+## Dev environment
 
 - Java 21
-- Gradle
+- Gradle (use `gradlew`, not `gradle` command)
 
 ## Coding conventions
 

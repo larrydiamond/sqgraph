@@ -51,6 +51,9 @@ class SqgraphApplicationTests {
 	@TempDir
 	File tempDir;
 
+	@Mock
+	RestTemplate restTemplate;
+
 	@Test
 	void testAddMeasuresToHistory_nullMeasuresOnResult() {
 		final AssembledSearchHistory ash = new AssembledSearchHistory();
@@ -431,9 +434,6 @@ class SqgraphApplicationTests {
 		assertEquals("otherthing", synths.get("something__PER_H_otherthing").getRealMetrics().get(1));
 		assertEquals(200.0, synths.get("something__PER_H_otherthing").calculate(metrics), 0);
 	}
-
-	@Mock
-	RestTemplate restTemplate;
 
 	@Test
 	void getHistory() throws ParseException {
