@@ -317,7 +317,7 @@ public class SqgraphApplication {
 	static HttpHeaders buildAuthHeaders(String loginToken) {
 		final HttpHeaders headers = new HttpHeaders();
 		final String base64 = "Basic " + Base64.getEncoder().encodeToString((loginToken + ":").getBytes());
-		headers.set ("Authorization", base64);
+		headers.set (HttpHeaders.AUTHORIZATION, base64);
 		return headers;
 	}
 

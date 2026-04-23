@@ -77,7 +77,7 @@ class SqgraphApplicationTests {
 		result.setMeasures(new Measures[] {m1});
 		SqgraphApplication.addMeasuresToHistory(ash, result);
 		assertEquals(2, ash.getMeasures().size());
-		assertEquals("existing", ash.getMeasures().get(0).getMetric());
+		assertEquals("existing", ash.getMeasures().getFirst().getMetric());
 		assertEquals("new", ash.getMeasures().get(1).getMetric());
 	}
 
@@ -783,8 +783,8 @@ class SqgraphApplicationTests {
 
 		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
 		assertEquals(2, config.getExpandedApplications().size());
-		assertEquals("proj1", config.getExpandedApplications().get(0).getKey());
-		assertEquals("Project One", config.getExpandedApplications().get(0).getTitle());
+		assertEquals("proj1", config.getExpandedApplications().getFirst().getKey());
+		assertEquals("Project One", config.getExpandedApplications().getFirst().getTitle());
 		assertEquals("proj2", config.getExpandedApplications().get(1).getKey());
 		assertEquals("Project Two", config.getExpandedApplications().get(1).getTitle());
 	}
@@ -840,8 +840,8 @@ class SqgraphApplicationTests {
 	void testBuildAuthHeaders() {
 		final HttpHeaders headers = SqgraphApplication.buildAuthHeaders("myToken");
 		assertNotNull(headers);
-		assertTrue(headers.containsKey("Authorization"));
-		assertEquals("Basic bXlUb2tlbjo=", headers.getFirst("Authorization"));
+		assertTrue(headers.containsKey(HttpHeaders.AUTHORIZATION));
+		assertEquals("Basic bXlUb2tlbjo=", headers.getFirst(HttpHeaders.AUTHORIZATION));
 	}
 
 	private Config buildMinimalConfig(String baseUrl) {

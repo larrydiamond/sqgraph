@@ -160,38 +160,38 @@ class PDFOutputTests {
         metric1.setGreen("10");
         metric1.setYellow("5");
         config.setMetrics(new SQMetrics[] {metric1});
-        Application app = new Application();
+		final Application app = new Application();
         app.setTitle("AppOne");
         config.setApplications(new Application[] { app });
 
-        // prepare table and widths as addHeader would
-        PdfPTable table = new PdfPTable(2); // metrics + project column
-        List<Integer> colWidths = new ArrayList<>();
+		// prepare table and widths as addHeader would
+		final PdfPTable table = new PdfPTable(2); // metrics + project column
+		final List<Integer> colWidths = new ArrayList<>();
         colWidths.add(2); // project column initial
         colWidths.add(PDFOutput.getWidthOfString("MetricOne")); // metric column initial
 
-        HashBasedTable<String, String, Double> data = HashBasedTable.create();
+		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
         data.put("MetricOne", "AppOne", 12.0); // will be formatted as "12"
 
         PDFOutput.addTextDashboardBody(config, table, data, colWidths);
 
-        // verify table rows and cells
-        ArrayList<PdfPRow> rows = table.getRows();
+		// verify table rows and cells
+		final ArrayList<PdfPRow> rows = table.getRows();
         // one application => one row
         assertEquals(1, rows.size());
-        PdfPRow row = rows.get(0);
-        PdfPCell[] cells = row.getCells();
+		final PdfPRow row = rows.getFirst();
+		final PdfPCell[] cells = row.getCells();
         assertEquals(2, cells.length);
 
-        // numeric cell should have been colored GREEN because 12 > green(10)
-        PdfPCell numericCell = cells[1];
-        Color bg = numericCell.getBackgroundColor();
+		// numeric cell should have been colored GREEN because 12 > green(10)
+		final PdfPCell numericCell = cells[1];
+		final Color bg = numericCell.getBackgroundColor();
         assertNotNull(bg);
         assertEquals(Color.GREEN, bg);
 
-        // widths: first column should be at least width of "AppOne"
-        int expectedAppWidth = PDFOutput.getWidthOfString("AppOne");
-        int actualFirst = colWidths.get(0);
+		// widths: first column should be at least width of "AppOne"
+		final int expectedAppWidth = PDFOutput.getWidthOfString("AppOne");
+		final int actualFirst = colWidths.getFirst();
         assertEquals(expectedAppWidth, actualFirst);
     }
 
@@ -203,28 +203,28 @@ class PDFOutputTests {
         metric1.setGreen("10");
         metric1.setYellow("5");
         config.setMetrics(new SQMetrics[] {metric1});
-        Application app = new Application();
+		final Application app = new Application();
         app.setTitle("AppTwo");
         config.setApplications(new Application[] { app });
 
-        PdfPTable table = new PdfPTable(2); // metrics + project column
-        List<Integer> colWidths = new ArrayList<>();
+		final PdfPTable table = new PdfPTable(2); // metrics + project column
+		final List<Integer> colWidths = new ArrayList<>();
         colWidths.add(2);
         colWidths.add(PDFOutput.getWidthOfString("MetricTwo"));
 
-        HashBasedTable<String, String, Double> data = HashBasedTable.create();
+		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
         data.put("MetricTwo", "AppTwo", 7.0); // between green(5) and yellow(10) -> should be YELLOW
 
         PDFOutput.addTextDashboardBody(config, table, data, colWidths);
 
-        ArrayList<PdfPRow> rows = table.getRows();
+		final ArrayList<PdfPRow> rows = table.getRows();
         assertEquals(1, rows.size());
-        PdfPRow row = rows.get(0);
-        PdfPCell[] cells = row.getCells();
+		final PdfPRow row = rows.getFirst();
+		final PdfPCell[] cells = row.getCells();
         assertEquals(2, cells.length);
 
-        PdfPCell numericCell = cells[1];
-        Color bg = numericCell.getBackgroundColor();
+		final PdfPCell numericCell = cells[1];
+		final Color bg = numericCell.getBackgroundColor();
         assertNotNull(bg);
         assertEquals(Color.YELLOW, bg);
     }
@@ -279,12 +279,12 @@ class PDFOutputTests {
         metric1.setGreen("10");
         metric1.setYellow("5");
         config.setMetrics(new SQMetrics[] {metric1});
-        Application app = new Application();
+		final Application app = new Application();
         app.setTitle("AppTwo");
         config.setApplications(new Application[] { app });
 
-        Document document = mock(Document.class);
-        HashBasedTable<String, String, Double> data = HashBasedTable.create();
+		final Document document = mock(Document.class);
+		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
         data.put("MetricTwo", "AppTwo", 7.0);
         PDFOutput.addTextDashboard(document, data, config);
         verify(document, times(2)).add(any());
