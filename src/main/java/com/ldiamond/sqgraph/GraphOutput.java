@@ -37,13 +37,18 @@ public class GraphOutput {
                               final HashBasedTable<String,String,Double> dashboardData, final Map<String, String> titleLookup, 
                               final Map<String, SyntheticMetric> syntheticMetrics) {
         for (SQMetrics sqm : config.getMetrics()) {
-            try {
+			String title = sqm.getTitle();
+			if (title == null) {
+				title = "Management Code Metrics";
+			}
+
+			try {
                 XYChart chart = null;
                 if (rawMetrics.size() > 7) {
                     chart = new XYChartBuilder()
                     .width(1650)
                     .height(800)
-                    .title(sqm.getTitle())
+                    .title(title)
                     .xAxisTitle("X")
                     .yAxisTitle("Y")
                     .build();
@@ -54,7 +59,7 @@ public class GraphOutput {
                     chart = new XYChartBuilder()
                     .width(1650)
                     .height(800)
-                    .title(sqm.getTitle())
+                    .title(title)
                     .xAxisTitle("X")
                     .yAxisTitle("Y")
                     .build();
@@ -67,17 +72,12 @@ public class GraphOutput {
                 chart.getStyler().setDatePattern("dd MMM yyyy");
                 chart.getStyler().setYAxisDecimalPattern(standardDecimalFormat);
 
-				String title = sqm.getTitle();
-				if (title == null) {
-					title = "";
-				}
-
                 for (Map.Entry<String, AssembledSearchHistory> entry : rawMetrics.entrySet()) {
                     addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, title);
                 }
 
                 if (sqm.getFilename() == null)
-                    sqm.setFilename(sqm.getTitle());
+                    sqm.setFilename(title);
                 
                 if (!sqm.getFilename().endsWith(".png"))
                     sqm.setFilename(sqm.getFilename() + ".png");
