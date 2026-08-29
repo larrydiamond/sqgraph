@@ -117,7 +117,12 @@ public class PDFOutput {
             setMax(colWidths, col, a.getTitle(), 0);
             table.addCell(cell);
             for (SQMetrics m : config.getMetrics()) {
-				final String text = standardDecimalFormatter.format(dashboardData.get(m.getTitle(), a.getTitle()));
+                String metricTitle = m.getTitle();
+			    if (metricTitle == null) {
+				    metricTitle = "Management Code Metrics";
+			    }
+
+				final String text = standardDecimalFormatter.format(dashboardData.get(metricTitle, a.getTitle()));
 				final Phrase phrase = new Phrase(text);
 				final Font font = phrase.getFont();
                 font.setSize(20);
