@@ -19,9 +19,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
-//import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noFields;
-//import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noMethods;
 
 @AnalyzeClasses(packages = "com.ldiamond.sqgraph")
 class ArchitectureUnitTests {
@@ -32,10 +30,6 @@ class ArchitectureUnitTests {
             Arrays.asList(ArchitectureRule.ARCHUNIT_NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS),
             "com.ldiamond.sqgraph");
     }
-
-//    @ArchTest
-//    static final ArchRule no_public_static_decimalformat =
-//            noFields().that().arePublic().and().areStatic().should().haveRawType("java.text.DecimalFormat").because("DecimalFormat aint threadsafe use java.text.NumberFormatter").allowEmptyShould(true);
 
     @ArchTest
     static final ArchRule simpledateformat =

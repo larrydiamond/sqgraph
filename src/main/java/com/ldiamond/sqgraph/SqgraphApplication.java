@@ -187,15 +187,9 @@ public class SqgraphApplication {
 			final String metric = sqm.getMetric();
 			final SyntheticMetric sm = synthetics.get(metric);
 			if (sm == null) {
-//				if (!results.contains(metric)) 
 				results.add(metric);
 			} else {
 				results.addAll(sm.getRealMetrics());
-				/* 
-				for (String real : sm.getRealMetrics()) {
-					if (!results.contains(real)) results.add(real);
-				}
-					*/
 			}
 		}
 		return results;

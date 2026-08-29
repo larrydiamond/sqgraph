@@ -689,28 +689,6 @@ class SqgraphApplicationTests {
         assertTrue(ok);
     }
 
-/* 
-
-    @Test
-    void testValidateSonarToken_returnsFalseOnException() {
-		final Config cfg = mock(Config.class);
-        when(cfg.getUrl()).thenReturn("http://sonar.example");
-		final RestTemplate rest = mock(RestTemplate.class);
-
-        when(rest.exchange(
-                anyString(),
-                eq(HttpMethod.GET),
-                any(HttpEntity.class),
-                eq(ValidationResult.class)))
-            .thenThrow(new RestClientException("boom"));
-
-		final SqgraphApplication app = new SqgraphApplication();
-		final boolean ok = app.validateSonarToken(cfg, new HttpHeaders(), rest);
-        assertFalse(ok);
-    }
-
-/*  */
-
 	@Test
 	void testGetSonarQubeToken_viaSonarLogin() {
 		final Map<String, String> env = new HashMap<>();
