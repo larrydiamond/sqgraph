@@ -1,0 +1,14 @@
+src/main/java/com/ldiamond/sqgraph/PDFOutput.java
+  h_bb8abe7e00e0ce 120-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "db2c67863bf64f9fe586ae9fbbe10be1925988bf",
+  "prompts": {},
+  "humans": {
+    "h_bb8abe7e00e0ce": {
+      "author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
