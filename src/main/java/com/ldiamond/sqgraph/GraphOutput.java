@@ -73,7 +73,7 @@ public class GraphOutput {
 				}
 
                 for (Map.Entry<String, AssembledSearchHistory> entry : rawMetrics.entrySet()) {
-                    addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
+                    addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, title);
                 }
 
                 if (sqm.getFilename() == null)
