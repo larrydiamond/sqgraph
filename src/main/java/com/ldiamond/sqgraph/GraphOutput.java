@@ -67,6 +67,11 @@ public class GraphOutput {
                 chart.getStyler().setDatePattern("dd MMM yyyy");
                 chart.getStyler().setYAxisDecimalPattern(standardDecimalFormat);
 
+				String title = sqm.getTitle();
+				if (title == null) {
+					title = "";
+				}
+
                 for (Map.Entry<String, AssembledSearchHistory> entry : rawMetrics.entrySet()) {
                     addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, sqm.getTitle());
                 }
