@@ -1,0 +1,27 @@
+src/main/java/com/ldiamond/sqgraph/PDFOutput.java
+  h_bb8abe7e00e0ce 159,161
+  h_bb8abe7e00e0ce 160
+.github/workflows/build.yml
+  s_64d8636df057ed::t_22cec7a4a00380 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e3d8849bf7d93ebe9b5eec2ce8caaff7917ab6b9",
+  "prompts": {},
+  "humans": {
+    "h_bb8abe7e00e0ce": {
+      "author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  },
+  "sessions": {
+    "s_64d8636df057ed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "74b9100d-9259-4855-9039-2957d000a240",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
