@@ -1,0 +1,15 @@
+src/main/java/com/ldiamond/sqgraph/GraphOutput.java
+  h_bb8abe7e00e0ce 40-44,51,62,80
+  h_bb8abe7e00e0ce 45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "9585d36fcd19b16382579475669c73d80bfafbf6",
+  "prompts": {},
+  "humans": {
+    "h_bb8abe7e00e0ce": {
+      "author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
