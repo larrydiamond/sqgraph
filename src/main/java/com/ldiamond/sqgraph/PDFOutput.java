@@ -156,7 +156,9 @@ public class PDFOutput {
                 w[loop] = colWidths.get(loop);
             }
 
-            table.setWidths(w);
+            if (colWidthsSize > 0) {
+                table.setWidths(w);
+            }
             document.add(table);
         } catch (Exception e) {
             e.printStackTrace();
