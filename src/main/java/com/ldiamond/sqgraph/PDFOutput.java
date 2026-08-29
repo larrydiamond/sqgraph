@@ -210,6 +210,9 @@ public class PDFOutput {
     @VisibleForTesting
     static int getWidthOfString(final String s) {
         int width = 2;
+        if (s == null) {
+            return width;
+        }
 
         for (int offset = 0; offset < s.length(); offset++) {
 			final char c = s.charAt(offset);
