@@ -205,7 +205,7 @@ public class SqgraphApplication {
 
 	static final SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "BugsPlusSecurity";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add (METRIC_VULNERABILITIES);  list.add(METRIC_SECURITY_HOTSPOTS);  return list;}
+		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>(List.of("bugs", METRIC_VULNERABILITIES, METRIC_SECURITY_HOTSPOTS));  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double bugs = 0;
 			Double bugsInput = metrics.get("bugs");
@@ -225,7 +225,7 @@ public class SqgraphApplication {
 
 	static final SyntheticMetric bugsPlusSecurityPerKLines = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "BugsPlusSecurityPerKLines";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add (METRIC_VULNERABILITIES);  list.add(METRIC_SECURITY_HOTSPOTS);  list.add(METRIC_NCLOC);  return list;}
+		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>(List.of("bugs", METRIC_VULNERABILITIES, METRIC_SECURITY_HOTSPOTS, METRIC_NCLOC));  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double bugs = 0;
 			Double bugsInput = metrics.get("bugs");
@@ -285,7 +285,7 @@ public class SqgraphApplication {
 	static SyntheticMetric getMetric (final String metricName, final String numeratorMetric, final String denominatorMetric, final double multiplier) {
 		return new SyntheticMetric() {
 			@Override public String getSyntheticName() { return metricName;}
-			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add (numeratorMetric);  list.add(denominatorMetric);  return list;}
+			@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>(List.of(numeratorMetric, denominatorMetric));  return list;}
 			@Override public double calculate(Map<String,Double> metrics) {
 				double denominator = 0;
 				Double denominatorInput = metrics.get(denominatorMetric);

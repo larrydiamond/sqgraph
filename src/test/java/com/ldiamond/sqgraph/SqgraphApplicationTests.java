@@ -201,9 +201,9 @@ class SqgraphApplicationTests {
 			}
 
 			@Override public List<String> getRealMetrics() {
-				List<String> list = new ArrayList<>();
-				list.add("violations");
-				list.add("lines");
+				List<String> list = new ArrayList<>(List.of(
+						"violations",
+						"lines"));
 				return list;
 			}
 
@@ -365,9 +365,9 @@ class SqgraphApplicationTests {
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER__otherthing");
 
-		final Map<String, Double> metrics = new HashMap<>();
-		metrics.put("something", 50.0);
-		metrics.put("otherthing", 25.0);
+		final Map<String, Double> metrics = new HashMap<>(Map.of(
+				"something", 50.0,
+				"otherthing", 25.0));
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(5, synths.size());
@@ -390,9 +390,9 @@ class SqgraphApplicationTests {
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER_K_otherthing");
 
-		final Map<String, Double> metrics = new HashMap<>();
-		metrics.put("something", 50.0);
-		metrics.put("otherthing", 25.0);
+		final Map<String, Double> metrics = new HashMap<>(Map.of(
+				"something", 50.0,
+				"otherthing", 25.0));
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(5, synths.size());
@@ -415,9 +415,9 @@ class SqgraphApplicationTests {
 		metricsArray [1] = new SQMetrics();
 		metricsArray[1].setMetric("something__PER_H_otherthing");
 
-		final Map<String, Double> metrics = new HashMap<>();
-		metrics.put("something", 50.0);
-		metrics.put("otherthing", 25.0);
+		final Map<String, Double> metrics = new HashMap<>(Map.of(
+				"something", 50.0,
+				"otherthing", 25.0));
 
 		final Map<String, SyntheticMetric> synths = SqgraphApplication.populateSynthetics(config);
 		assertEquals(5, synths.size());
@@ -583,18 +583,18 @@ class SqgraphApplicationTests {
 
     @Test
     void testViolationsPerKLines_calculation() {
-		final Map<String, Double> metrics = new HashMap<>();
-        metrics.put("violations", 5.0);
-        metrics.put("ncloc", 2500.0);
+		final Map<String, Double> metrics = new HashMap<>(Map.of(
+				"violations", 5.0,
+				"ncloc", 2500.0));
 		final double value = SqgraphApplication.ViolationsPerKLines.calculate(metrics);
         assertEquals(2.0, value, 0.0001);
     }
 
     @Test
     void testBugsPlusSecurity_calculation_withMissingValues() {
-		final Map<String, Double> metrics = new HashMap<>();
-        metrics.put("bugs", 1.0);
-        metrics.put("vulnerabilities", 2.0);
+		final Map<String, Double> metrics = new HashMap<>(Map.of(
+				"bugs", 1.0,
+				"vulnerabilities", 2.0));
 		// security_hotspots absent
 		final double value = SqgraphApplication.bugsPlusSecurity.calculate(metrics);
         assertEquals(3.0, value, 0.0001);
@@ -654,9 +654,9 @@ class SqgraphApplicationTests {
         // our generated synthetic
         assertTrue(synthetics.containsKey("a__PER_K_b"));
 		final SyntheticMetric generated = synthetics.get("a__PER_K_b");
-		final Map<String, Double> metrics = new HashMap<>();
-        metrics.put("a", 2.0);
-        metrics.put("b", 4.0);
+		final Map<String, Double> metrics = new HashMap<>(Map.of(
+				"a", 2.0,
+				"b", 4.0));
 		final double v = generated.calculate(metrics); // (1000 * 2) / 4 = 500
         assertEquals(500.0, v, 0.0001);
     }

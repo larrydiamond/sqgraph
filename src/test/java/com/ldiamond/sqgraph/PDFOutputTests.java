@@ -51,9 +51,9 @@ class PDFOutputTests {
 
     @Test 
     void testSetMax() {
-		final List<Integer> widths = new ArrayList<>();
-        widths.add(5);
-        widths.add(7000);
+		final List<Integer> widths = new ArrayList<>(List.of(
+				5,
+				7000));
         PDFOutput.setMax(widths, 0, "Blah", 10);
         PDFOutput.setMax(widths, 1, "Blah", 10);
         assertEquals (20, widths.getFirst());
@@ -166,9 +166,9 @@ class PDFOutputTests {
 
 		// prepare table and widths as addHeader would
 		final PdfPTable table = new PdfPTable(2); // metrics + project column
-		final List<Integer> colWidths = new ArrayList<>();
-        colWidths.add(2); // project column initial
-        colWidths.add(PDFOutput.getWidthOfString("MetricOne")); // metric column initial
+		final List<Integer> colWidths = new ArrayList<>(List.of(
+				2, // project column initial
+				PDFOutput.getWidthOfString("MetricOne"))); // metric column initial
 
 		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
         data.put("MetricOne", "AppOne", 12.0); // will be formatted as "12"
@@ -208,9 +208,9 @@ class PDFOutputTests {
         config.setApplications(new Application[] { app });
 
 		final PdfPTable table = new PdfPTable(2); // metrics + project column
-		final List<Integer> colWidths = new ArrayList<>();
-        colWidths.add(2);
-        colWidths.add(PDFOutput.getWidthOfString("MetricTwo"));
+		final List<Integer> colWidths = new ArrayList<>(List.of(
+				2,
+				PDFOutput.getWidthOfString("MetricTwo")));
 
 		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
         data.put("MetricTwo", "AppTwo", 7.0); // between green(5) and yellow(10) -> should be YELLOW
