@@ -1,0 +1,27 @@
+src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java
+  s_c8abbf17ecd9a0::t_e3787f2757d996 373
+  s_c8abbf17ecd9a0::t_9f402cd4b36851 196-202,206,211,213,215,217,219,226,231,233,235,237,241,243
+src/main/java/com/ldiamond/sqgraph/GraphOutput.java
+  s_c8abbf17ecd9a0::t_f4cfce9b7ba860 72
+  s_c8abbf17ecd9a0::t_622cb6e5c3fae9 33
+src/main/java/com/ldiamond/sqgraph/PDFOutput.java
+  s_c8abbf17ecd9a0::t_4b7c75b4f7ca47 40-41
+  s_c8abbf17ecd9a0::t_7e844e30c0faad 51
+  s_c8abbf17ecd9a0::t_d185ee21b3aaa3 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "30cac5fcf228980c26a993b43ce66d324f51f65c",
+  "prompts": {},
+  "sessions": {
+    "s_c8abbf17ecd9a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2885cdbe-79a0-4c66-8f75-4e17b49ced7d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
