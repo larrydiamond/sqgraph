@@ -3,11 +3,11 @@ plugins {
     id 'org.springframework.boot' version '3.5.16'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'jacoco'
-    id "org.sonarqube" version "7.4.0.8496"
-	id "org.owasp.dependencycheck" version "12.2.1"
+    id "org.sonarqube" version "7.5.0.8588"
+	id "org.owasp.dependencycheck" version "13.0.0"
     id("org.openrewrite.rewrite") version("7.39.0")
 	id 'se.patrikerdes.use-latest-versions' version '0.2.19'
-  	id 'io.github.ben-manes.versions' version '0.61.0'
+  	id 'io.github.ben-manes.versions' version '0.62.0'
 }
 
 group = 'com.ldiamond'
@@ -53,7 +53,7 @@ dependencies {
 	}
 	implementation 'commons-codec:commons-codec'
 
-	implementation ('org.knowm.xchart:xchart:3.8.+') {
+	implementation ('org.knowm.xchart:xchart:4.0.4') {
 		exclude group: 'commons-logging', module: 'commons-logging'
 	}
 	implementation ('org.apache.commons:commons-lang3:3.20.0') {
