@@ -201,10 +201,9 @@ class SqgraphApplicationTests {
 			}
 
 			@Override public List<String> getRealMetrics() {
-				List<String> list = new ArrayList<>(List.of(
+				return new ArrayList<>(List.of(
 						"violations",
 						"lines"));
-				return list;
 			}
 
 			@Override public double calculate(Map<String, Double> metrics) {
