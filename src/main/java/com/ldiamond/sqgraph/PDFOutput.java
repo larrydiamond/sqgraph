@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PDFOutput {
-	private static final String standardDecimalFormat = "###,###,###.###";
-	private static final DecimalFormat standardDecimalFormatter = new DecimalFormat (standardDecimalFormat);
+	private static final String STANDARD_DECIMAL_FORMAT = "###,###,###.###";
+	private static final DecimalFormat standardDecimalFormatter = new DecimalFormat (STANDARD_DECIMAL_FORMAT);
 
     public static Document createPDF (final Config config) {
         Document document = null;
@@ -47,7 +48,7 @@ public class PDFOutput {
             document.open();
             document.addTitle ("Management Code Metrics");
             final DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm:ss a");
-            final Paragraph paragraph = new Paragraph("Created by Management Code Metrics - CodeQualityGraph.com - " + sdf.format(LocalDateTime.now()));
+            final Paragraph paragraph = new Paragraph("Created by Management Code Metrics - CodeQualityGraph.com - " + sdf.format(LocalDateTime.now(ZoneId.systemDefault())));
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph);
         } catch (IOException ioe) {

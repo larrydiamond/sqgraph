@@ -18,7 +18,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
@@ -195,50 +193,54 @@ public class SqgraphApplication {
 		return results;
 	}
 
-	static final SyntheticMetric ViolationsPerKLines = getMetric ("ViolationsPerKLines", "violations", "ncloc", 1000.0);
-	
-	static final SyntheticMetric CognitiveComplexityPerKLines = getMetric ("CognitiveComplexityPerKLines", "cognitive_complexity", "ncloc", 1000.0);
+	private static final String METRIC_NCLOC = "ncloc";
+	private static final String METRIC_VULNERABILITIES = "vulnerabilities";
+	private static final String METRIC_SECURITY_HOTSPOTS = "security_hotspots";
+
+	static final SyntheticMetric ViolationsPerKLines = getMetric ("ViolationsPerKLines", "violations", METRIC_NCLOC, 1000.0);
+
+	static final SyntheticMetric CognitiveComplexityPerKLines = getMetric ("CognitiveComplexityPerKLines", "cognitive_complexity", METRIC_NCLOC, 1000.0);
 
 	static final SyntheticMetric bugsPlusSecurity = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "BugsPlusSecurity";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  return list;}
+		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add (METRIC_VULNERABILITIES);  list.add(METRIC_SECURITY_HOTSPOTS);  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double bugs = 0;
 			Double bugsInput = metrics.get("bugs");
 			if (bugsInput != null) bugs = bugsInput;
-			
+
 			double vulnerabilities = 0;
-			Double vulnInput = metrics.get("vulnerabilities");
+			Double vulnInput = metrics.get(METRIC_VULNERABILITIES);
 			if (vulnInput != null) vulnerabilities = vulnInput;
-			
+
 			double sech = 0;
-			Double sechInput = metrics.get("security_hotspots");
+			Double sechInput = metrics.get(METRIC_SECURITY_HOTSPOTS);
 			if (sechInput != null) sech = sechInput;
-			
+
 			return bugs + vulnerabilities + sech;
 		}
 	};
 
 	static final SyntheticMetric bugsPlusSecurityPerKLines = new SyntheticMetric() {
 		@Override public String getSyntheticName() { return "BugsPlusSecurityPerKLines";}
-		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add ("vulnerabilities");  list.add("security_hotspots");  list.add("ncloc");  return list;}
+		@Override public List<String> getRealMetrics() { List<String> list = new ArrayList<>();  list.add ("bugs");  list.add (METRIC_VULNERABILITIES);  list.add(METRIC_SECURITY_HOTSPOTS);  list.add(METRIC_NCLOC);  return list;}
 		@Override public double calculate(Map<String,Double> metrics) {
 			double bugs = 0;
 			Double bugsInput = metrics.get("bugs");
 			if (bugsInput != null) bugs = bugsInput;
-			
+
 			double vulnerabilities = 0;
-			Double vulnInput = metrics.get("vulnerabilities");
+			Double vulnInput = metrics.get(METRIC_VULNERABILITIES);
 			if (vulnInput != null) vulnerabilities = vulnInput;
-			
+
 			double sech = 0;
-			Double sechInput = metrics.get("security_hotspots");
+			Double sechInput = metrics.get(METRIC_SECURITY_HOTSPOTS);
 			if (sechInput != null) sech = sechInput;
 
 			double ncloc = 0;
-			Double nclocInput = metrics.get("ncloc");
+			Double nclocInput = metrics.get(METRIC_NCLOC);
 			if (nclocInput != null) ncloc = nclocInput;
-			
+
 			return (1000.0 * (bugs + vulnerabilities + sech)) / ncloc;
 		}
 	};
@@ -368,9 +370,7 @@ public class SqgraphApplication {
 				final Set<String> metricsToQuery = getMetricsListNeeded(config, syntheticMetrics);
 				final String metrics = StringUtils.join(metricsToQuery, ","); 
 
-				Date startDate = new Date();
-				startDate = DateUtils.addDays (startDate, (-1 * config.getMaxReportHistory()));
-				final LocalDate localDate = startDate.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+				final LocalDate localDate = LocalDate.now(ZoneOffset.UTC).minusDays(config.getMaxReportHistory());
 				final String sdfsqString = sdfsq.format(localDate);
 
 				final AssembledSearchHistory history = getHistory(config, sdfsqString, key, metrics, headers, restTemplate);
