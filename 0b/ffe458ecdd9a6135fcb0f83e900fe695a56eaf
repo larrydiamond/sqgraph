@@ -1,0 +1,22 @@
+src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java
+  s_c8abbf17ecd9a0::t_93e3f921ddf880 382-385
+  s_c8abbf17ecd9a0::t_c0748034c122c6 174-176
+src/main/java/com/ldiamond/sqgraph/Config.java
+  s_c8abbf17ecd9a0::t_88affecf08c400 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0bffe458ecdd9a6135fcb0f83e900fe695a56eaf",
+  "prompts": {},
+  "sessions": {
+    "s_c8abbf17ecd9a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2885cdbe-79a0-4c66-8f75-4e17b49ced7d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": null
+    }
+  }
+}
