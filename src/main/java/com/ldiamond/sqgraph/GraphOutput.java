@@ -30,7 +30,7 @@ import com.google.common.collect.HashBasedTable;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GraphOutput {
-	private static final String standardDecimalFormat = "###,###,###.###";
+	private static final String STANDARD_DECIMAL_FORMAT = "###,###,###.###";
 
     public static void outputGraphs (final Config config, final Map<String, AssembledSearchHistory> rawMetrics, 
                               final HashBasedTable<String,String,Double> dashboardData, final Map<String, String> titleLookup, 
@@ -69,7 +69,7 @@ public class GraphOutput {
 
                 chart.getStyler().setAxisTitlesVisible(false);
                 chart.getStyler().setDatePattern("dd MMM yyyy");
-                chart.getStyler().setYAxisDecimalPattern(standardDecimalFormat);
+                chart.getStyler().setYAxisDecimalPattern(STANDARD_DECIMAL_FORMAT);
 
                 for (Map.Entry<String, AssembledSearchHistory> entry : rawMetrics.entrySet()) {
                     addSeriesForMetric (sqm.getMetric(), entry.getValue(), chart, titleLookup.get (entry.getKey()), syntheticMetrics, dashboardData, title);
