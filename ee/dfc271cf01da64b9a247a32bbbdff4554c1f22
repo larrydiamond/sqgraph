@@ -1,0 +1,20 @@
+build.gradle
+  h_bb8abe7e00e0ce 40-41
+src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java
+  h_bb8abe7e00e0ce 208,228,288
+src/test/java/com/ldiamond/sqgraph/PDFOutputTests.java
+  h_bb8abe7e00e0ce 54-56,169-171,211-213
+src/test/java/com/ldiamond/sqgraph/SqgraphApplicationTests.java
+  h_bb8abe7e00e0ce 204-206,368-370,393-395,418-420,586-588,595-597,657-659
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "eedfc271cf01da64b9a247a32bbbdff4554c1f22",
+  "prompts": {},
+  "humans": {
+    "h_bb8abe7e00e0ce": {
+      "author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
