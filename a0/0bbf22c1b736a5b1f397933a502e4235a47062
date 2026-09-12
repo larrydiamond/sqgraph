@@ -1,0 +1,25 @@
+settings.gradle
+  s_c8abbf17ecd9a0::t_d679cac76f89cb 6
+src/main/java/com/ldiamond/sqgraph/GraphOutput.java
+  s_c8abbf17ecd9a0::t_b25816cace70f9 25
+  s_c8abbf17ecd9a0::t_56abac4ce8ca46 84
+build.gradle
+  s_c8abbf17ecd9a0::t_42a77beb3c5c95 6-7,10
+  s_c8abbf17ecd9a0::t_1b71118b5c5390 56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a00bbf22c1b736a5b1f397933a502e4235a47062",
+  "prompts": {},
+  "sessions": {
+    "s_c8abbf17ecd9a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2885cdbe-79a0-4c66-8f75-4e17b49ced7d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
