@@ -171,7 +171,9 @@ public class SqgraphApplication {
 				notYetLastPage = false;
 				try {
 					Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
-				} catch (InterruptedException ie) { }
+				} catch (InterruptedException ie) {
+					Thread.currentThread().interrupt();
+				}
 			}
 			addMeasuresToHistory(assembledSearchHistory, result);
 			page++;
@@ -377,6 +379,10 @@ public class SqgraphApplication {
 				rawMetrics.put(key, history);
 
 				Thread.sleep(1);
+			} catch (InterruptedException ie) {
+				Thread.currentThread().interrupt();
+				// preserve previous behavior of stopping on errors by returning partially filled map
+				return rawMetrics;
 			} catch (Exception e) {
 				e.printStackTrace();
 				// preserve previous behavior of stopping on errors by returning partially filled map

@@ -27,7 +27,7 @@ public class Config implements Serializable {
     String pdf;
     String csv;
     String dashboard;
-    List<Application> expandedApplications;
+    transient List<Application> expandedApplications;
 }
 
 @Data

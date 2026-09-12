@@ -159,11 +159,6 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
-	void contextLoads() {
-	}
-
-
-	@Test
 	void testGetMetricsListNeeded() {
 		final Config config = new Config();
 		final SQMetrics [] metricsArray = new SQMetrics [15];
