@@ -230,6 +230,38 @@ class PDFOutputTests {
     }
 
     @Test
+    void testAddTextDashboardBody_missingDataDoesNotThrow() {
+		final Config config = new Config();
+		final SQMetrics metric1 = new SQMetrics();
+        metric1.setTitle("MetricOne");
+        metric1.setGreen("10");
+        metric1.setYellow("5");
+        config.setMetrics(new SQMetrics[] {metric1});
+		final Application app = new Application();
+        app.setTitle("MissingApp");
+        config.setApplications(new Application[] { app });
+
+		final PdfPTable table = new PdfPTable(2);
+		final List<Integer> colWidths = new ArrayList<>(List.of(
+				2,
+				PDFOutput.getWidthOfString("MetricOne")));
+
+		// no data present for "MissingApp" -- simulates a project that failed to load
+		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
+
+        PDFOutput.addTextDashboardBody(config, table, data, colWidths);
+
+		final ArrayList<PdfPRow> rows = table.getRows();
+        assertEquals(1, rows.size());
+		final PdfPRow row = rows.getFirst();
+		final PdfPCell[] cells = row.getCells();
+        assertEquals(2, cells.length);
+
+		final PdfPCell numericCell = cells[1];
+        assertNull(numericCell.getBackgroundColor());
+    }
+
+    @Test
     void testSetBackgroundColorForCellGreenHigher_green() {
         final PdfPCell cell = mock(PdfPCell.class);
         PDFOutput.setBackgroundColorForCellGreenHigher(80.0, 70.0, 50.0, cell);

@@ -381,12 +381,9 @@ public class SqgraphApplication {
 				Thread.sleep(1);
 			} catch (InterruptedException ie) {
 				Thread.currentThread().interrupt();
-				// preserve previous behavior of stopping on errors by returning partially filled map
 				return rawMetrics;
 			} catch (Exception e) {
-				e.printStackTrace();
-				// preserve previous behavior of stopping on errors by returning partially filled map
-				return rawMetrics;
+				log.error("Skipping project '{}' due to error fetching its history: {}", key, e.getMessage());
 			}
 		}
 		return rawMetrics;

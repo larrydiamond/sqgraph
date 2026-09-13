@@ -123,7 +123,8 @@ public class PDFOutput {
 				    metricTitle = "Management Code Metrics";
 			    }
 
-				final String text = standardDecimalFormatter.format(dashboardData.get(metricTitle, a.getTitle()));
+				final Double cellValue = dashboardData.get(metricTitle, a.getTitle());
+				final String text = cellValue == null ? "N/A" : standardDecimalFormatter.format(cellValue);
 				final Phrase phrase = new Phrase(text);
 				final Font font = phrase.getFont();
                 font.setSize(20);
@@ -134,7 +135,9 @@ public class PDFOutput {
                 cell.setPaddingRight(cell.getPaddingRight() + 5);
 				final SQMetrics metric = config.getMetrics()[col];
 
-                setBackgroundColorForCell(cell, metric, text);
+				if (cellValue != null) {
+					setBackgroundColorForCell(cell, metric, text);
+				}
 
                 table.addCell(cell);
                 col++;

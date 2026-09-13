@@ -137,6 +137,38 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
+	void testFetchRawMetricsForApps_oneProjectNotFound_othersStillLoad() {
+		final Config config = new Config();
+		config.setUrl("http://sonar.example");
+		config.setMaxReportHistory(30);
+		final SQMetrics sqm = new SQMetrics();
+		sqm.setMetric("violations");
+		config.setMetrics(new SQMetrics[] {sqm});
+		final Application missingApp = new Application();
+		missingApp.setKey("missingApp");
+		missingApp.setTitle("Missing App");
+		final Application okApp = new Application();
+		okApp.setKey("okApp");
+		okApp.setTitle("Ok App");
+		config.setExpandedApplications(List.of(missingApp, okApp));
+		final SearchHistory sh = new SearchHistory();
+		final Paging paging = new Paging();
+		paging.setTotal(0);
+		sh.setPaging(paging);
+		sh.setMeasures(new Measures[0]);
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(org.mockito.ArgumentMatchers.contains("missingApp"), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
+				.thenThrow(org.springframework.web.client.HttpClientErrorException.NotFound.class);
+		when(localRestTemplate.exchange(org.mockito.ArgumentMatchers.contains("okApp"), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
+				.thenReturn(new ResponseEntity<>(sh, HttpStatus.OK));
+		final Map<String, AssembledSearchHistory> result = new SqgraphApplication()
+				.fetchRawMetricsForApps(config, SqgraphApplication.populateSynthetics(config), new HttpHeaders(), localRestTemplate);
+		assertEquals(1, result.size());
+		assertTrue(result.containsKey("okApp"));
+		assertFalse(result.containsKey("missingApp"));
+	}
+
+	@Test
 	void testCreatePdfIfNeeded_noPdf() {
 		final Config config = new Config();
 		config.setPdf(null);
