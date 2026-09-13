@@ -101,7 +101,14 @@ This application has been used with several different versions of SonarQube Comm
 The APIs this application needs have not changed in several revisions and are expected to work with SonarQube back to version 6.3 but this has not been tested
 
 If you find a version of this application not working with your SonarQube instance please open a issue and we'll take a look
-  
+
+## More information
+
+- Project website: [codequalitygraph.com](https://codequalitygraph.com)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [License](LICENSE.md)
+
 Copyright 2023,2024,2025,2026 Larry Diamond.   All Rights Reserved.
 
 SonarQube and SonarCloud are owned by SonarSource SA
