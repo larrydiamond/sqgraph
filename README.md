@@ -20,19 +20,16 @@ Management Code Metrics reads project histories from SonarCloud or your firm's S
 The Samples directory has two samples in it
 
 The SonarCloud example creates some graphs based on some projects in SonarCloud
-```
+
 <img src="samples/sonarcloud/ViolationsPerThousandLines.png">
-```
 
 The SelfHosted example creates some graphs based on some projects of mine in my self hosted SonarQube instance
-```
+
 <img src="samples/sonarcloud/Complexity.png">
-```
 
 And each will produce a dashboard
-```
+
 <img src="docs/images/DashboardResized.png">
-```
 
 ## Quickstart
 
