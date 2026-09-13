@@ -25,7 +25,6 @@ public class Config implements Serializable {
     SQMetrics[] metrics;
     int maxReportHistory;
     String pdf;
-    String csv;
     String dashboard;
     transient List<Application> expandedApplications;
 }
