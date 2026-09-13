@@ -54,13 +54,13 @@ macOS / Linux:
 
 Windows:
 ```
-set SONARLOGIN=<your user token>
+set SONAR_TOKEN=<your user token>
 java -jar build\libs\sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
 ```
 
 macOS / Linux:
 ```
-export SONARLOGIN=<your user token>
+export SONAR_TOKEN=<your user token>
 java -jar build/libs/sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
 ```
 
