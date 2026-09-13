@@ -1,0 +1,20 @@
+README.md
+  s_366a8b41fb12d4::t_0534393d53d95a 43,48-52,55,61-65
+  s_366a8b41fb12d4::t_61fca1954998b4 66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "18df1c39eb7b8cd8f4f946ddd56f932bf2b880b7",
+  "prompts": {},
+  "sessions": {
+    "s_366a8b41fb12d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c9d749b5-8ad8-4f8e-bffe-c743f7d1734d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
