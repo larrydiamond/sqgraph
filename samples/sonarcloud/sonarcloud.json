@@ -1,15 +1,15 @@
 {
     "url": "https://sonarcloud.io",
     "applications": [
-        {"title":"Apache Dolphin Scheduler", "key": "apache-dolphinscheduler"},
+        {"title":"Apache Commons Statistics", "key": "commons-statistics"},
         {"title":"Apache PDFBox", "key": "pdfbox-reactor"},
-        {"title":"Drools", "key": "apache_incubator-kie-drools"},
+        {"title":"Apache Cloudstack", "key": "apache_cloudstack"},
         {"title":"Management Code Metrics", "key": "larrydiamond_sqgraph"},
-        {"title":"Twilio", "key": "twilio_twilio-java"},
+        {"title":"Apache POI", "key": "poi-parent"},
         {"title":"Architecture Unit Tests", "key": "larrydiamond_ArchitectureUnitTests"}
     ],
     "metrics": [
-        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"20","description":"Code Coverage: More is better: What percentage of the code is covered by unit tests."}, 
+        {"metric":"coverage","filename":"CodeCoverage.png","title":"Code Coverage","green":"50","yellow":"10","description":"Code Coverage: More is better: What percentage of the code is covered by unit tests."}, 
         {"metric":"CognitiveComplexityPerKLines","filename":"Complexity.png","title":"Complexity Per Thousand Lines of Code","description":"Cognitive Complexity: Less is better: How testable and maintainable are the methods in this application?"},
         {"metric":"BugsPlusSecurityPerKLines","filename":"SecurityPlusBugsPerThousandLines","title":"Security Issues & Bugs Per K Lines of Code","description":"Security Issues & Bugs: Less is better: How many Sonarqube security issues & bugs were found per thousand lines of code?"},
         {"metric":"ViolationsPerKLines","filename":"ViolationsPerThousandLines.png","title":"Violations Per Thousand Lines of Code","description":"Violations: Less is better: How many Sonarqube violations were found per thousand lines of code?"}
