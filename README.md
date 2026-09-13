@@ -51,6 +51,37 @@ set SONARLOGIN=<your user token>
 java -jar build\libs\sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
 ```
 
+## Configuration
+
+sqgraph is driven by a single JSON config file, passed as the command line argument. See [samples/sonarcloud/sonarcloud.json](samples/sonarcloud/sonarcloud.json) for a complete working example.
+
+| Field | Required | Description |
+|---|---|---|
+| `url` | yes | Base URL of your SonarQube server, or `https://sonarcloud.io` for SonarCloud |
+| `applications` | yes | Array of projects to chart, see below |
+| `metrics` | yes | Array of metrics to chart, see below |
+| `maxReportHistory` | no | How many days of history to fetch, e.g. `366`. Defaults to `0` (no history) if omitted |
+| `pdf` | no | If set, also writes a combined PDF report (graphs, descriptions, and a summary dashboard table) to this path |
+
+### `applications[]`
+
+Each entry describes one project, or a search for several, using one of:
+
+| Field | Description |
+|---|---|
+| `key` + `title` | Chart a single project. `key` is the SonarQube project key, `title` is the display name used in graphs and the PDF |
+| `query` | Instead of a single project, search SonarQube (`/api/projects/search`) for every project matching this text and chart all of them. Their names from SonarQube are used as titles |
+
+### `metrics[]`
+
+| Field | Required | Description |
+|---|---|---|
+| `metric` | yes | A SonarQube metric key (e.g. `coverage`, `bugs`, `ncloc`), or one of the built-in synthetic metrics: `ViolationsPerKLines`, `CognitiveComplexityPerKLines`, `BugsPlusSecurity`, `BugsPlusSecurityPerKLines`; or a custom ratio of two metrics using `<numerator>__PER__<denominator>`, `__PER_K_` (x1000), or `__PER_H_` (x100) |
+| `filename` | no | Output PNG filename for this metric's graph. Defaults to the title |
+| `title` | no | Chart title, and row label in the PDF dashboard |
+| `green` / `yellow` | no | Thresholds that color the PDF dashboard cell green/yellow/pink. If `green > yellow`, higher values are better; if `yellow > green`, lower values are better |
+| `description` | no | Explanatory text printed under this metric's graph in the PDF |
+
 ## Compatibility
 This application has been used with several different versions of SonarQube Community from 8.9 up to 2026.x and with SonarCloud.
 
