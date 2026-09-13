@@ -1,0 +1,19 @@
+build.gradle
+  s_366a8b41fb12d4::t_c1b4fb7368f06b 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "16d7f973a3b7a246ac10a1b3c02fcee042bd3080",
+  "prompts": {},
+  "sessions": {
+    "s_366a8b41fb12d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c9d749b5-8ad8-4f8e-bffe-c743f7d1734d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
