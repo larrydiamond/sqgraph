@@ -87,7 +87,7 @@ class SqgraphApplicationTests {
 		config.setUrl("prefix");
 		final RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
-				.thenReturn(new ResponseEntity<>(null, HttpStatus.OK));
+				.thenReturn(new ResponseEntity<>((SearchHistory) null, HttpStatus.OK));
 		final AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "from", "key", "metrics", new HttpHeaders(), localRestTemplate);
 		assertNotNull(ash);
 		assertNull(ash.getMeasures());
@@ -455,7 +455,7 @@ class SqgraphApplicationTests {
 		
 		sh.setPaging(paging);
 
-		final ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
+		final ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, (HttpHeaders) null, HttpStatus.OK);
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		final HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
 		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=1&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
@@ -486,7 +486,7 @@ class SqgraphApplicationTests {
 		final Measures[] measuresArray = new Measures[0];
 		sh.setMeasures(measuresArray);
 
-		final ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, null, HttpStatus.OK);
+		final ResponseEntity<SearchHistory> rsh = new ResponseEntity<>(sh, (HttpHeaders) null, HttpStatus.OK);
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		final HttpEntity<String> hes = new HttpEntity<>(httpHeaders);
 		when (restTemplate.exchange("prefix/api/measures/search_history?from=blah&p=1&ps=999&component=blah&metrics=blah",HttpMethod.GET,hes,SearchHistory.class)).thenReturn(rsh);
@@ -573,7 +573,7 @@ class SqgraphApplicationTests {
 	void testValidateSonarTokenNull() {
 		final Config config = new Config();
 		config.setUrl("someurl");
-		final ResponseEntity<ValidationResult> response = new ResponseEntity<>(null, HttpStatus.OK);
+		final ResponseEntity<ValidationResult> response = new ResponseEntity<>((ValidationResult) null, HttpStatus.OK);
 		final RestTemplate localRestTemplate = mock(RestTemplate.class);
 		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(ValidationResult.class))).thenReturn(response);
 		final boolean b = new SqgraphApplication().validateSonarToken(config, new HttpHeaders(), localRestTemplate);
@@ -773,7 +773,7 @@ class SqgraphApplicationTests {
 		when(localRestTemplate.exchange(
 				eq("http://sonar.example/api/projects/search?qualifiers=TRK&q=myQuery"),
 				eq(HttpMethod.GET), any(HttpEntity.class), eq(ApiProjectsSearchResults.class)))
-				.thenReturn(new ResponseEntity<>(null, HttpStatus.OK));
+				.thenReturn(new ResponseEntity<>((ApiProjectsSearchResults) null, HttpStatus.OK));
 
 		new SqgraphApplication().expandApplications(config, new HttpHeaders(), localRestTemplate);
 		assertEquals(0, config.getExpandedApplications().size());
@@ -812,7 +812,7 @@ class SqgraphApplicationTests {
 	void testBuildAuthHeaders() {
 		final HttpHeaders headers = SqgraphApplication.buildAuthHeaders("myToken");
 		assertNotNull(headers);
-		assertTrue(headers.containsKey(HttpHeaders.AUTHORIZATION));
+		assertTrue(headers.containsHeader(HttpHeaders.AUTHORIZATION));
 		assertEquals("Basic bXlUb2tlbjo=", headers.getFirst(HttpHeaders.AUTHORIZATION));
 	}
 
