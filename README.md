@@ -40,15 +40,28 @@ The Quickstart zip file will contain a pre-built jar file as well as the example
 
 ## How to build
 
+Windows:
 ```
 .\gradlew build
 ```
 
+macOS / Linux:
+```
+./gradlew build
+```
+
 ## How to run 
 
+Windows:
 ```
 set SONARLOGIN=<your user token>
 java -jar build\libs\sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
+```
+
+macOS / Linux:
+```
+export SONARLOGIN=<your user token>
+java -jar build/libs/sqgraph-x.y.z-SNAPSHOT.jar YourJsonFile.json
 ```
 
 ## Configuration
