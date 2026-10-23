@@ -60,7 +60,7 @@ dependencies {
 	implementation ('org.knowm.xchart:xchart:4.0.4') {
 		exclude group: 'commons-logging', module: 'commons-logging'
 	}
-	implementation ('org.apache.commons:commons-lang3:3.20.0') {
+	implementation ('org.apache.commons:commons-lang3:3.21.0') {
 		exclude group: 'commons-logging', module: 'commons-logging'
 	}
     implementation 'com.github.librepdf:openpdf:3.0.5'
