@@ -64,7 +64,7 @@ dependencies {
 		exclude group: 'commons-logging', module: 'commons-logging'
 	}
     implementation 'com.github.librepdf:openpdf:3.0.5'
-	implementation("com.google.guava:guava:33.7.1-jre")
+	implementation("com.google.guava:guava:33.7.2-jre")
 
 	testImplementation 'org.mockito:mockito-junit-jupiter:latest.release'
 	testImplementation 'com.ldiamond:architectureunittests:latest.release'
