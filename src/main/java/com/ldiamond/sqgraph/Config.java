@@ -14,6 +14,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Data;
 
 @Data
@@ -48,4 +50,8 @@ class Application implements Serializable {
     String key;
     String title;
     String query;
+
+    public String getTitle() {
+        return StringUtils.defaultIfBlank(title, key);
+    }
 }

@@ -841,6 +841,60 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
+	void testBuildTitleLookup_missingTitleUsesKey() {
+		final Application app = new Application();
+		app.setKey("appKey1");
+		final Config config = new Config();
+		config.setExpandedApplications(List.of(app));
+
+		final Map<String, String> titleLookup = SqgraphApplication.buildTitleLookup(config);
+		assertEquals("appKey1", titleLookup.get("appKey1"));
+	}
+
+	@Test
+	void testApplicationGetTitle_returnsTitleWhenPresent() {
+		final Application app = new Application();
+		app.setKey("appKey1");
+		app.setTitle("Application One");
+		assertEquals("Application One", app.getTitle());
+	}
+
+	@Test
+	void testApplicationGetTitle_returnsKeyWhenTitleMissing() {
+		final Application app = new Application();
+		app.setKey("appKey1");
+		assertEquals("appKey1", app.getTitle());
+	}
+
+	@Test
+	void testApplicationGetTitle_returnsKeyWhenTitleBlank() {
+		final Application app = new Application();
+		app.setKey("appKey1");
+		app.setTitle("  ");
+		assertEquals("appKey1", app.getTitle());
+	}
+
+	@Test
+	void testApplicationGetTitle_returnsNullWhenKeyAndTitleMissing() {
+		final Application app = new Application();
+		app.setQuery("search");
+		assertNull(app.getTitle());
+	}
+
+	@Test
+	void testLoadDataAndGenerateReport_applicationWithoutTitleUsesKey() {
+		final Config config = buildMinimalConfig("http://sonar");
+		config.getApplications()[0].setTitle(null);
+		final String key = config.getApplications()[0].getKey();
+		final Map<String, SyntheticMetric> synthetics = SqgraphApplication.populateSynthetics(config);
+		final RestTemplate rt = mockRestTemplateForHistory(emptySearchHistory());
+
+		new SqgraphApplication().loadDataAndGenerateReport(config, synthetics, new HttpHeaders(), rt);
+
+		assertEquals(key, config.getExpandedApplications().getFirst().getTitle());
+	}
+
+	@Test
 	void testBuildAuthHeaders() {
 		final HttpHeaders headers = SqgraphApplication.buildAuthHeaders("myToken");
 		assertNotNull(headers);
