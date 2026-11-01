@@ -136,7 +136,7 @@ public class PDFOutput {
 				final SQMetrics metric = config.getMetrics()[col];
 
 				if (cellValue != null) {
-					setBackgroundColorForCell(cell, metric, text);
+					setBackgroundColorForCell(cell, metric, cellValue);
 				}
 
                 table.addCell(cell);
@@ -200,7 +200,7 @@ public class PDFOutput {
     }
 
     @VisibleForTesting
-    static void setBackgroundColorForCell (final PdfPCell cell, final SQMetrics metric, final String text) {
+    static void setBackgroundColorForCell (final PdfPCell cell, final SQMetrics metric, final double cellValue) {
 		final String greenString = metric.getGreen();
 		final String yellowString = metric.getYellow();
         if ((greenString != null) && (yellowString != null)) {
@@ -209,7 +209,6 @@ public class PDFOutput {
             boolean greenHigher = true;
             if (yellow > green) 
                 greenHigher = false;
-			final double cellValue = Double.parseDouble(text);
             if (greenHigher) {
                 setBackgroundColorForCellGreenHigher(cellValue, green, yellow, cell);
             } else {

@@ -64,7 +64,7 @@ class PDFOutputTests {
     void testSetBackgroundColorForCellNoColor() {
 		final PdfPCell cell = new PdfPCell();
 		final SQMetrics metrics = new SQMetrics();
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 60.0);
 		assertNull(cell.getBackgroundColor());
     }
 
@@ -74,7 +74,7 @@ class PDFOutputTests {
 		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");
         metrics.setYellow("50.0");
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "80.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 80.0);
         assertEquals (Color.GREEN, cell.getBackgroundColor());
     }
 
@@ -84,7 +84,7 @@ class PDFOutputTests {
 		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");
         metrics.setYellow("50.0");
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 60.0);
         assertEquals (Color.YELLOW, cell.getBackgroundColor());
     }
 
@@ -94,7 +94,7 @@ class PDFOutputTests {
 		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("70.0");
         metrics.setYellow("50.0");
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "40.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 40.0);
         assertEquals (Color.PINK, cell.getBackgroundColor());
     }
     
@@ -104,7 +104,7 @@ class PDFOutputTests {
 		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("50.0");
         metrics.setYellow("70.0");
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "40.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 40.0);
         assertEquals (Color.GREEN, cell.getBackgroundColor());
     }
     
@@ -114,7 +114,7 @@ class PDFOutputTests {
 		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("50.0");
         metrics.setYellow("70.0");
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "60.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 60.0);
         assertEquals (Color.YELLOW, cell.getBackgroundColor());
     }
 
@@ -124,7 +124,7 @@ class PDFOutputTests {
 		final SQMetrics metrics = new SQMetrics();
         metrics.setGreen("50.0");
         metrics.setYellow("70.0");
-        PDFOutput.setBackgroundColorForCell(cell, metrics, "80.0");
+        PDFOutput.setBackgroundColorForCell(cell, metrics, 80.0);
         assertEquals (Color.PINK, cell.getBackgroundColor());
     }
 
@@ -150,6 +150,32 @@ class PDFOutputTests {
 		final Document document = new Document();
         PDFOutput.closePDF(document);
 		assertFalse(document.isOpen());
+    }
+
+    @Test
+    void testAddTextDashboardBody_valueFormattedWithGroupingSeparatorSetsBackground() {
+		final Config config = new Config();
+		final SQMetrics metric1 = new SQMetrics();
+        metric1.setTitle("MetricOne");
+        metric1.setGreen("10");
+        metric1.setYellow("5");
+        config.setMetrics(new SQMetrics[] {metric1});
+		final Application app = new Application();
+        app.setTitle("AppOne");
+        config.setApplications(new Application[] { app });
+
+		final PdfPTable table = new PdfPTable(2); // metrics + project column
+		final List<Integer> colWidths = new ArrayList<>(List.of(
+				2, // project column initial
+				PDFOutput.getWidthOfString("MetricOne"))); // metric column initial
+
+		final HashBasedTable<String, String, Double> data = HashBasedTable.create();
+        data.put("MetricOne", "AppOne", 6002.5); // will be formatted as "6,002.5"
+
+        PDFOutput.addTextDashboardBody(config, table, data, colWidths);
+
+		final PdfPCell numericCell = table.getRows().getFirst().getCells()[1];
+        assertEquals(Color.GREEN, numericCell.getBackgroundColor());
     }
 
     @Test
