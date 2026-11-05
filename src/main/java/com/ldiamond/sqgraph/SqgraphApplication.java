@@ -167,13 +167,13 @@ public class SqgraphApplication {
 			if (result == null)
 				return assembledSearchHistory;
 
-			if ((result.getPaging() != null) && (result.getPaging().total <= page)) {
+			if ((result.getPaging() == null) || (result.getPaging().total <= page)) {
 				notYetLastPage = false;
-				try {
-					Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
-				} catch (InterruptedException ie) {
-					Thread.currentThread().interrupt();
-				}
+			}
+			try {
+				Thread.sleep(1); // SonarCloud implemented rate limiting, https://docs.github.com/en/rest/rate-limit?apiVersion=2022-11-28, sorry for contributing to the problem.   I guess we all got popular :)
+			} catch (InterruptedException ie) {
+				Thread.currentThread().interrupt();
 			}
 			addMeasuresToHistory(assembledSearchHistory, result);
 			page++;

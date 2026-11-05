@@ -94,6 +94,22 @@ class SqgraphApplicationTests {
 	}
 
 	@Test
+	void testGetHistory_missingPagingStopsAfterFirstPage() {
+		final Config config = new Config();
+		config.setUrl("prefix");
+		final Measures measures = new Measures();
+		measures.setMetric("bugs");
+		final SearchHistory sh = new SearchHistory();
+		sh.setMeasures(new Measures[] {measures});
+		final RestTemplate localRestTemplate = mock(RestTemplate.class);
+		when(localRestTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SearchHistory.class)))
+				.thenReturn(new ResponseEntity<>(sh, HttpStatus.OK))
+				.thenThrow(new AssertionError("requested a page after a response with no paging"));
+		final AssembledSearchHistory ash = SqgraphApplication.getHistory(config, "from", "key", "metrics", new HttpHeaders(), localRestTemplate);
+		assertEquals(1, ash.getMeasures().size());
+	}
+
+	@Test
 	void testExpandApplications_appWithQuery_returnsResultWithNullComponents() {
 		final Config config = new Config();
 		config.setUrl("http://sonar.example");

@@ -4,6 +4,7 @@
 
 - Compile application: `./gradlew build`
 - Run tests: `./gradlew test`
+- Run mutation tests: `./gradlew pitest` (report in `build/reports/pitest/index.html`)
 - Run OpenRewrite codegen recipes: `./gradlew rewriteRun`
 
 ## Dev environment

@@ -8,6 +8,7 @@ plugins {
     id("org.openrewrite.rewrite") version("7.39.0")
 	id 'se.patrikerdes.use-latest-versions' version '0.2.19'
   	id 'io.github.ben-manes.versions' version '0.66.0'
+	id 'info.solidsoft.pitest' version '1.19.0'
 }
 
 group = 'com.ldiamond'
@@ -105,6 +106,28 @@ jacocoTestReport {
         xml.required = true
         csv.required = true
     }
+}
+
+// gradle pitest
+pitest {
+	pitestVersion = '1.30.1'
+	junit5PluginVersion = '1.2.3'
+	addJUnitPlatformLauncher = false // the plugin picks 1.x, testRuntimeOnly already supplies the launcher matching JUnit 6
+	targetClasses = ['com.ldiamond.sqgraph.*']
+	targetTests = ['com.ldiamond.sqgraph.*Tests']
+	excludedTestClasses = ['com.ldiamond.sqgraph.ArchitectureUnitTests']
+	threads = 1 // tests write the same chart filenames, parallel minions collide and report false kills
+	outputFormats = ['HTML', 'XML']
+	timestampedReports = false
+}
+
+// mutants can change where charts are written, keep those files out of the project directory
+tasks.named('pitest') {
+	def pitestWorkingDir = layout.buildDirectory.dir('pitest-work').get().asFile
+	workingDir = pitestWorkingDir
+	doFirst {
+		pitestWorkingDir.mkdirs()
+	}
 }
 
 dependencyCheck {
