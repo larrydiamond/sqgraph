@@ -1,0 +1,37 @@
+openwiki/architecture/run-pipeline.md
+  s_da0d5c5df67803::t_a95efd8f0acb47 1-103
+openwiki/configuration/config-file.md
+  s_da0d5c5df67803::t_878f6bad6d8e84 1-101
+openwiki/operations/build-and-ci.md
+  s_da0d5c5df67803::t_51d4c4d2a77e6c 1-102
+openwiki/outputs/pdf-report.md
+  s_da0d5c5df67803::t_c96256e2e32b5a 1-97
+openwiki/testing/test-suite.md
+  s_da0d5c5df67803::t_bf26ea7dfa3b43 1-99
+openwiki/outputs/charts.md
+  s_da0d5c5df67803::t_065d1192414736 1-93
+openwiki/integrations/sonarqube-api.md
+  s_da0d5c5df67803::t_c8e4730189f511 1-100
+openwiki/quickstart.md
+  s_da0d5c5df67803::t_aad8296cd184f3 1-77
+openwiki/concepts/synthetic-metrics.md
+  s_da0d5c5df67803::t_c46bf72942259b 1-104
+AGENTS.md
+  s_da0d5c5df67803::t_fd86849f79cfa0 34-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "821d06edd6424cb1ee312dde7f1053de52296771",
+  "prompts": {},
+  "sessions": {
+    "s_da0d5c5df67803": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f75de7a7-bd6e-4988-958a-d7a2f933c9d1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
