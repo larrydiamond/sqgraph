@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a65257b0d3f526bbf63fe8492f1f0fd39e5eb07e9f3d15e8f176590221a60a7f",
+  "claims": [
+    {
+      "id": "claim_fbcad66e65804aa4b6bbd4f2b8aa4709",
+      "statement": "main() resolves the SonarQube token from the environment variables SONARLOGIN, SONAR_TOKEN, SONAR_LOGIN and SONARTOKEN in that order, and exits with status 1 if none is set or no config file argument is given.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L54-L97",
+          "version": "repo-lines-v1:sha256:8a68de96607b85935783e1996c363dee5b1479ab927e1483bfcf27597f282840:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4Mjg1OTcwMDIxNTc2ZDI1MTk1MmU4YTllODM1MmFkOTJlYzQ2OTNhNmRkZTJhM2RlY2ZmNDdkNWUzNDQxOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzNWIzZGVmYzY3MjExMmE4NGZiZDkwNDEyMzA3MDUzYTJiYjg3MjkwNTk3NjlkOTkwZDBmMTY4MWU0MWZlYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxOTljZTBiNjM2N2RkYTcyMjU2YThmNDNiZGNkZjEzNWZmNjg1ZGFkMTQ2ZmE3MGIzNmY4MWYzYTA4YjJmMDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b9b5e1643314c958f477ffb75b55fa2",
+      "statement": "main() passes the token and config path to the Spring pipeline only through the static fields login and filename before calling SpringApplication.run.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L51-L72",
+          "version": "repo-lines-v1:sha256:1ffc7f59233927887c2835f3f609b73bb793f97d11ab07a78098b9fbb3e3505d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2ZDgyZjY2NGFkYTk2N2NiZTZkNjA0MTE0MDEzOTlhYTM0Y2FmM2YzZGZiNTVkNjliYmIyMTE0YWU4ZTRkMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMDFmZmRhNDA4OTBlYTQ5ZTZkMTY3OTEzNzFmMWE1MWQ0ZGU0MzY5MTQ4MjQ0MjNhMzFlZDZlZjJmNDEzYjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1ZTY5M2QyODc4Yzc1NzZlMzUwYmUxMTMxODM0YTk1ZTdmZmQzYzgyNTc5YmViZjU4YTJiYTRmNDA5MzgwNzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBhMjgwNDU4ZDlmMDViOTAzMDMyMGEzYmIzZTgzZWU1NTQ0Y2EwN2Q2MTg1MzYzNzNkZjhlMGE3YWExOWUxMGMifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L99-L113",
+          "version": "repo-lines-v1:sha256:4a4f8edca34ff485501b41c7e8762792062538d88999f388e1fe73d21b1be8e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMWM3NjAzYTEzYzMyYzU0MWZkNTVmMmNkM2UxMTJiNWMxZWZmNmQ0ODA1OGFhNmYxMzc5ZWVmMjE3NGYxYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzZTZmNjdhNGM2NjQwMjI1NWQ5OGVjNjI5M2QxMzk5NzQ1YTdiMjlkZTM0YzdkNDc0YmM0YjliNTUxOGMyYjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMWZjMzE4NGI2Y2Y4ZDJjZDViZjEyNzRlYzc0YTIzNzY0MzIzMTNiZWFjNzM5Y2U1NDJlNjY3ZjUyYjgyZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3MWQ0ZjQ2ZjhhYWQ5YmZmNDlhZGZiYjk0NzgyYjM4NTk0ZDg2MDBmZWUwZjAzMWRmODIxODcyYmFhMGViZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fe0d59dd0e9048848612b1a2bbd4dff2",
+      "statement": "The entire report is produced inside the commandLineRunner @Bean factory method during Spring context creation; the CommandLineRunner it returns is an empty lambda.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L99-L125",
+          "version": "repo-lines-v1:sha256:3f598c163f467a1b8931a708618b73f4a237846db7c1975fba7a3b20e58e0ded:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMWM3NjAzYTEzYzMyYzU0MWZkNTVmMmNkM2UxMTJiNWMxZWZmNmQ0ODA1OGFhNmYxMzc5ZWVmMjE3NGYxYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMWZjMzE4NGI2Y2Y4ZDJjZDViZjEyNzRlYzc0YTIzNzY0MzIzMTNiZWFjNzM5Y2U1NDJlNjY3ZjUyYjgyZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzOGZhZmFiODU3NDA3NjVlZmFhNWY3NmU5ZWNhOWQ3ZjUxOTVmNWQ0YzlmNmJjNmQ4OWUyMDVkNGRmYmQzM2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a738c89873ea42ccb0bf4bfa270fdf92",
+      "statement": "A config file that cannot be read or a token that fails validation causes the bean to log an error and return an empty runner rather than throwing, so the process does not signal failure through an exception.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L104-L119",
+          "version": "repo-lines-v1:sha256:a3fe331450928deaea1ca111a54c783740109f6c6a3404a29b7cf1c3f740fabb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZDJjMGVmOGExODZlYzMzMzY1YjA5OTg4MGI3YWI4YmUyMDJjMjE5NmE0YjU3NTkxMjNiMjFlZDhmZDM3YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZWZjNDk0MThkMjZkY2YxMjliMjJhNmFhMjExMDhjZWVjMzc2NzdhMzJkMDhlOWQ1ZmVlMzVkZGE2NmJiOWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwZDJiYWM1MzgwZjIzNzVjN2Q2OGNjYTJmODlmNTMyM2IwYWIzYjM0OTgxZDNjYzU3MWQzMGM5NDIzZDlkODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyYjI5NTBiMzlhYzdkOWNhMmM1NjE5NDhiYWZjMjUzZWM1NmY5MmVmMzA0NjQ2OWI2MTI0ODliMDcyMjBiNDIifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L304-L336",
+          "version": "repo-lines-v1:sha256:882ebb1d1bf2e6226428c5861edaac5216aa12d2516ae82a4f74c6f6ac3dba58:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDk3ZWU3ZTlkM2NjYTVkZjllNzI2NGQwZWVjODlmMzQ0N2IxZjRlZTdkNDMyZDMwYjIxMGMxYzYyNGYyZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjMjU4ZDlkNzRiZjljZDM4Y2Y3NTM4NDY0MTNkZDUzMjMwNWU1N2FlMGI0MTBmODMzYzE1ZmIyMmFlZDUzM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3NjQ5ODMyN2ZmYjlkYjVkZTExMzNhZTg5NWM4NmRmMmQ2N2EwODZkYmMyMjE3NDk4YmU2ZjdmMGNmMzIwYWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f43d2d8947c245f89d1e5327b888b33d",
+      "statement": "loadDataAndGenerateReport runs application expansion, title lookup, per-project history fetch, chart rendering, and optional PDF creation in that order, passing a Guava HashBasedTable of last values from chart rendering to the PDF.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L127-L145",
+          "version": "repo-lines-v1:sha256:e14f9f16f450704d8a4a1f8a2107e04aac56e36d14f452159bd3250545d06a1e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlMzM3ZjE2OTE0ZTY5NmU2YjI0MGM1N2JmZWY3M2Y1MzhiZDY3NzYzM2Y1MTY1ZGNlNzZiZTZmM2Q2MzUyNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3YWM2MmE3MjY2NWM1YTQxMjYwMjMwNmYwYjVjNzQ3MzRhNmEyYjhlY2JmNTI0MjYzNjdlMjUxODg3MDQyZTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_897ba9b61afc4beaaa40b8d6e9a235a5",
+      "statement": "A project whose history fetch throws is logged and skipped, so it is absent from the raw metrics map while the run continues.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L364-L390",
+          "version": "repo-lines-v1:sha256:d00907128a6c1a70ed826efb7fd28e3a5d9f392eda87922ea1c282e84ae0f291:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4NmFkZTVmNGRiNjJkNmU5Mjc4Yzc5ZWQwNjI2ZTQ0OTFmMjg1OWQ4OWQ1Njc0MTEwNzdkN2MzNDI1YzI0ODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4YzEwNTNlZTg5YTFkNGM4YzhjMDQ5ZTMzMDQxYjE0YzVjNjc1MDcwYmQ1YTE5ZjZkZDY1YTIwNWJkYzQ3YjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36669e2dbf1e4e449caf39b0c752fee2",
+      "statement": "The PDF is only produced when the config's pdf field is non-null.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L392-L403",
+          "version": "repo-lines-v1:sha256:cdf0118da07234aa033d36f36d7a877d48e9ab3dac1707bee3213be3bc31abb8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmNmI2N2Q2Y2Q4OTJkZDc5ZTk2ZGQxZDhiN2MxMTdmN2IxZDQyNzgzNGVkYzUxOTZhNGJmZWI4ZWZjZmFlNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzOGRlNzRiZTk3YmYzYWJhNzg3MmE2MWJhMGU0MjA4NDAwOGM4MWU4YTIwMmE2MTIxMzRjNzU1YWFmN2ZhMDYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

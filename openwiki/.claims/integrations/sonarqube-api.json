@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d5062ac22fead2fc380ee3857ecb7961284b7dedc0b6031dc6bb6c2a06155044",
+  "claims": [
+    {
+      "id": "claim_529cb828134b4aacb32f80b2a69a34f1",
+      "statement": "The SonarQube token is sent as an HTTP Basic Authorization header encoding the token followed by a colon, meaning an empty password.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L314-L320",
+          "version": "repo-lines-v1:sha256:92f256d14a1724d7bab72d05710ba8493929174d4c622c20eba6cd716eda78c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTc0YzQxZWI1NmFhMDRlMTdlZGVkZGE0OThlMzgyZDUxZjQ1MjU0NmM0NDU5YWE3NGY5ZTgxOGFhMmM1NmViYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjdjZGE4MmRhNjA2MjM4ZTA1ZTYyMzk5NTY5YzVlZTAzOTkzNDE5NjQ4YWU1ZDQzYTJiZjhjZDYzNDdmODI2MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjJmMmZmNWZlZWM2MGY1ODdjOGZhZTRlODdmODA5YTY2MWNmZmVkNmI0N2FhZTVmNmQ2YTI2NTNhYTg5NTJlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTZjYmFiNmNkNjNiZDQwMGJmNGM0ZWMwZGVkODc3NzJiMmMzM2Q5MjRjYzAwODFmZTAzZDZjZWZjYmJjMzJlNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f1905ee6e193451ab1e0885a8f594c2e",
+      "statement": "validateSonarToken calls /api/authentication/validate and returns false when the request throws or the body is null, so an unreachable server is treated the same as an invalid token.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L115-L119",
+          "version": "repo-lines-v1:sha256:4feba7eb6f2c13295b1018b14375cb363ce3b062b4bf4c4533573108d2a4a525:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEyOTI0NWU2OThmMDRmYWU5ZGU3OWFiZmRiZDkyZjhmMDQ4YjliODE0ZTk2MTIyZGI5NTU2Y2UwYmFkZjBjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRlZmM0OTQxOGQyNmRjZjEyOWIyMmE2YWEyMTEwOGNlZWMzNzY3N2EzMmQwOGU5ZDVmZWUzNWRkYTY2YmI5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjM3ODM5NWM2MzEwYTBiOWUwOTdmZTY4YThiYWNjODdiMWFhMjI5MDhlZDdkNTdhNTkzYmEzYWQ1NzRjZDA0YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjJiMjk1MGIzOWFjN2Q5Y2EyYzU2MTk0OGJhZmMyNTNlYzU2ZjkyZWYzMDQ2NDY5YjYxMjQ4OWIwNzIyMGI0MiJ9"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L322-L336",
+          "version": "repo-lines-v1:sha256:4e2baddddb8c209a789bfbdc69a8681c355a6a2a9b0d4b74ec00ddc582e97b76:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxZGUzMjVlMjNlYTRmNzEwMmJlODhhNjg1NDU4ZWU2YWIwODdlODU1OGZkYzVhNTQwMjdlNzQ1YTAyZWI3ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3NjQ5ODMyN2ZmYjlkYjVkZTExMzNhZTg5NWM4NmRmMmQ2N2EwODZkYmMyMjE3NDk4YmU2ZjdmMGNmMzIwYWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebf3852331c1483d9cc37f547de05266",
+      "statement": "Query entries are expanded with a single /api/projects/search?qualifiers=TRK request whose components become applications titled with the SonarQube project name; exceptions from this request are not caught.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/ApiProjectsSearchResults.java#L20-L31",
+          "version": "repo-lines-v1:sha256:a4d9fff74a2e265d1c571749bb6442ac32bdb5d44dc44b0d85ab7a70ec5a87d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhNjFkOTNhZGVmYTk1YjBhMzMwYjU4MDIyZDIxNDk4N2VjYjkwZGQ5OGM2YjNlZmNkNzY3NjE1YTRjNGRkNjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMGIzNmFhNzRhNTliY2Y0YTg4MTg1ODM3ZjY1OGFmYWYzNjQ2ZWZmMmJiMTZjMzkyOGQwZTkzMzVlOTQ1ZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkYmIzNWUzMDljZjAzZTcwOTI5NWZkZGQ2YzkwMWEyZWY1NTIwNjFhOWIwZDU5ODBkZGEwMWZiMGM2NWMyOWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L338-L355",
+          "version": "repo-lines-v1:sha256:ad12cdc47a5c08fd40ed95c6918aaee05cbcaf58e0a657cc12d3cf25efc347b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyZjJmZjVmZWVjNjBmNTg3YzhmYWU0ZTg3ZjgwOWE2NjFjZmZlZDZiNDdhYWU1ZjZkNmEyNjUzYWE4OTUyZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljMDgxZDE0MmNiMmEzOTMyODVmMjdmNWMyOGEzMGViZTFmYzJmMzUxMzk1YjNlOTk0ZWZiODUyY2YwM2JkYzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d3f91b6530cf45308adf80bd93a9b605",
+      "statement": "getHistory pages /api/measures/search_history with page size 999, appends every page's measures, and stops on a null body, a missing paging object, or when paging.total is less than or equal to the current page number.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L147-L182",
+          "version": "repo-lines-v1:sha256:9f085baaf9f9ccdaa3539f134ca43f84617429713c45c7f307fa44f26e418afd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzYTk5MGRlODFmZWNlOGZiYjIzODUxOWExNmNhMWZmMTFhNmJjMmUwNDFmMWY5ZTFlYjE5MTU1MTg1NjI0ZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmYWI4ZTRkOTNmYjdkODg5MzZmMTk2YjViYWU1ZjFlZTg2MDRjNGNkMjljZGQ5ZTE0ZGE4YTMxOTljZDczZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiNDg5YTdmNmZiODUwZDYxODY3N2VhMTRlOWEwMGJhNjgwZjViYTJkZDZmZjBhM2ZkNjcwYmM1ZWQ5NDE5YjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8907dfb86a6448719ea6590a994b5be4",
+      "statement": "getHistory sleeps 1 ms after every page and fetchRawMetricsForApps sleeps 1 ms after each project; there is no handling of HTTP 429 or Retry-After.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L170-L178",
+          "version": "repo-lines-v1:sha256:99b6eea66007420615ccbc9a665ff89580f67f4e9e1c15c14369744edece0b1f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTNkZDU0YTMxMWRkMzVhZDA3MTljOGM2ZjQzZjk0NTk2YmI2YTQ3OWNjMGVmMzg5NDgxODc3OWE1NjY2YTk3YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGU5Nzc5OWUwZmI0OGFmMWQzZTI2OGM1ZWE4MTgxNWRlYTA3MjExNmNkMDRjYmQzYzlmMDE4OTU3ZWM3YjdhZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2JkZmNhYTgyMjhlMjRiNDFiODgyMTRiNGI4OTI0YWFhMDcwZTdmOGFkYjRhMGI2YWJhNTU5YThkMmQwYzE0YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzVkY2JmNDA2ZGZhYmMyZWI5N2NkODc3Y2YwZTg3NmQxYjIyMzlhOTMyYzk0OGU1ZWNjY2FhOWU0YjMzNzI3ZCJ9"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L364-L390",
+          "version": "repo-lines-v1:sha256:d00907128a6c1a70ed826efb7fd28e3a5d9f392eda87922ea1c282e84ae0f291:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4NmFkZTVmNGRiNjJkNmU5Mjc4Yzc5ZWQwNjI2ZTQ0OTFmMjg1OWQ4OWQ1Njc0MTEwNzdkN2MzNDI1YzI0ODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4YzEwNTNlZTg5YTFkNGM4YzhjMDQ5ZTMzMDQxYjE0YzVjNjc1MDcwYmQ1YTE5ZjZkZDY1YTIwNWJkYzQ3YjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e80654bacc8340538dd9e6bfc37f36f6",
+      "statement": "The history request window starts at the current UTC date minus maxReportHistory days, and the same metric list is requested for every project.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L364-L378",
+          "version": "repo-lines-v1:sha256:94faef75329f2b0c36620f3af31154604a4db10e896859a4909a59c20601acb7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMTI5ZjVhMGFjMWI0OGFkMGU4NDkxYTEzYTdjYzAwMjI1YjE1ZWJiNmMxNDY4ZTcyODIwMTkwNDAyNjUxOWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4NmFkZTVmNGRiNjJkNmU5Mjc4Yzc5ZWQwNjI2ZTQ0OTFmMjg1OWQ4OWQ1Njc0MTEwNzdkN2MzNDI1YzI0ODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxMGMwZjk0ZmRkNzYzMDRiZmM5YjIzZTNiNTY3YzcxNDhhNmQ2YTVkYjBjMGRhMGZlODMxMmM2YWZjNWRmNmYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:873133ec8dda5d60bc5ab59f59a505d22d43ab6b48db23567ad0ffcc157d5ee8",
+  "claims": [
+    {
+      "id": "claim_dc172e46a21546298f7122893ae4e65f",
+      "statement": "outputGraphs builds one 1650x800 XYChart per configured metric, placing the legend outside to the right in a vertical layout when there are more than 7 projects and outside at the bottom horizontally otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L35-L72",
+          "version": "repo-lines-v1:sha256:0592e273e8fec74318b4afced1a2070ccec3e8d57ba2f4c8d3ec4cee4faedf64:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxN2E0ODdhMWZiNWNlMjRmNzE5OWExNTBiNGUxMzlkZWEwZTYwYTE5ZTY2ZTRhYzY3YWMzYmZjM2Y3MmY2MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwZWIyYzI4MWI5YmVlZDhlZjAwZjkzOGExNzI1ZWFkZTliYTFmMDQ2Yzg3NTRmZDc3NzBmZWQ2NWFjOGFjNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwMmFkYTVjMjkxOTZmMmY4NzUxODYwMDM4M2ZiNjdjYjY2ZDM3NWZiYzM3NDk3MGUwZTA2NzAwZmQ2NGFjM2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMTFiZDc4MjQ1ZTRhNzljM2IwMWMxNjZlYWY4ZmE4NmY5YzA5NWFkMjg4ZTdjN2U5NmIwNjY0MWUxZTcxNTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3064d1cc0b294dcabf611d72ccdcfc75",
+      "statement": "outputGraphs sets a missing SQMetrics filename to the chart title and appends .png when absent, mutating the config entry before saving the chart with ChartEncoder.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L74-L84",
+          "version": "repo-lines-v1:sha256:1fe5a51f3e55e4124b2732fff7037be9a21bc554ad23eec03571fe739395068b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkMjY5ZjUwOTgzMzM5YmM4NmMxZGFmYjMxN2ZhZjFjODAxMjk0MGFkYjQ1MDAyMjI2ZTZhZTdhNzE0MzNiMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljMTc5MGMyN2NlMzViOWJjMzU3NzhlZGU4ZWM5NDNiZTI0ZGE1MmFkODE0NjU2YzEyZDU2ZTk3YWYzYjlhYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2NmYwMGQ0YWQ0MTdhNzg1NzI4NzQ0ZWY3ZjYxMjI2NzMxMjRjZjQ1MjNmM2QwMzJmNTZjYmExZGVhZTJiYTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwMTZjNjlhY2MxZTk0MTcxNGZmYTg0MmYyNTdkZDg3YjNjYmJiZGMzNTc1YjQ0YTNkMDBjMjdlNmRlMzEzYTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0dba67ecbf3446d58cf408555154ee07",
+      "statement": "Each metric's chart is wrapped in a catch of Exception that prints the stack trace and continues with the next metric.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L44-L89",
+          "version": "repo-lines-v1:sha256:66e26d8858f2cc83d457a48e7371f0434a6b816888ac2bac54710935b7ee3d22:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlMjhjZTVlNTg0YWI2OWNhNmM4ZjlkMGRmMDA0YjJiNDExM2M1OWE5MWZiNWZhNjQwNzYxM2YxOGMxMmMxMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdiOGZiMjVjZGE2NjczZjk2OGMxZGUwMDY4NmM3YjcyNjcxYTg2MDVmNTA0ODhjZjJjYWIwZDdjMTUzYTI2YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYzYxYTkwODFhNDFlZjg1NTY4NDc0MTU1MWE0MjlmZGY2NzEwNmM1ZDk3Y2ViZTI3MGZjYzgwNWMwOTE2ZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ca3b52e87074b7198d014c9c545992f",
+      "statement": "addSeriesForMetric adds a series only when it has data points, and always records the project's last value in the dashboard table keyed by metric title and project title.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L154-L170",
+          "version": "repo-lines-v1:sha256:71ec465947f2b1ac120044630d3161719d3d9bba6c8831b0f39123c09fe667e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliM2NkMDRjM2UyYWU0OTFhNDZiNzY4NzZlNzM2ZDdiNDliZWU5NDRkNGYwM2Y0OGUyZGU5NmViYzQ0MWI3NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyYTgwY2FmNWJlZTY0NzY1NmU5NTQwZWU0NTU1OGU5ZmIwZmU3MjU4YTVkYWVkZjc3NmRhMWJkYjMzNWVkZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1OWJjMmE2ODE3YjU5MTljNjY3MTY4NzgzNTEzMTJiYTk4MjE4MjU4M2Q5MTk1YjgyM2ZhZWY1ODE3NWQ3MTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fe7e44077b1a4a1b895909b637a02818",
+      "statement": "For a native metric with no matching history the recorded last value is 0.0 rather than null.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L92-L104",
+          "version": "repo-lines-v1:sha256:949026bdc171b862dd2d7661bbdcf0610b9fcafb6140d71f1bb040f8f282ebce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiYzQ0OWUyYzU2ZmIxOTlkYzRhNDlhN2MzNTc3ZmZhNTA1YTJkYmIzMjQxZDg4M2IxMmM5ZDNhYmY4ZDM1N2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5OWJkZWZlZWFjYTYzNDBlMDI5MGRjODZlODg5Yzg5ZDVlMTg5YWE1YmE0NGI1ODViM2I3MDczNGY0YTYyZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2M2M2ZjFiNTMxYWQyMWM4YzAzZmZhN2NiNWIyMmQwZGQ3YTcyMDU1MDljN2ZmNjYzYjU4ZTk0NjIzYWRjYzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6addd7b8343b45f89966b2bdaddb6b09",
+      "statement": "Chart dates are normalized to midnight UTC of the following day.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L172-L175",
+          "version": "repo-lines-v1:sha256:446c6f7b00baad33cf90b7c3d7201d4c2d8d773a8e1926eff885519c3ac5ead7:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBiNzkwMzU0MzRiYWI4OWQ1ZTRiZWZmMTY2OTQ0Zjg5NGQ4MGQxMDBkODM1NzRmZTFkMTM2MTZmZjMzN2ZlYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjdjZGE4MmRhNjA2MjM4ZTA1ZTYyMzk5NTY5YzVlZTAzOTkzNDE5NjQ4YWU1ZDQzYTJiZjhjZDYzNDdmODI2MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTFlNjdiNWNhNzk5NmYyMDkxODE5ZTI2MTI1ODcxOTVkMTMzMzZlYjAwOGZmYTkzMGU4YjI4ZDUyMjJiZTFlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODA0Zjg5ZmMwZWM5OGM5ODI0MTgzZTc5NWQzZWRkMTllOTMwZjdiYzQ3MWY5MDEyYWEzZDUwM2JlMmY4OTc0YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e2c87d9d2d5a419eb2623519839658c5",
+      "statement": "testOutputGraphs renders a real PNG to a temporary file and checks that the dashboard table holds the last value for the project.",
+      "evidence": [
+        {
+          "resource": "repo://src/test/java/com/ldiamond/sqgraph/GraphOutputTests.java#L153-L194",
+          "version": "repo-lines-v1:sha256:0a3fbe7d81e9efc196556165a3a3566742dbb7d2bbcfc433d12aebc54cc3b0ef:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjZjA5ZWIwYzU3NDRmYjk3MzMxYjk4ZmYzZmJmMDVhNjAyYmEzZjdmNjdlNWRhNWJlOTA5NTAzM2Y2MjU4MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmYmQwMDkzMTRiYzI3MDg0MTY3MzRhMDJhZTVmZjM5YTFlNDhhMDUwYmU5MWY0M2IyZmFhOTIwMDJjNjJiZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlMmM5ODVhNzk1YzBkOThhZDBhMjE3NTVjNjZhODliNTQ5MTM3ODI0NjVmNTljZDhiNGM3ZjM2YWJmOWUzMTcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

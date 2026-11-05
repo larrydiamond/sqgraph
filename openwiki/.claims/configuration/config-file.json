@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:7d46f82ab184373a2b61c12d13884de4c74881ce39ac59d9ef4fd2b43505000f",
+  "claims": [
+    {
+      "id": "claim_155699b9b72e41828ac8650acac99dbf",
+      "statement": "The config file is deserialized by a default Jackson ObjectMapper into Config; on IOException the stack trace is printed and null is returned, which ends the run without output.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L104-L108",
+          "version": "repo-lines-v1:sha256:f9b007a74d0bee68e3dc2e104c403b87d694012bb3c733c6b4487acd2be573fb:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZkMmMwZWY4YTE4NmVjMzMzNjViMDk5ODgwYjdhYjhiZTIwMmMyMTk2YTRiNTc1OTEyM2IyMWVkOGZkMzdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRlZmM0OTQxOGQyNmRjZjEyOWIyMmE2YWEyMTEwOGNlZWMzNzY3N2EzMmQwOGU5ZDVmZWUzNWRkYTY2YmI5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDBkMmJhYzUzODBmMjM3NWM3ZDY4Y2NhMmY4OWY1MzIzYjBhYjNiMzQ5ODFkM2NjNTcxZDMwYzk0MjNkOWQ4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTk5YjdlMjM4YWZiYjMwYmMzYzM1NDExNjUyMDFiNWYxZmY3MDYwNzM5ZTZhNjBlMWRiZGM4MmZmMTgwNzE1OCJ9"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L304-L312",
+          "version": "repo-lines-v1:sha256:2bd4ddb8fe3c3e645445ad5231826f2539e8d144e460dad1bafa432f61c67d9d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc0OTdlZTdlOWQzY2NhNWRmOWU3MjY0ZDBlZWM4OWYzNDQ3YjFmNGVlN2Q0MzJkMzBiMjEwYzFjNjI0ZjJlNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjdjZGE4MmRhNjA2MjM4ZTA1ZTYyMzk5NTY5YzVlZTAzOTkzNDE5NjQ4YWU1ZDQzYTJiZjhjZDYzNDdmODI2MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWMyNThkOWQ3NGJmOWNkMzhjZjc1Mzg0NjQxM2RkNTMyMzA1ZTU3YWUwYjQxMGY4MzNjMTVmYjIyYWVkNTMzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDQzODQwZjRhMjZlMjlmNTFmODAyMWNkYzhlYzg5OGM3NWU2ZTBjM2E5NDE5ZDIwMzkxMjZjY2NmYTRmOGU5OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_78f5297e5fe34db7a8b48e96a4fd014a",
+      "statement": "Application.getTitle() returns the configured title, or the project key when the title is null or blank.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/Config.java#L46-L57",
+          "version": "repo-lines-v1:sha256:4bd8824e5e74ffd706aa09352d88e7f9f3b1171f252ae89e7806837180d6685d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhNjFkOTNhZGVmYTk1YjBhMzMwYjU4MDIyZDIxNDk4N2VjYjkwZGQ5OGM2YjNlZmNkNzY3NjE1YTRjNGRkNjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyMGFjZmU0ZTZjMjU3NDdmMWRkZWY1NmM1NjEwZGJhMmI2MGYwZjAzZmM3MzJmOGM5Y2IzYmUyMTRhNTYyMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9773b84ee0d74c9cb08c14d7dd370561",
+      "statement": "Config.expandedApplications is a transient runtime list that application expansion recreates on each run, holding keyed entries directly and projects found for query entries.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/Config.java#L21-L32",
+          "version": "repo-lines-v1:sha256:407b061c5f6d7851132cd0951c43b1b27c988fe9581f172ea38fb9e191c4c685:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhNjFkOTNhZGVmYTk1YjBhMzMwYjU4MDIyZDIxNDk4N2VjYjkwZGQ5OGM2YjNlZmNkNzY3NjE1YTRjNGRkNjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwMzMwNmE5MTk4OTIzMGI5NzE4YWQxMTgwZDJkMzM3MjkwOWI1YmJkZmJmZDUwZGI5NTJlMTNhNzY5ZGM2ZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2MWJiZjZkZGVmZmVkZDhiZGZiY2JhMDJlOTM5NzFjZjU3MmFmNWRjM2I4MDY2OGEwODYwNmExODc4OTA3YTUifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L338-L355",
+          "version": "repo-lines-v1:sha256:ad12cdc47a5c08fd40ed95c6918aaee05cbcaf58e0a657cc12d3cf25efc347b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyZjJmZjVmZWVjNjBmNTg3YzhmYWU0ZTg3ZjgwOWE2NjFjZmZlZDZiNDdhYWU1ZjZkNmEyNjUzYWE4OTUyZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljMDgxZDE0MmNiMmEzOTMyODVmMjdmNWMyOGEzMGViZTFmYzJmMzUxMzk1YjNlOTk0ZWZiODUyY2YwM2JkYzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_260b0bbbb2ac4ed78bb538688e26e59b",
+      "statement": "The Config.dashboard field is declared and set in the samples but is not read anywhere in the main source.",
+      "evidence": [
+        {
+          "resource": "repo://samples/sonarcloud/sonarcloud.json",
+          "version": "repo-file-v1:sha256:09fedc5c51f5e95b32626f1e0fe16ab68972cfc3c130ab7d17eda79cea053fc8"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/Config.java#L21-L32",
+          "version": "repo-lines-v1:sha256:407b061c5f6d7851132cd0951c43b1b27c988fe9581f172ea38fb9e191c4c685:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhNjFkOTNhZGVmYTk1YjBhMzMwYjU4MDIyZDIxNDk4N2VjYjkwZGQ5OGM2YjNlZmNkNzY3NjE1YTRjNGRkNjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwMzMwNmE5MTk4OTIzMGI5NzE4YWQxMTgwZDJkMzM3MjkwOWI1YmJkZmJmZDUwZGI5NTJlMTNhNzY5ZGM2ZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2MWJiZjZkZGVmZmVkZDhiZGZiY2JhMDJlOTM5NzFjZjU3MmFmNWRjM2I4MDY2OGEwODYwNmExODc4OTA3YTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1459703ebdb14471892250fc108de183",
+      "statement": "A metric without a title uses 'Management Code Metrics' as its title, and its output filename defaults to the title with .png appended when missing.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L38-L42",
+          "version": "repo-lines-v1:sha256:b2b446f57e68b47c67d77b5b839a7696906f367b7fb8e1a9ab46f3f3d288fc2a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWViMjVkOTg3YTA5NGJhYWFmZmZiOTYyZmFjN2MxMzI4YTJmNjU2NjgxMTgzN2RmNzZhMjJmYWE5MTM4MTlmNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTY4MDZmMTU1YzVhYzFhZTI3MjJjYTA2ZjJhYzljYWRjYjg4MWI5MTIzY2I2MjRhM2MxMDQ3NWI0NDQ5ZGMyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGMxODg0NmIwNzczMjM5NGY1ZGFkNjEwZDYzYjJlODQ1ZmIyMzViNzBiZWE4YTI0MDA4MTVmYzI4ZjkwNWFjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWJmMTA5ZjE0MzYwZGNjOGE4NTI2MTViMjcyNmMyMGQwYmI4MTg5YjhiNzMwZjU1ODcyMTU1ZDVlMmFmNjEwMiJ9"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L78-L82",
+          "version": "repo-lines-v1:sha256:b3532c19b1f5c1264d99059d7ea52dc77df2e8d73211f17cfa44de923b00d5c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMxODI2ZTJmMmFmNWU2NzliNDkyNmIyZjBkNDFiODJiMjFhYjliNjUyN2NjMWZhNmRlMDc4MDhjZDExMjNlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYzYzZkMTVmYmUxODMwYzU4MWUzYWVhYjNkMGEwMjg1YzEyNWZiMjIxZDRkZDQ1MmI0OWQ5MGVjZjM0MTE2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjRkOWU3M2I3NDM5YjczYmEwZDIyZTVhYjdiYzM3OWEwZDk3YzkwMDFiNDk5ZDk4OTJkMDhjNjE0NTY0MjlmOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjdjMzg2MzAxZGQzOTNmMzQ0YTNlZWFkY2JjY2M2OTllMGFiNTIwMWVhZTE5MzQzZDQ1MTI2NDg3YmZhNjQxMyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

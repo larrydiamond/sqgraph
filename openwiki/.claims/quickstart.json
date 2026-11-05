@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:092299a6328f08b844b09d065add50719eed652134ec777adca5823ebe3c5e59",
+  "claims": [
+    {
+      "id": "claim_d676cd84e55e4fccab316f1a3a7cae25",
+      "statement": "sqgraph is a Spring Boot command-line application that takes a JSON config file path as its first argument and requires a SonarQube token in the environment.",
+      "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:2ef99ff05cc0d8a6cfd030e9661e028a3f9ae67a353e57fce06d3e7041b5c44f"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L48-L73",
+          "version": "repo-lines-v1:sha256:b7774a76e3eb978c485eba24e1cfcb10e75e50d4610747f1fb8f962755b3d939:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYThjMTE2MGViMGE5NTFkOWQxYzkzYmUxYmM0NTRiYjM0ZmY5NTM5NjNkMTNlMTdkZmE4OGM1NDMwZDBhMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZmIwZTdkODFhNWU2YTBjOWM0OTk0ZmUyZWIzZDQ0ZDllZTk1MGFhMzE5Njc2NDQ5ZWZmOGY5YzRlY2Y3YjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhNDhjYmFjYTY5MTc1OGQ3YTNhYmJlOGRjMzNhNDY0YjUzY2U1YmY3NDFkNmZkZTM3OWU5NDExMzFjYzFjN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_84cb47d4d2454e2d8e043d70fad33ec2",
+      "statement": "A run writes one PNG chart per configured metric and, when pdf is configured, a PDF report.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L35-L90",
+          "version": "repo-lines-v1:sha256:615bdedcfe3fcafc2f3ce266208bc3eb1811b2b063563ea6723c4d08dac5c417:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxN2E0ODdhMWZiNWNlMjRmNzE5OWExNTBiNGUxMzlkZWEwZTYwYTE5ZTY2ZTRhYzY3YWMzYmZjM2Y3MmY2MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwMmFkYTVjMjkxOTZmMmY4NzUxODYwMDM4M2ZiNjdjYjY2ZDM3NWZiYzM3NDk3MGUwZTA2NzAwZmQ2NGFjM2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3NzFhNWE0ZTdhZDhjY2JmMjkyZmYwOGFlYmMxOTE5ZmQ4NGNjNWMwMzhmM2UwZTAzYTEyNDljODQ2NDdjMzkifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L127-L145",
+          "version": "repo-lines-v1:sha256:e14f9f16f450704d8a4a1f8a2107e04aac56e36d14f452159bd3250545d06a1e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlMzM3ZjE2OTE0ZTY5NmU2YjI0MGM1N2JmZWY3M2Y1MzhiZDY3NzYzM2Y1MTY1ZGNlNzZiZTZmM2Q2MzUyNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3YWM2MmE3MjY2NWM1YTQxMjYwMjMwNmYwYjVjNzQ3MzRhNmEyYjhlY2JmNTI0MjYzNjdlMjUxODg3MDQyZTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}
