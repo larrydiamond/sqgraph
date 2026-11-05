@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b97bae9ed552528c8cacaf3bb3bd9441f09d01c2e86e1944156bd243235ac948",
+  "claims": [
+    {
+      "id": "claim_348c0bba709142c19f2eaf8dee5d5811",
+      "statement": "SqgraphApplicationTests runs with MockitoExtension and isolates the network by mocking RestTemplate, using a JUnit TempDir for output files.",
+      "evidence": [
+        {
+          "resource": "repo://src/test/java/com/ldiamond/sqgraph/SqgraphApplicationTests.java#L48-L56",
+          "version": "repo-lines-v1:sha256:be00c5cbadc2c1c93497ea17219a30f74533c063422736367df4c341d02b54d5:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmFiODIzODU2ZDM3NmFmMjA0ZTYwZWU0YWVmOThiNDZmNjk4NTExM2MyZjE2ZDFhYTAxZjBmODY4YTUwYjFmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2MzYTA4ZTZkOWU2MTA4ZTY4MDY3NjQzYzQ3NzU5OWRjYTg1MThhMWM1N2M3MjI2ZWY2OTU3YzE1N2I5YWIzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmE1NTU0NWIwMGM5YTE5MzUwMmIzMDE3MTM2NWVmNDRiNDExMWFhNGM2Yjg4Y2Q3YmUzZTM4NzBhMGY4NDk1OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb2be990bd3444f5bbd020ea4dbd55b5",
+      "statement": "A regression test stubs a second history response that throws AssertionError, so a response without paging must stop after the first page.",
+      "evidence": [
+        {
+          "resource": "repo://src/test/java/com/ldiamond/sqgraph/SqgraphApplicationTests.java#L96-L111",
+          "version": "repo-lines-v1:sha256:a6292ad158f5d68eb1843902ac25380df24069297a51d0fa65782c71ef3a2025:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiYTFiMWYwZDkzOTU3NDJlMjE2ZjcxYzllOTBjOGZiOWFhNmI0Mjk2YWFhNGNlN2NjMDVjOTZlYTViODdiYWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1ODkyNzM5Yjc3ZDMxMTI2YzgyYmI3NTU5MDcyZWVlZDVlNDVlNDMxNTU3Y2I1NTJjNmRkM2MxMGI3NjIwNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1YTVmZTFlODliMDBmZWNkNGM0MTdlMzZmOTIyZTAzYTM1OWI3NGQ3ZmE0ZjBiM2FlMDI0NjZmZmU5YzBjNmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_25ca891afb764a2a848dc369f38e48d1",
+      "statement": "Token lookup is tested through an injected environment lookup function rather than the real process environment.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L75-L97",
+          "version": "repo-lines-v1:sha256:ae5711f6c40e250fe3cb56029405235128211f259ca654d4c193ad8730985a1e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhMGIwNTY3NWUyOWIxYjE3MmQ1MWViZmNlMGRmYmFmODZjMmI5ODhlZjBhMjdlY2FiNDliZGY2NjExODJkZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkODVhNjk0ZWMwNjdhM2U1MWUzYzAzMjhhOTRhMjEwYjNhOTFlMTQyM2RkMDY1ZTAwYmZjNjZjNTIyN2YzMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxOTljZTBiNjM2N2RkYTcyMjU2YThmNDNiZGNkZjEzNWZmNjg1ZGFkMTQ2ZmE3MGIzNmY4MWYzYTA4YjJmMDkifQ"
+        },
+        {
+          "resource": "repo://src/test/java/com/ldiamond/sqgraph/SqgraphApplicationTests.java#L733-L760",
+          "version": "repo-lines-v1:sha256:6694dbc55a965b311b8ed3b5cfce166f3a519c423ca839eb853fa80cb4f89017:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0NWEzNjkzOTI3OGJhMTVlMjA4YTEwZDA4MWE5YWM2ZmQ0N2Y3ZjMzNmY0MjZmMjFmNDg0YzRjMzI0NjVhNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkODRjYmY2ZGEwMjZmMzgxY2E5ZDAzZGU2YWE4MGVjODNjYmMzMzQ1MWNmZmRjOTNjODk3ZTdjNDAzMTMzNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_81a08ee562a84277bac232dfe63435d4",
+      "statement": "ArchitectureUnitTests forbids access to the standard streams, public static SimpleDateFormat fields, and non-public @Async methods.",
+      "evidence": [
+        {
+          "resource": "repo://src/test/java/com/ldiamond/sqgraph/ArchitectureUnitTests.java#L25-L43",
+          "version": "repo-lines-v1:sha256:e1f6440d349b47c6791f62311fe29c6685e17457ec29a70a0c67126c69d914dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1ZDQ3YTc1Y2I0YTY4YWJmY2FhNTU4MWE4ODM0YzY3NjA2OGUzMzI3MzExMDAwNTgxNzNmYzY3MTU0OWQ1ZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQyZWM3MGNlNzgzN2YyMjZmNmMwOGY0NDE1NWVmOTExY2VkYjlkOTU3YjAzMjc2YTQ1N2IxNGFkNThiZmYyYTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36e20bd85c814743a16679187b95ad53",
+      "statement": "PIT targets all classes in com.ldiamond.sqgraph with the *Tests classes except ArchitectureUnitTests, disables the plugin's JUnit launcher injection, runs single-threaded, and writes non-timestamped HTML and XML reports.",
+      "evidence": [
+        {
+          "resource": "repo://build.gradle#L111-L122",
+          "version": "repo-lines-v1:sha256:f20b9f41140374ea9249bf66f62c8b115b5d44ce5d2995e1d488eedb04b62a0c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MjA2YzUzZTM4Zjc1Yzg2YTAwNTkzYTgxYWJhOTI0NThmMjA3NTZlZjY5Y2U3YzFhM2QwOTU2N2Q5NzE3ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5ZTc2MzU1Y2YxMTk5NDgwYzNmOTk4MzZiMTQ4NmM4NDFkODkxZmFhZDkwNGM2MDhlMDkzMDIyZDM3NTdhZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDA4MTAwMjU5MWQ1Yzc5ZDY3NzViNWNmNWI1YTcxYjNmMzU5YTM3MmVlNmIyMDM0NjY0NjhiNTc3MDQ1MmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a241d86a27af4301953fe9ef11f53154",
+      "statement": "The pitest task runs from build/pitest-work so files written by mutants stay out of the project directory.",
+      "evidence": [
+        {
+          "resource": "repo://build.gradle#L124-L131",
+          "version": "repo-lines-v1:sha256:4482bcb28364f13b211ba0c7b7f3725e14ecb13186817ed47a5fad1b5cd24e83:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGI2ZDZlYzhlNmJjZWQxOGIzNzc4YzAwZDJhNmI1Yzk2MjU5ZTA4MjE0MTMxMDkxMTgxNjI5ODRlNzRhZTkzNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjRmMDNiZDUxMTZhOTVkMjU0NzZiYzdmZjUxMDFkNjNmYmI0ZWRjMjg0NzIyZTdiOTc1MzI3MjZjYTdkYjdmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmQ2NDAxOGFmNTRhM2U5M2U4MjU5ZjRhMWNkMzUwM2FiZDI2ZWIxZGJmZDE0YjA5OTI1YWJhMTMzYmEwNjMwZiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

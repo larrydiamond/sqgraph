@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d2c1b50e71bff5edc70d03b7fc30f1c95b9538a4f311099877ee45dbd067f463",
+  "claims": [
+    {
+      "id": "claim_10ad7715a851420782614fb3774ac0a3",
+      "statement": "The project compiles for Java 21 and uses the Spring Boot, JaCoCo, SonarQube, OWASP dependency check, OpenRewrite, dependency version and PIT Gradle plugins.",
+      "evidence": [
+        {
+          "resource": "repo://build.gradle#L1-L19",
+          "version": "repo-lines-v1:sha256:34513ae4d3121dc1849c53705e796768944ff962fcf2e2463e438da9af73b645:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0MDQwMTAzMTViZGJiMGZlYTBmZDZmZjAyMTRkOGJjOTIxY2UyODM2ZDFjYzZiY2I4ODQ5ZjM1NzZjZjVhNjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2NWMyNzg4MzUzYzY1MjQ0MzlmMzY5YmU1NTZiMDgyNzI1ODBjODk3ZGY4MzcwM2MwZmI1YjMyZjU0OWFmNDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_17ba9ebddef448c8bd84c35fd16c11e0",
+      "statement": "The CI workflow runs on pushes to main and on pull requests, sets up Zulu JDK 21, and runs ./gradlew build test sonar with the SONAR_TOKEN secret.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/build.yml",
+          "version": "repo-file-v1:sha256:8004c41cba5b20c17aa8eb1a41946e74bed101c14f2d5d55d1d36b4385c50980"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b6f6783c9ce4ae4b8176b6f509b2a6b",
+      "statement": "SonarCloud analysis is limited to src/main/java/com/ldiamond/sqgraph, reads the JaCoCo XML report, and excludes Config, SearchHistory, ValidationResult and MetricsResults from coverage.",
+      "evidence": [
+        {
+          "resource": "repo://build.gradle#L79-L98",
+          "version": "repo-lines-v1:sha256:a8e4b59383762394a9dc7a19938f8da67ba165f594984b81671ccb9cedc0992e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNGQyMzEzY2M1OWQyOTdkMDgwMmEwNTQwODU1ZTc0Yzk0NWMyZTFmZWE5NWJmZTc2NmRmMTQyNDZiYjRiYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkZDY0ZGU5MWQ4YzA4ZDYxZDg0YjgyMDVkN2MxMGU3YTc1NGU5MjQ3MjNjNTYxNjcwZjMwY2U1OTU3ZTBhMDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNkY2NmZDA5OTc0NGIzYzY5OTBlM2E1M2I1NGI3ZjRlNGFjOGI3MTIyNDIxZTgxMTljYjA2Mzc4NzM5OGFhNWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0b4f9bd9f6ea4b2db986c5c471130fd9",
+      "statement": "Every test run is finalized by a JaCoCo report with XML and CSV output.",
+      "evidence": [
+        {
+          "resource": "repo://build.gradle#L99-L110",
+          "version": "repo-lines-v1:sha256:5c9dd1cd6fef912c8fdf00dc8d6aae6d2430179fd0a125f9b8a4f99c935eccba:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1YjdkZGE5ODQ2YTkwYjA2NTI0YTQ1OGRjMjk3ZGI3MzNlNzllNzc3OGFiMjE1NWMxZDVlNDAzNjdiYTRkMmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllODhkNzY3N2QzYjg4MGQzNjI2OWExOWZkOTA2Y2VlZDI2NzAzYjBjMTRlZDg0MmJkN2Q2MTI5NWE5MDU1MGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8bafff8a6cc14ac4bf8271c6cbdac168",
+      "statement": "The OWASP dependency check reads its NVD API key from the NVD_KEY environment variable.",
+      "evidence": [
+        {
+          "resource": "repo://build.gradle#L133-L138",
+          "version": "repo-lines-v1:sha256:c4207f4ccc079024fcb32fa04cd427c4dcf8b188fc1e0ce5a6cacfa9cf4ca110:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWRlN2EwYTg3MGVkNDU4NDdhOWYwNjk0YzNlNTAxMjAzNWJkMWNhZWM5MjdhNzRmNDVmNGU3YWVkMjI4M2FmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI5NjQwNzljM2M1YzgxNTIwZWYzM2EyYjlkMmUxNWExYjg0ZDcyODBkYjg1OTBkY2Q2NTc0N2UzZTAxMmE0MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGQyZGNjMzY3NGNiNjc0MjIzMTM0NmZlNzdmNTA0YjNiMjY0YTQ2MTJkMTBkYWFjMmIyYjk1MGYxZDAwZWE3YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8f208c0d12748ee9eafe8bda1bbc89a",
+      "statement": "The OpenWiki update workflow runs daily at 08:00 UTC or on manual dispatch, runs openwiki code --update, and opens a pull request on the openwiki/update branch, failing the job afterwards if the OpenWiki step failed.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml",
+          "version": "repo-file-v1:sha256:caeeb40b2586c1b4da9e67420a395fb4f764922d690c436f3f2c0b9780db50a2"
+        }
+      ]
+    },
+    {
+      "id": "claim_cebd81440b1d4641b6ff16a757dbe0c7",
+      "statement": "AGENTS.md forbids committing or pushing to main, requires feature branches, narrowly scoped commits, human approval of pull requests, and AI attribution with the models listed in PR titles.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L1-L32",
+          "version": "repo-lines-v1:sha256:9bccdb7f516771c09c12272b11d5783787d793f7d442aecea8c408336a5231d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjN2Y0NDA4YTJmOTM4NjU1OGZmNGJiYjNlNDM4NTZiNTE2Y2I4NzNjOWRmNGM0MGVlY2Q5YzhlOGY3YzRlMWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NTJjOTYyZGIyZmZkODBkZTM2NjE5NTgzNTM4Yzg4MDk1MGNhN2RmMzc1YTFlZjFmMGViNGJkNTZiYzQ1ZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMWJjNWJjNGEyMzdmNTc4ZTZhZjRhNDE1ZDA2NDdmOTkxMGIwM2IzNjRlMWUyN2MxZjFkYmFhNzQzZDAzYmEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

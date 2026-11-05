@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:4bc33bd25889ab4d27faeb8a7a11fa105ed44b7eed9c076bf3583ef0cda78337",
+  "claims": [
+    {
+      "id": "claim_7ce085db4de34ff694190911c9b78698",
+      "statement": "populateSynthetics always registers four built-in synthetic metrics: ViolationsPerKLines, CognitiveComplexityPerKLines, BugsPlusSecurity and BugsPlusSecurityPerKLines.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L202-L248",
+          "version": "repo-lines-v1:sha256:ee096005d29cf5479b87f35832ff2ac211a5a41e41bcdae951858c1487fa27c3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwYjgwNGFkOTcwMWRiNjQ4MWQ2MmNkY2NhMDQ3ZmYyMDJlM2FlNzM5YzI0N2ZiZjhmYjMyYWM5NDFiNzJkMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjM2EyMDc3NGQ1YzJiYjRjNzkwYzE4ODkwYTljNDk0Y2NiNTEwZmM4ZThjMDllYzc0NTE5YmMxNjRmYzc4NGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyYmE2Yjg3YmY3NmI2ZmY1OGM1YWNlZWFjYThlZGYyM2UyZTZmZjU5YWE3M2ZhZmQyNTYyNGQ2NjUxNDZiYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5ZTg4MjVjMjMwYjc4NjAxYjM2MGE4NWM5OWM0YzkzNWE3YjYxMmUzY2QyMjZjMmQ1MTk5NmRiMDhiMDA3MTcifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L276-L281",
+          "version": "repo-lines-v1:sha256:a26ec3b74d701db06622309e66b597c77c2aa585c68e818d6f6e800d9f9d6f2e:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVlNTg3MzIwYjFmZGE4OTRiYjM2NWYwZjE5Y2QxNGIxMzY3MzcxM2Q1Y2E4Mjc4N2Q4ZTc5ZjkwNjI3YTAwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQzNzkwZTQyYTFkMzZjYTQxMmQ4MTk3MzlhMTIyMjRhY2Q5OWE0ZDMzZmIzOTRjMTE1OTFlNjg5OTBhMzY1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2MyNjFiM2MyY2YxY2I2NjE0YTJkOGMyOTM5NzhiNjQwZDdjMTdhYWQ2MzFiMTM3NGFlODNjOTU0M2E3MzAzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQzMWUwZmI3Zjc4NDMzYjQ4ODk4ODQ1ZTlhN2ExN2ZkMDUwOGZkOGYzZDMxMDYzZDBiMTIyYTZhMDljNWIxMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f605674ead44a4392c2f846c6c37dcd",
+      "statement": "A configured metric name containing __PER__, __PER_K_ or __PER_H_ is registered as a ratio of the text before and after the separator, with multipliers of 1, 1000 and 100 respectively.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L250-L274",
+          "version": "repo-lines-v1:sha256:b23eecf157a92f6db5bac6e2e91e93f8f63ed4ab03d5e267645a18371a0df1dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkZTZmY2Y5YzVkZDRjNDJhNTRhYzk4MzEyZWJkODMyMTYzMDUxOWIxOWUwZGY5YjAzNjdjZjJkNmM4MDdkZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZWZjNDk0MThkMjZkY2YxMjliMjJhNmFhMjExMDhjZWVjMzc2NzdhMzJkMDhlOWQ1ZmVlMzVkZGE2NmJiOWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4YzdmYjYzOTYyNWQ4ZTU2MThjNmNiYmZkN2M1ZDU2MGM2MGMwY2VkMTUxNWRkMzAyYTgwZTY5Mjc0NjE1MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyMWI0ZWYwNTNlZmM1M2QxNmNhZTE0ODkyMTM0YTcwNGMzNzUxNjU3MGZjMmNhZGM4YWZhZGUyMmIyOGNlY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_90babf7facd24990b573c6dc576f543b",
+      "statement": "Ratio metrics built by getMetric treat missing inputs as 0 and return 0.0 when either the numerator or denominator is 0.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L284-L300",
+          "version": "repo-lines-v1:sha256:0f576f808b58c97d3008b48b8263e588ace85cc4b8ae3a64a30059d072b479ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4NTAyY2EzN2I5YzIzMmRhOTA5YzcwMjg1NGI5N2JjMWNjNzJkNGU4MDQxNTcwZTE3MDY1OWI0OWNhNTg2NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjMjU4ZDlkNzRiZjljZDM4Y2Y3NTM4NDY0MTNkZDUzMjMwNWU1N2FlMGI0MTBmODMzYzE1ZmIyMmFlZDUzM2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7a90d443c30f45039ad1c655ca701cec",
+      "statement": "BugsPlusSecurityPerKLines divides by ncloc without a zero check, so a zero or missing ncloc produces an infinite or NaN value.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L226-L248",
+          "version": "repo-lines-v1:sha256:569898bb96b1435327164e81eaf643182341c3d81f3c817787c8a463dfa6d8b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNTNhNmM2Zjk2OTE2NmI4MGU2NmFlNzVhMTMwY2IxYWFmYjcxMjA1YzgxNmFiODM3NzQ3ODE2YzM0YzExZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjM2EyMDc3NGQ1YzJiYjRjNzkwYzE4ODkwYTljNDk0Y2NiNTEwZmM4ZThjMDllYzc0NTE5YmMxNjRmYzc4NGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4YzdmYjYzOTYyNWQ4ZTU2MThjNmNiYmZkN2M1ZDU2MGM2MGMwY2VkMTUxNWRkMzAyYTgwZTY5Mjc0NjE1MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5ZTg4MjVjMjMwYjc4NjAxYjM2MGE4NWM5OWM0YzkzNWE3YjYxMmUzY2QyMjZjMmQ1MTk5NmRiMDhiMDA3MTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_001089f703a8491bad03377e3618f626",
+      "statement": "getMetricsListNeeded requests the real metrics of each configured synthetic metric and the configured name itself for non-synthetic metrics.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L184-L196",
+          "version": "repo-lines-v1:sha256:872561c5af5ed4e7b6435250300a86b8db9e538de5a8dce4497a8240306f29e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2MGRiNWUxOTgyOTk0NDg4YjgyNDQ0MmEyMTgzZTVhYTA2MjRkYTEwYzVmZDdmZWZiMDczZmY5ODU2OTZlZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwYWVkMGFkMTYwYjY4NDQwNWVlYzU2NTllYjRjNjMyZjAzZGVmZDViYThhMmZhNjBmNTE0MTAzZGNkODQwNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2MDY3MTRlMTdiNTI4MTNhMTgzNmNmYzFjZDI2YzExZGJkMjFjOGNjNGJjYjgzMGY4OGZmYmZkZTZlZTE1NDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_edd4ed404370428086b0c7221ebc0c95",
+      "statement": "Synthetic values are calculated on the dates of the first matching real measure in the history, combining other real metrics only where their history has an entry with an exactly equal Date.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/GraphOutput.java#L106-L152",
+          "version": "repo-lines-v1:sha256:417fa0d5b0e55efcf695ee2828ce300973f213f81b40d3185e9a47e2d6d57605:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNWNhMmI3MzZlYWIyOGMxMjQ2Nzg2MTE3ZmU0N2VjMTkzZDNlOTE4MzdmMDM4MGYwNzA0NWQyYTY4ODIwYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyZDdjNjUwN2QxZGUyYzI1Y2I0OTg5OTJkMzQwZWQzYzM4NTdiNTZhNTA0ODg5YzI2ZWQ1NzI5MTdiYjRkNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjNWU0YWQ4YWI0NmRjZGY4YjA2MDVkYzA3ZTZjZTVlZjNkODQxZDc2YjJlYzE2M2RkODEyNzQwZjc4MTc2YTEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}

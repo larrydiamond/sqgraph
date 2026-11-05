@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d75d12874b4ef744f378aef18e82ae4060d88d2f8de9f2d16dc775d32c6053fa",
+  "claims": [
+    {
+      "id": "claim_d565f52c923949a5abf3c43ee8921417",
+      "statement": "createPDF creates a single page 1800 points wide and 1300 points tall per configured metric, and adds a centered creation line with a system-time-zone timestamp.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L43-L58",
+          "version": "repo-lines-v1:sha256:2afc92aa5b0d0ed61318f3c31ea4d761e634a0ac3e23f65bb26e48c10da67199:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjODY5ODI2ZjY3YTMyMjY0Yzg1NzJlZDJkMTY2OTk1MjZiZDNhZDM4NWYxYmU1YjYxZjFjNTY1MWMzYTY5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJiNTBhM2U5ZTA0Y2I4OGY0NmQ3ZjU5NDg4NTEwMWE5ZDk1OWFjZTUxNjczNTZlY2UwNmNlMDFlZTI3ZTYxYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc4NzdkOTIwODc1M2MwZmQyNDc5YWY1MjUyY2I1OTZhZGI0YTIwYTcxMTNkODIxZWY1NTI2YmZhNDM2OWRhZmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_faa9b0ee85ed4c1ebc76f63d5783e42e",
+      "statement": "The dashboard table has one row per entry of config.applications (the configured list, not the expanded list), and shows N/A when no value exists for a metric and application title.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L106-L147",
+          "version": "repo-lines-v1:sha256:91d09113e4bd94f417bf843c4c48dbfb834db889f43e6af8d18049e1e96d9f32:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5YzcwNWIxZjc3ZWZmZTUyZmUzODAyN2E2Mjk5YWY1YzVkMzEyMGMwYjdmZjNkYjFiYjAzYjlhZjU5ZWQ3M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5OWJkZWZlZWFjYTYzNDBlMDI5MGRjODZlODg5Yzg5ZDVlMTg5YWE1YmE0NGI1ODViM2I3MDczNGY0YTYyZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2ZTg2OTA0ZmNjNmFlN2Q1M2FkMjE0MzhhMjYyZWM2YTBiMmU4NzFhYmYyMWVlNTJjMzg0OTUwMmQyZDU3ZWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_54ad21f09b9d4200a2a79c0f9ce9645d",
+      "statement": "Cells are colored only when a metric defines both green and yellow; green >= yellow means higher is better, yellow > green means lower is better, and comparisons are strict, using the numeric cell value.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L136-L140",
+          "version": "repo-lines-v1:sha256:92d7cf850229c44ce0b32b0c452ae685dfc2fb17cf22b8ccaf14730a3e07df07:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmQ0ZjA1MTVkNThkMTU3MzcxZTFlMzJjYzlhM2NiZjcxODRiNjRhN2E4MjMzNDAxNGNlZDI1YTg4MDg2OGZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGRjNzYwMjBiYWU3MDU3N2U2NGIzMzBkY2E4M2ZkZjI0ZjNkNzU5M2EwMTU0ZDhhYmVjNmRjNjNmNTg5N2ZkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWE0ZGYxODA0OWE1M2VjYTIyNTJlM2ZlMGViYzNkMWUwYWJiNjZjNjBhMWIwMmIyNWIwZDg5YWM3OTM2MWU3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI2Y2QyZTM3OTA3M2QzY2I3NTVhOTNmNWViZDdkMDk4YWY4OTBlOTY5MDMwOGFkZjMzNzNlMDYwMWY1OTQ0NSJ9"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L178-L219",
+          "version": "repo-lines-v1:sha256:01abd97d51c9f011ec686cec3b71555dba5f8522a2dd695cbcaeaa94d5981711:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0YjAzZGJkYzgwM2VlOWRiOGNlNjIzMzk0NGZlODg5NDZjM2M5NTI5MGM4ZDg4YTVhNWZjYjU0OGFjN2U1ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1OGU1MTQ3NjBjZmU0Nzg5ZTA3YjdkMGM4YWNjOTQ5MWU5NGRjZjgxYWMwMzEyMjg4MzNiYTc5NDQ4YWYyMTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1Nzk1OWUxNTkwMmM5MmMyMWMyNTQyMTg5MGVhNWNhZmRlMGQ3ODc5Yzg3OTMzMzNhNWZhYTYzYzhkMjIzYzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5319fc12b38e4c0fb53a31b6d08d2c8d",
+      "statement": "Column widths are estimated by getWidthOfString, counting narrow characters as 1, capitals as 3 and other characters as 2, with setMax keeping the widest value per column.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L149-L176",
+          "version": "repo-lines-v1:sha256:f8227a669b389d1ae0315d96a9b92bb13beca5d549e63006c0f84cddd576e1fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNDZjYjIyZGM5NzI4YTEzNDMzZjRlNzc1NDg2MGQ0NmU2NzFmMWVjYmRjYTVkMGRiMjdkMTExMTg3NDA3N2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5OWJkZWZlZWFjYTYzNDBlMDI5MGRjODZlODg5Yzg5ZDVlMTg5YWE1YmE0NGI1ODViM2I3MDczNGY0YTYyZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRjZDkzMTYwZGE5ODFkZTA4ZjRlZmZlNzdiYmM3ZTUxODE0MjFjZGJiYWQyMWM0NGY1ZjFiNjg0OTM4Y2ZlMjYifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L220-L250",
+          "version": "repo-lines-v1:sha256:7cdf9e1bce66f05b4703317cc83f7bf0bde9690e6b0b5363bb1722d76d5b10b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5YzcwNWIxZjc3ZWZmZTUyZmUzODAyN2E2Mjk5YWY1YzVkMzEyMGMwYjdmZjNkYjFiYjAzYjlhZjU5ZWQ3M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5OWJkZWZlZWFjYTYzNDBlMDI5MGRjODZlODg5Yzg5ZDVlMTg5YWE1YmE0NGI1ODViM2I3MDczNGY0YTYyZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a8582a4f3d14f2eae7a72528d018b8b",
+      "statement": "addGraphs wraps its whole loop in a single IOException catch, so a missing chart image stops all later images from being added.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L60-L76",
+          "version": "repo-lines-v1:sha256:5726689e969aa600a31485bf20bbd0e9e7e4fa93a2abda4c88cd57535f3479a7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NzYyNDQxOGU5MWMyY2I4NTMzMzVhMmY2ZmY3YTE1MGY4ZTEwMzE0N2QyYTcyMTI1Y2ZmZmRlZWVlNjVhYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1OGU1MTQ3NjBjZmU0Nzg5ZTA3YjdkMGM4YWNjOTQ5MWU5NGRjZjgxYWMwMzEyMjg4MzNiYTc5NDQ4YWYyMTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjZWIyZDNiOGQ1MGU1NjQxMjJjZmU4NDkwMDQ4Y2MwOWIyNGM4MDhmMWJlN2U4MTY5Nzg1NDE4ZTIzOTM5NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_429347f48ce04632964d1b029d53fd79",
+      "statement": "addTextDashboard catches any exception and omits the table while the rest of the PDF is still produced.",
+      "evidence": [
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/PDFOutput.java#L149-L176",
+          "version": "repo-lines-v1:sha256:f8227a669b389d1ae0315d96a9b92bb13beca5d549e63006c0f84cddd576e1fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNDZjYjIyZGM5NzI4YTEzNDMzZjRlNzc1NDg2MGQ0NmU2NzFmMWVjYmRjYTVkMGRiMjdkMTExMTg3NDA3N2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5OWJkZWZlZWFjYTYzNDBlMDI5MGRjODZlODg5Yzg5ZDVlMTg5YWE1YmE0NGI1ODViM2I3MDczNGY0YTYyZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRjZDkzMTYwZGE5ODFkZTA4ZjRlZmZlNzdiYmM3ZTUxODE0MjFjZGJiYWQyMWM0NGY1ZjFiNjg0OTM4Y2ZlMjYifQ"
+        },
+        {
+          "resource": "repo://src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java#L392-L403",
+          "version": "repo-lines-v1:sha256:cdf0118da07234aa033d36f36d7a877d48e9ab3dac1707bee3213be3bc31abb8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGM0MWViNTZhYTA0ZTE3ZWRlZGRhNDk4ZTM4MmQ1MWY0NTI1NDZjNDQ1OWFhNzRmOWU4MThhYTJjNTZlYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmNmI2N2Q2Y2Q4OTJkZDc5ZTk2ZGQxZDhiN2MxMTdmN2IxZDQyNzgzNGVkYzUxOTZhNGJmZWI4ZWZjZmFlNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzOGRlNzRiZTk3YmYzYWJhNzg3MmE2MWJhMGU0MjA4NDAwOGM4MWU4YTIwMmE2MTIxMzRjNzU1YWFmN2ZhMDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9530f2c460414a27a2d98a5a976876ad",
+      "statement": "PDFOutputTests includes a regression test that a value formatted with a grouping separator (6,002.5) is still colored.",
+      "evidence": [
+        {
+          "resource": "repo://src/test/java/com/ldiamond/sqgraph/PDFOutputTests.java#L155-L180",
+          "version": "repo-lines-v1:sha256:fc1c85782afa7e444fbc9866cd5b8760cb78f894887d4b48e5daf7d106640b4e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjZjA5ZWIwYzU3NDRmYjk3MzMxYjk4ZmYzZmJmMDVhNjAyYmEzZjdmNjdlNWRhNWJlOTA5NTAzM2Y2MjU4MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2NjhiYWFjYjQwNmRhOTg3MTkzNDZlN2MzMDlkOTlmMDNhYzIwYjE1YTgxOGY0ODIwYzhkY2U3NDQ0Y2EzZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczM2Y1Y2FkOWFkYmZlMWZlNzE5ZjhjMTU3ZTI0YmJlYzVmZTVmMGIwOTIwMmM4NzQwZmFiOTQwYmYxNWE0ODkifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.8.0",
+    "at": "2026-11-05T02:41:47.998Z"
+  }
+}
