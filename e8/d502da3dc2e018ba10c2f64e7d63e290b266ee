@@ -1,0 +1,31 @@
+src/test/java/com/ldiamond/sqgraph/SqgraphApplicationTests.java
+  s_da0d5c5df67803::t_f04071fa2ad268 97-111
+  s_da0d5c5df67803::t_d42707eb9ef2d2 96
+src/main/java/com/ldiamond/sqgraph/SqgraphApplication.java
+  s_da0d5c5df67803::t_9171da62a76970 172-176
+  s_da0d5c5df67803::t_5485765082264f 170
+AGENTS.md
+  s_da0d5c5df67803::t_6f205a0560dcc0 7
+build.gradle
+  s_da0d5c5df67803::t_17ca757483d340 115
+  s_da0d5c5df67803::t_aa70b05a8259f6 111-114,116-118,120-123
+  s_da0d5c5df67803::t_bd3234f57b4407 124-132
+  s_da0d5c5df67803::t_a8e3f55dd085c8 119
+  s_da0d5c5df67803::t_47e2ec30a52986 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e8d502da3dc2e018ba10c2f64e7d63e290b266ee",
+  "prompts": {},
+  "sessions": {
+    "s_da0d5c5df67803": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f75de7a7-bd6e-4988-958a-d7a2f933c9d1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Larry Diamond <ldiamond@ldiamond.com>"
+    }
+  }
+}
