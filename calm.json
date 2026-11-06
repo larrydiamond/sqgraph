@@ -1,0 +1,153 @@
+{
+  "$schema": "https://calm.finos.org/release/1.3/meta/calm.json",
+  "nodes": [
+    {
+      "unique-id": "report-operator",
+      "node-type": "actor",
+      "name": "Report Operator",
+      "description": "Engineering manager or developer who writes the JSON config, supplies a SonarQube user token through an environment variable, and runs sqgraph to compare code quality across projects."
+    },
+    {
+      "unique-id": "sqgraph-system",
+      "node-type": "system",
+      "name": "Management Code Metrics (sqgraph)",
+      "description": "System that reads SonarQube metric history for many projects and produces comparative charts and an optional PDF dashboard."
+    },
+    {
+      "unique-id": "sqgraph-cli",
+      "node-type": "service",
+      "name": "sqgraph Command-Line Application",
+      "description": "Java 21 Spring Boot command-line application that loads the config, validates the token, fetches metric history from SonarQube, calculates synthetic metrics, and renders the charts and PDF in a single run.",
+      "interfaces": [
+        {
+          "unique-id": "sqgraph-cli-command",
+          "description": "Command line: java -jar sqgraph.jar <config.json>, with the token in SONAR_TOKEN, SONARLOGIN, SONAR_LOGIN or SONARTOKEN."
+        }
+      ]
+    },
+    {
+      "unique-id": "sonarqube-server",
+      "node-type": "system",
+      "name": "SonarQube or SonarCloud",
+      "description": "External code quality server whose Web API supplies token validation, project search, and per-project measures history. Not owned by sqgraph.",
+      "interfaces": [
+        {
+          "unique-id": "sonarqube-web-api",
+          "description": "Read-only SonarQube Web API: /api/authentication/validate, /api/projects/search and /api/measures/search_history, authenticated with HTTP Basic using the user token."
+        }
+      ]
+    },
+    {
+      "unique-id": "sqgraph-config-file",
+      "node-type": "data-asset",
+      "name": "sqgraph JSON Configuration",
+      "description": "JSON file passed as the first argument that lists the SonarQube URL, the projects or project searches to chart, the metrics with titles, thresholds and filenames, the history window, and the optional PDF path."
+    },
+    {
+      "unique-id": "metric-chart-images",
+      "node-type": "data-asset",
+      "name": "Metric Chart Images",
+      "description": "One PNG line chart per configured metric, with one series per project, written to the working directory."
+    },
+    {
+      "unique-id": "pdf-quality-report",
+      "node-type": "data-asset",
+      "name": "PDF Code Quality Report",
+      "description": "Optional PDF containing a dashboard table of each project's latest values coloured by thresholds, followed by the metric charts and their descriptions."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "operator-runs-sqgraph",
+      "description": "The operator prepares the config file and runs the command-line application.",
+      "relationship-type": {
+        "interacts": {
+          "actor": "report-operator",
+          "nodes": [
+            "sqgraph-cli",
+            "sqgraph-config-file"
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "sqgraph-system-composition",
+      "description": "The sqgraph system is made up of the command-line application and the configuration and outputs it reads and writes.",
+      "relationship-type": {
+        "composed-of": {
+          "container": "sqgraph-system",
+          "nodes": [
+            "sqgraph-cli",
+            "sqgraph-config-file",
+            "metric-chart-images",
+            "pdf-quality-report"
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "sqgraph-reads-config",
+      "description": "The application reads and deserializes the JSON config at startup.",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "sqgraph-cli"
+          },
+          "destination": {
+            "node": "sqgraph-config-file"
+          }
+        }
+      }
+    },
+    {
+      "unique-id": "sqgraph-calls-sonarqube",
+      "description": "The application validates the token, expands project searches, and pages through measures history for each project.",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "sqgraph-cli"
+          },
+          "destination": {
+            "node": "sonarqube-server",
+            "interfaces": [
+              "sonarqube-web-api"
+            ]
+          }
+        }
+      },
+      "protocol": "HTTPS"
+    },
+    {
+      "unique-id": "sqgraph-writes-charts",
+      "description": "The application renders and writes one PNG chart per configured metric.",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "sqgraph-cli"
+          },
+          "destination": {
+            "node": "metric-chart-images"
+          }
+        }
+      }
+    },
+    {
+      "unique-id": "sqgraph-writes-pdf",
+      "description": "When a PDF path is configured, the application writes the dashboard and charts into a PDF report.",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "sqgraph-cli"
+          },
+          "destination": {
+            "node": "pdf-quality-report"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "description": "CALM architecture for Management Code Metrics (sqgraph).",
+    "repository": "https://github.com/larrydiamond/sqgraph"
+  }
+}
